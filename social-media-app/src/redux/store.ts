@@ -1,4 +1,4 @@
-import { applyMiddleware, createStore, combineReducers } from "redux";
+import {applyMiddleware, createStore, combineReducers} from "redux";
 import {usersReducer , authReducer, postReducer} from "./reducer";
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -10,12 +10,12 @@ const rootReducer = combineReducers({
   posts: postReducer
 });
 
-//Store creation this currently has dev tools on top of it to see store in the browser
+// Store creation this currently has dev tools on top of it to see store in the browser
 export const store = createStore(
     rootReducer,
-    composeWithDevTools(applyMiddleware(thunkMiddleware)),
+    composeWithDevTools(applyMiddleware(thunkMiddleware))
 );
 
-//create-react-app redux boilerplate
+// Create-react-app redux boilerplate
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

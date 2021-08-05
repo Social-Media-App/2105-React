@@ -1,6 +1,6 @@
 import { constants } from "./actionTypes";
 import { AnyAction } from 'redux'
- 
+
 
 //Initial state for each reducer
 const loginInitialState = {
@@ -27,7 +27,7 @@ const postInitialState = {
 
 
 //Auth Reducer
-export const authReducer = (state = loginInitialState, action: AnyAction) => {
+export const authReducer = (state = loginInitialState, action: AnyAction):typeof loginInitialState => {
     console.log("in loginreducer" + action.type);
     switch (action.type) {
         case constants.LOGIN_REQUEST:
@@ -56,7 +56,7 @@ export const authReducer = (state = loginInitialState, action: AnyAction) => {
 
 
 //Users Reducer
-export const usersReducer = (state = userInitialState, action: AnyAction) => {
+export const usersReducer = (state = userInitialState, action: AnyAction):typeof userInitialState => {
     console.log("in userreducer" + action);
     switch (action.type) {
         // case constants.USERS_GETALL_REQUEST:
@@ -70,7 +70,7 @@ export const usersReducer = (state = userInitialState, action: AnyAction) => {
 };
 
 //Post Reducer
-export const postReducer = (state = postInitialState, action: AnyAction) => {
+export const postReducer = (state = postInitialState, action: AnyAction):typeof postInitialState => {
     console.log("in postreducer" + action);
     switch (action.type) {
     //     case constants.POSTS_GETALL_REQUEST:

@@ -1,4 +1,4 @@
-//SUPPORTING STATE MODELS
+// SUPPORTING STATE MODELS
 export interface IUser{
     userID: number;
     username: string;
@@ -9,7 +9,7 @@ export interface IUser{
     userEmail:string;
     profilePhoto: string;
     backgroundPhoto: string;
-};
+}
 
 export interface IPost{
     postId: number;
@@ -18,21 +18,21 @@ export interface IPost{
     postOwner: IUser;
     datePosted: Date;
     groupId: number;
-};
+}
 
 export interface IComment{
     commentId: number;
     commentedPost: IPost;
     commentContent: string;
     commentAuthor: IUser;
-};
+}
 
 export interface IReply{
     replyId: number;
     replyingToComment: IComment;
     replyContent: string;
     replyAuthor: IUser;
-};
+}
 
 export interface IGroup{
     groupId: number;
@@ -41,18 +41,17 @@ export interface IGroup{
     groupMembers: IUser[];
 }
 
+enum EventStatus {
+    Open = "Open",
+    Closed = "Closed",
+}
+
 export interface IEvent{
     eventId: number;
     eventDate: Date;
     eventName: string;
     attendingUsers: IUser[];
-    eventStatue: EventStatus;
+    status: EventStatus;
+    location: string;
 }
-
-const
-
-enum EventStatus {
-    Open = "Open",
-    Closed = "Closed",
-  }
 

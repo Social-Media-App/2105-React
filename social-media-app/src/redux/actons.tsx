@@ -1,10 +1,12 @@
-import { constants } from "./actionTypes";
+import { constants } from './actionTypes';
 import { service } from "./service";
 import { AppDispatch } from "./store";
 
 //Actions are what you dispatch from your components, this file contains all the actions you can dispatched
 
-export const userLogin = (username: String, password: String) => async (dispatch: AppDispatch) => {
+export const userLogin = (username: string, password: string) => async (
+    dispatch: AppDispatch
+): Promise<any> => {
     try {
         //dispatch action types corresponding to what is happening in your application to update the redux store
         dispatch({ type: constants.LOGIN_REQUEST });
