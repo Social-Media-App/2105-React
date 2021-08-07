@@ -35,5 +35,5 @@ const instance = axios.create({
     if(axiosData.username != null) {
         return axiosData;
     }
-    return null;
+    throw new Error("Invalid Input"); 
 }
