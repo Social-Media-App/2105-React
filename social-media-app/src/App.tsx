@@ -1,9 +1,10 @@
 import React from 'react'
 import './App.css'
 import { useDispatch } from 'react-redux'
-import { userLogin } from './redux/actons'
+import { userLogin } from './redux/actions'
 import Button from '@material-ui/core/Button'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import LoginComponent from './components/loginpage/loginpage'
 
 function App () {
   const dispatch = useDispatch()
@@ -20,7 +21,7 @@ function App () {
           <Route path='/home'>
             <Button variant='contained' color='primary' onClick={handleInput}> Test Redux State </Button>
           </Route>
-          <Route path='/'> <h1>Hello World</h1> </Route>
+          <Route path='/'>  <LoginComponent/> </Route>
         </Switch>
       </Router>
     </>
