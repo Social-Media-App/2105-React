@@ -1,26 +1,33 @@
 import React from 'react'
 import './App.css'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from './redux/store'
 import { userLogin } from './redux/actons'
 import Button from '@material-ui/core/Button'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import ProtectedRoute from './components/common/ProtectedRoute'
+import SignUpForm from './components/SignUp/SignUpForm'
 
 function App () {
   const dispatch = useDispatch()
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+
+
 
   // Boilerplate to test redux store on a
-  const handleInput = () => {
-    dispatch(userLogin('david', 'password'))
+  const handleInputLogin = () => {
+    dispatch(userLogin("",""))
   }
 
   return (
     <>
       <Router>
         <Switch>
-          <Route path='/home'>
-            <Button variant='contained' color='primary' onClick={handleInput}> Test Redux State </Button>
+          <Route exact path='/'>
+            <Button variant='contained' color='primary' onClick={handleInputLogin}> Login </Button>
+            <Link to="/home">Go To Protected Page</Link>
           </Route>
-          <Route path='/'> <h1>Hello World</h1> </Route>
+          <ProtectedRoute path='/home' isAuth={isLoggedIn} component={SignUpForm} /> 
         </Switch>
       </Router>
     </>
