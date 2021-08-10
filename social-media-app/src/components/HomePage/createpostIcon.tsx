@@ -1,15 +1,25 @@
 import React from "react";
-import { Fab, makeStyles, Modal, Button, Paper, Grid, TextField, IconButton, Input, InputLabel } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+import {
+    Fab,
+    makeStyles,
+    Modal,
+    Button,
+    Paper,
+    Grid,
+    TextField,
+    IconButton,
+    Input,
+} from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
 import { Storage } from "aws-amplify";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
     fab: {
-      position: 'fixed',
-      bottom: theme.spacing(2),
-      right: theme.spacing(2),
+        position: "fixed",
+        bottom: theme.spacing(2),
+        right: theme.spacing(2),
     },
     paper: {
         position: "absolute",
@@ -18,51 +28,60 @@ const useStyles = makeStyles(theme => ({
         border: "2px solid #000",
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
-    }
-  }));
-
-
-
-
+    },
+    form: {
+        textAlign: "center",
+    },
+    img: {
+        width: 300,
+        height: 200,
+        marginBottom: 20,
+    },
+}));
 
 const initialFormData = {
     message: "",
 };
 
 export default function CreatePostIcon() {
-    
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [formData, updateFormData] = React.useState(initialFormData);
-
-
+    const [imageURI, setimageURI] = React.useState("");
+    const [imgKey, setImgKey] = React.useState("");
 
     const handleOpen = () => {
         setOpen(true);
     };
 
     const handleClose = () => {
+        updateFormData(initialFormData);
+        setimageURI("");
+        setImgKey("");
         setOpen(false);
     };
 
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        updateFormData({
+            ...formData,
+            [event.target.id]: event.target.value.trim(),
+        });
+    };
 
-
-    let file = {name:""};
+    let file = { name: "" };
     async function onPicChange(event: React.ChangeEvent<HTMLInputElement>) {
-        if(event.target.files) {
+        if (event.target.files) {
             file = event.target.files[0];
             const result = await Storage.put(file.name, file);
-            console.log(result);
-            
-            // const url:any = await Storage.get(result);
+            setimageURI(URL.createObjectURL(file));
+            setImgKey(file.name);
         }
     }
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        console.log(formData);
-        // console.log(file.name);
-        // dispatch(createPost(formData.message, file.name));
+        console.log("formData: ", formData);
+        console.log("imgKey: ", imgKey);
         handleClose();
     }
 
@@ -75,24 +94,28 @@ export default function CreatePostIcon() {
             style={{ height: "80vh" }}
         >
             <Paper elevation={10} className={classes.paper}>
-                <Grid>
-                    <Button
-                        // variant="contained"
-                        style={{backgroundColor: "white"}}
-                        onClick={handleClose}
-                    >
-                        <CloseIcon />
-                    </Button>
-                    <h2>Create A Cat Post!</h2>
+                <Grid container justifyContent="flex-end">
+                    <Grid item xs={1}>
+                        <Button
+                            style={{ backgroundColor: "white" }}
+                            onClick={handleClose}
+                        >
+                            <CloseIcon />
+                        </Button>
+                    </Grid>
                 </Grid>
-                <form onSubmit={handleSubmit}>
+                <h2 style={{ marginTop: 0 }}>Create A Post!</h2>
+                <form onSubmit={handleSubmit} className={classes.form}>
                     <TextField
-                        label="Message of Post"
+                        label="What's on your mind?"
                         placeholder="Message"
                         fullWidth
                         id="message"
                         name="message"
-                        // onChange={handleMessageChange}
+                        multiline
+                        rows={4}
+                        variant="outlined"
+                        onChange={handleChange}
                     />
                     <label htmlFor="icon-button-file">
                         <IconButton
@@ -101,16 +124,17 @@ export default function CreatePostIcon() {
                             component="span"
                         >
                             <p>Add An Image</p>
-                            <PhotoCamera />
+                            <PhotoCamera style={{ padding: "10px" }} />
                         </IconButton>
                     </label>
                     <Input
-                        // accept="image/*"
                         id="icon-button-file"
                         type="file"
-                        // style={{display:"none"}}
                         onChange={onPicChange}
+                        style={{ display: "none" }}
                     />
+                    {/* eslint-disable-next-line jsx-a11y/alt-text */}
+                    {imageURI && <img src={imageURI} className={classes.img} />}
                     <Button
                         type="submit"
                         color="primary"
@@ -124,13 +148,14 @@ export default function CreatePostIcon() {
         </Grid>
     );
 
-
-
-
-
     return (
         <>
-            <Fab color="primary" aria-label="add" className={classes.fab} onClick={handleOpen}>
+            <Fab
+                color="primary"
+                aria-label="add"
+                className={classes.fab}
+                onClick={handleOpen}
+            >
                 <AddIcon />
             </Fab>
             <Modal

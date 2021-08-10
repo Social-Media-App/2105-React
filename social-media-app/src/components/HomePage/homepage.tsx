@@ -112,6 +112,7 @@ function HomePage() {
                     <PostContainer {...postList} />
                 </Grid>
             </Grid>
+            <CreatePostIcon ></CreatePostIcon>
         </>
     );
 }
