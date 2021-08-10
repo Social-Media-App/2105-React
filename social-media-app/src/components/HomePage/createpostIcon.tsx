@@ -1,5 +1,4 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import { Fab, makeStyles, Modal, Button, Paper, Grid, TextField, IconButton, Input, InputLabel } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from "@material-ui/icons/Close";
@@ -12,10 +11,6 @@ const useStyles = makeStyles(theme => ({
       bottom: theme.spacing(2),
       right: theme.spacing(2),
     },
-    postTextInput: {
-        fontSize: 14,
-        width:'100%'
-      },
     paper: {
         position: "absolute",
         width: 400,
@@ -28,56 +23,28 @@ const useStyles = makeStyles(theme => ({
 
 
 
-  interface IProps{
-    userInState: any
-  }
+
 
 const initialFormData = {
-    message: ""
+    message: "",
 };
 
-    const CreatePost = () => {
-        
-
-    let myKey:any = null;
-
-    let key:string = " ";
+export default function CreatePostIcon() {
     
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [formData, updateFormData] = React.useState(initialFormData);
 
-    const [text, setText] = React.useState('');
-
-    const [images, setImages] = useState([])
-    const [edit, setEdit] = useState(false)
-
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        updateFormData({
-            ...formData,
-            [event.target.id]: event.target.value.trim(),
-        });
-    };
 
 
     const handleOpen = () => {
         setOpen(true);
-    
     };
 
     const handleClose = () => {
         setOpen(false);
-        
-        fetchImages()
-       
     };
 
-    useEffect(() => {
-        fetchImages()
-
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [])
 
 
     let file = {name:""};
@@ -85,40 +52,11 @@ const initialFormData = {
         if(event.target.files) {
             file = event.target.files[0];
             const result = await Storage.put(file.name, file);
-            console.log('result: ',result);
+            console.log(result);
             
-            myKey=result;
             // const url:any = await Storage.get(result);
-            console.log('myKey in onPicChange ', myKey["key"])
-
-            key = myKey["key"];
-            fetchImages()
         }
     }
-
-
-    async function fetchImages(){
-  
-        //await axiosFetcher()
-     
-         console.log("myKey: " + myKey)
-     
-         console.log("fetching string key : " + key)
-
-         let imageKeys = await Storage.list(`${key}`)
-     
-         console.log('imageKeys 1: ', imageKeys)
-     
-          imageKeys = await Promise.all(imageKeys.map(async (k:any) => {
-     
-                  const key = await Storage.get(k.key)
-     
-                  return key
-              }))
-     
-          console.log('imageKeys 2: ', imageKeys)
-          setImages(imageKeys) 
-       }
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -139,33 +77,22 @@ const initialFormData = {
             <Paper elevation={10} className={classes.paper}>
                 <Grid>
                     <Button
-                         //variant="contained"
+                        // variant="contained"
                         style={{backgroundColor: "white"}}
                         onClick={handleClose}
                     >
                         <CloseIcon />
                     </Button>
-                    <h2>Create A Post!</h2>
+                    <h2>Create A Cat Post!</h2>
                 </Grid>
                 <form onSubmit={handleSubmit}>
                     <TextField
-                        className={classes.postTextInput}
-                        label={`What's on your mind?`}
+                        label="Message of Post"
                         placeholder="Message"
                         fullWidth
                         id="message"
                         name="message"
-                        multiline
-                        rows={4}
-                        defaultValue=""
-                        variant="outlined"
-                        // label="Message of Post"
-                        // placeholder="Message"
-                        // fullWidth
-                        // id="message"
-                        // name="message"
-                        onChange={handleChange}
-                        
+                        // onChange={handleMessageChange}
                     />
                     <label htmlFor="icon-button-file">
                         <IconButton
@@ -174,23 +101,16 @@ const initialFormData = {
                             component="span"
                         >
                             <p>Add An Image</p>
-                            <PhotoCamera/>
+                            <PhotoCamera />
                         </IconButton>
                     </label>
                     <Input
                         // accept="image/*"
                         id="icon-button-file"
                         type="file"
-                         style={{display:"none"}}
+                        // style={{display:"none"}}
                         onChange={onPicChange}
                     />
-                    {
-                        images.map(image => (
-
-                         // eslint-disable-next-line jsx-a11y/alt-text
-                         <img src={image} key={image} style={{width:300, height:200, marginBottom:10}} />
-                        ))
-                     }
                     <Button
                         type="submit"
                         color="primary"
@@ -203,6 +123,9 @@ const initialFormData = {
             </Paper>
         </Grid>
     );
+
+
+
 
 
     return (
@@ -221,5 +144,3 @@ const initialFormData = {
         </>
     );
 }
-
-export default CreatePost;
