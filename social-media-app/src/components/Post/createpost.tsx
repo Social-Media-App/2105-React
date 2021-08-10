@@ -141,10 +141,11 @@ const initialFormData = {
                 <Grid>
                     <Button
                          //variant="contained"
-                        style={{backgroundColor: "white",alignItems: "right"}}
+                        style={{backgroundColor: "white",alignItems: "center"}}
                         onClick={handleClose}
                     >
                         <CloseIcon />
+                        
                     </Button>
                     <h2>Create A Post!</h2>
                 </Grid>
