@@ -37,7 +37,10 @@ const initialFormData = {
 };
 
     const CreatePost = () => {
-        
+
+    let myKey:any = null;
+
+    let key:string = " ";
     
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
@@ -49,12 +52,24 @@ const initialFormData = {
     const [edit, setEdit] = useState(false)
 
 
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        updateFormData({
+            ...formData,
+            [event.target.id]: event.target.value.trim(),
+        });
+    };
+
+
     const handleOpen = () => {
         setOpen(true);
+    
     };
 
     const handleClose = () => {
         setOpen(false);
+        
+        fetchImages()
+       
     };
 
     useEffect(() => {
@@ -63,9 +78,7 @@ const initialFormData = {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [])
 
-    let myKey:any = null;
 
-    let key:string = " ";
 
     let file = {name:""};
     async function onPicChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -88,6 +101,7 @@ const initialFormData = {
   
         //await axiosFetcher()
      
+
          console.log("myKey: " + myKey)
      
          console.log("fetching string key : " + key)
@@ -104,7 +118,7 @@ const initialFormData = {
               }))
      
           console.log('imageKeys 2: ', imageKeys)
-          setImages(imageKeys)
+          setImages(imageKeys) 
        }
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -127,7 +141,7 @@ const initialFormData = {
                 <Grid>
                     <Button
                          //variant="contained"
-                        style={{backgroundColor: "white"}}
+                        style={{backgroundColor: "white",alignItems: "right"}}
                         onClick={handleClose}
                     >
                         <CloseIcon />
@@ -151,7 +165,8 @@ const initialFormData = {
                         // fullWidth
                         // id="message"
                         // name="message"
-                        //onChange={handleMessageChange}
+                        onChange={handleChange}
+                        
                     />
                     <label htmlFor="icon-button-file">
                         <IconButton
