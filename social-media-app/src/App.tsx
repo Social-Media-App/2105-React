@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import ProtectedRoute from './components/common/ProtectedRoute'
 import SignUpForm from './components/SignUp/SignUpForm'
+import { ButtonBase } from '@material-ui/core'
+import CreatePost from './components/Post/createpost'
 
 function App () {
   const dispatch = useDispatch()
@@ -24,10 +26,12 @@ function App () {
       <Router>
         <Switch>
           <Route exact path='/'>
-            <Button variant='contained' color='primary' onClick={handleInputLogin}> Login </Button>
-            <Link to="/home">Go To Protected Page</Link>
+            <Button variant='contained' color='primary' onClick={handleInputLogin}> Login </Button><br></br>
+            <Link to="/home">Go To Protected Page</Link> <br></br>
+            <Link to="/createpost">Pop Post</Link> 
           </Route>
-          <ProtectedRoute path='/home' isAuth={isLoggedIn} component={SignUpForm} /> 
+          <ProtectedRoute path='/home' isAuth={isLoggedIn} component={SignUpForm} />
+          <ProtectedRoute path='/createpost' isAuth={isLoggedIn} component={CreatePost} />
         </Switch>
       </Router>
     </>
