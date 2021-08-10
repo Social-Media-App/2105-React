@@ -1,1 +1,20 @@
+<<<<<<< HEAD
 {}
+=======
+{
+  "auth": {
+    "socialmediaapp56ff9dd9": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  },
+  "storage": {
+    "project3": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
+    }
+  }
+}
+>>>>>>> cbba40388dadfad9f44d711cee693a7a342d0edf

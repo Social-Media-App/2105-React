@@ -22,7 +22,11 @@
     "@types/redux-thunk": "^2.1.0",
     "all": "0.0.0",
     "aws-amplify": "^4.2.2",
+<<<<<<< HEAD
     "aws-sdk": "^2.965.0",
+=======
+    "aws-sdk": "^2.963.0",
+>>>>>>> cbba40388dadfad9f44d711cee693a7a342d0edf
     "axios": "^0.21.1",
     "bootstrap": "^5.0.2",
     "material-ui": "^0.20.2",

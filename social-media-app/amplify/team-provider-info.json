@@ -1,6 +1,7 @@
 {
   "dev": {
     "awscloudformation": {
+<<<<<<< HEAD
       "AuthRoleName": "amplify-socialmediaapp-dev-145918-authRole",
       "UnauthRoleArn": "arn:aws:iam::897116016895:role/amplify-socialmediaapp-dev-145918-unauthRole",
       "AuthRoleArn": "arn:aws:iam::897116016895:role/amplify-socialmediaapp-dev-145918-authRole",
@@ -10,6 +11,22 @@
       "StackName": "amplify-socialmediaapp-dev-145918",
       "StackId": "arn:aws:cloudformation:us-east-1:897116016895:stack/amplify-socialmediaapp-dev-145918/7516ae50-fa15-11eb-a520-0eb55df318d5",
       "AmplifyAppId": "d3q1eqzsidckug"
+=======
+      "AuthRoleName": "amplify-socialmediaapp-dev-112108-authRole",
+      "UnauthRoleArn": "arn:aws:iam::510561831685:role/amplify-socialmediaapp-dev-112108-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::510561831685:role/amplify-socialmediaapp-dev-112108-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-socialmediaapp-dev-112108-deployment",
+      "UnauthRoleName": "amplify-socialmediaapp-dev-112108-unauthRole",
+      "StackName": "amplify-socialmediaapp-dev-112108",
+      "StackId": "arn:aws:cloudformation:us-east-1:510561831685:stack/amplify-socialmediaapp-dev-112108/938f1b10-f93e-11eb-88e9-0e553f22455d",
+      "AmplifyAppId": "d1pqt40hozbx8w"
+    },
+    "categories": {
+      "auth": {
+        "socialmediaapp56ff9dd9": {}
+      }
+>>>>>>> cbba40388dadfad9f44d711cee693a7a342d0edf
     }
   }
 }
