@@ -37,7 +37,14 @@ const initialFormData = {
 };
 
     const CreatePost = () => {
+<<<<<<< HEAD
         
+=======
+
+    let myKey:any = null;
+
+    let key:string = " ";
+>>>>>>> 3de735b8e4eb2298682aafc6ad9045d676216aff
     
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
@@ -49,12 +56,32 @@ const initialFormData = {
     const [edit, setEdit] = useState(false)
 
 
+<<<<<<< HEAD
     const handleOpen = () => {
         setOpen(true);
+=======
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        updateFormData({
+            ...formData,
+            [event.target.id]: event.target.value.trim(),
+        });
+    };
+
+
+    const handleOpen = () => {
+        setOpen(true);
+    
+>>>>>>> 3de735b8e4eb2298682aafc6ad9045d676216aff
     };
 
     const handleClose = () => {
         setOpen(false);
+<<<<<<< HEAD
+=======
+        
+        fetchImages()
+       
+>>>>>>> 3de735b8e4eb2298682aafc6ad9045d676216aff
     };
 
     useEffect(() => {
@@ -63,9 +90,13 @@ const initialFormData = {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [])
 
+<<<<<<< HEAD
     let myKey:any = null;
 
     let key:string = " ";
+=======
+
+>>>>>>> 3de735b8e4eb2298682aafc6ad9045d676216aff
 
     let file = {name:""};
     async function onPicChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -88,6 +119,10 @@ const initialFormData = {
   
         //await axiosFetcher()
      
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3de735b8e4eb2298682aafc6ad9045d676216aff
          console.log("myKey: " + myKey)
      
          console.log("fetching string key : " + key)
@@ -104,7 +139,11 @@ const initialFormData = {
               }))
      
           console.log('imageKeys 2: ', imageKeys)
+<<<<<<< HEAD
           setImages(imageKeys)
+=======
+          setImages(imageKeys) 
+>>>>>>> 3de735b8e4eb2298682aafc6ad9045d676216aff
        }
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -127,10 +166,18 @@ const initialFormData = {
                 <Grid>
                     <Button
                          //variant="contained"
+<<<<<<< HEAD
                         style={{backgroundColor: "white"}}
                         onClick={handleClose}
                     >
                         <CloseIcon />
+=======
+                        style={{backgroundColor: "white",alignItems: "center"}}
+                        onClick={handleClose}
+                    >
+                        <CloseIcon />
+                        
+>>>>>>> 3de735b8e4eb2298682aafc6ad9045d676216aff
                     </Button>
                     <h2>Create A Post!</h2>
                 </Grid>
@@ -151,7 +198,12 @@ const initialFormData = {
                         // fullWidth
                         // id="message"
                         // name="message"
+<<<<<<< HEAD
                         //onChange={handleMessageChange}
+=======
+                        onChange={handleChange}
+                        
+>>>>>>> 3de735b8e4eb2298682aafc6ad9045d676216aff
                     />
                     <label htmlFor="icon-button-file">
                         <IconButton

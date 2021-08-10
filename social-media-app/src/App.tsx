@@ -8,11 +8,16 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import ProtectedRoute from './components/common/ProtectedRoute'
 import SignUpForm from './components/SignUp/SignUpForm'
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { ButtonBase } from '@material-ui/core'
 import CreatePost from './components/Post/createpost'
 =======
 import HomePage from './components/HomePage/homepage'
 >>>>>>> cbba40388dadfad9f44d711cee693a7a342d0edf
+=======
+import { ButtonBase } from '@material-ui/core'
+import CreatePost from './components/Post/createpost'
+>>>>>>> 3de735b8e4eb2298682aafc6ad9045d676216aff
 
 function App () {
   const dispatch = useDispatch()
@@ -35,11 +40,16 @@ function App () {
             <Link to="/createpost">Create Post</Link> 
           </Route>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <ProtectedRoute path='/home' isAuth={isLoggedIn} component={SignUpForm} />
           <ProtectedRoute path='/createpost' isAuth={isLoggedIn} component={CreatePost} />
 =======
           <ProtectedRoute path='/home' isAuth={isLoggedIn} component={HomePage} /> 
 >>>>>>> cbba40388dadfad9f44d711cee693a7a342d0edf
+=======
+          <ProtectedRoute path='/home' isAuth={isLoggedIn} component={SignUpForm} />
+          <ProtectedRoute path='/createpost' isAuth={isLoggedIn} component={CreatePost} />
+>>>>>>> 3de735b8e4eb2298682aafc6ad9045d676216aff
         </Switch>
       </Router>
     </>
