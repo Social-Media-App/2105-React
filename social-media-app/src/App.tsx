@@ -28,7 +28,7 @@ function App () {
           <Route exact path='/'>
             <Button variant='contained' color='primary' onClick={handleInputLogin}> Login </Button><br></br>
             <Link to="/home">Go To Protected Page</Link> <br></br>
-            <Link to="/createpost">Pop Post</Link> 
+            <Link to="/createpost">Create Post</Link> 
           </Route>
           <ProtectedRoute path='/home' isAuth={isLoggedIn} component={SignUpForm} />
           <ProtectedRoute path='/createpost' isAuth={isLoggedIn} component={CreatePost} />
