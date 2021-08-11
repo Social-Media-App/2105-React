@@ -14,7 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useState } from "react";
 import { useEffect } from "react";
-import logo from "../../assets/rev-logo.png";
+import logo from "../../assets/rev-logo-2.png";
 import { axiosLogin } from './login-helper';
 
 function Copyright() {
@@ -88,9 +88,9 @@ export default function LoginPage(props: IProps) {
 
   return (
     <>
-      {isDesktop > 1000 ? (
-        <Grid style={{ width: "100%" }} container spacing={3}>
-          <Grid item xs={6}>
+      {isDesktop > 1200 ? (
+        <Grid style={{ width: "100%" }} container justifyContent="center" spacing={3}>
+          <Grid item xs={7}>
             <Container component="main" maxWidth="xs">
               <CssBaseline />
               <div className={classes.paper}>
@@ -162,9 +162,9 @@ export default function LoginPage(props: IProps) {
               </Box>
             </Container>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={5}>
             <img
-              style={{ maxWidth: "400px", marginTop: "150px" }}
+              style={{ maxWidth: "500px", marginTop: "150px", alignItems:'center' }}
               src={logo}
               alt={""}
             />
