@@ -7,6 +7,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
+import TextField from '@material-ui/core/TextField';
 import { blueGrey, grey, red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
@@ -15,13 +16,22 @@ import axios from 'axios';
 //import { likePost, unlikePost } from "../../../redux/actons";
 import { Storage } from "aws-amplify";
 import { useDispatch, useSelector } from "react-redux";
-import {IPost} from "../../redux/stateStructures";
+import {IPost, IUser, IComment} from "../../redux/stateStructures";
+import CardActions from '@material-ui/core/CardActions';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import clsx from 'clsx';
+import Collapse from '@material-ui/core/Collapse';
+import { Button } from "@material-ui/core";
+import { Divider, Grid, Box} from "@material-ui/core";
+
 
 interface IProps {
     post: IPost
     liked: boolean
+    comment: IComment
 }
-const useStyles = makeStyles(() => ({
+
+const useStyles = makeStyles((theme) => ({
     root: {
         width: "100%",
         backgroundColor: grey[300],
@@ -39,7 +49,17 @@ const useStyles = makeStyles(() => ({
     },
     top: {
         padding: "5px"
-    }
+    },
+    expand: {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+          duration: theme.transitions.duration.shortest,
+        }),
+      },
+      expandOpen: {
+        transform: 'rotate(180deg)',
+      },
 }));
 
 //Pass a post in as a prop and a boolean value if the current user liked the post
@@ -47,9 +67,20 @@ function InstaPost(props:IProps) {
     const dispatch = useDispatch();
     const post = props.post;
     const styles = useStyles();
+    
+    const classes = useStyles();
+    const [expanded, setExpanded] = React.useState(false);
     const [liked, toggleLike] = useState(props.liked);
+    const [commentState, setCommentState] = useState(props.comment);
+
+    //Comments
+    // const [commentState, setCommentState] = useState("Test comment");
     
     const [url, setURL] = useState(post.postImage);
+
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+      };
     
     const handleLikeClick = () => {
         // if(liked) {
@@ -59,6 +90,10 @@ function InstaPost(props:IProps) {
         // }
         toggleLike(!liked);
     };
+
+    const handleCommentSubmit = () => {
+        setCommentState(props.comment);
+    }
 
 
     useEffect(() => {
@@ -117,8 +152,56 @@ function InstaPost(props:IProps) {
                     {post.postWrittenContent}
                 </Typography>
             </CardContent>
-        </Card>
-        </>
+            <CardActions disableSpacing>
+        <IconButton
+          className={clsx(classes.expand, {
+            [classes.expandOpen]: expanded,
+          })}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon />
+        </IconButton>
+      </CardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+        <Box textAlign='center'>
+        <TextField
+          fullWidth 
+          id="outlined-multiline-static"
+          label="Post a Comment"
+          multiline
+          rows={4}
+          defaultValue=""
+          variant="outlined"
+          onChange={handleCommentSubmit}
+        />
+        <br></br>
+        
+        <Button variant='contained' color='primary'>Comment</Button>
+        </Box>
+        </CardContent>
+        <Grid container item xs zeroMinWidth>
+            <h4 style={{ margin: 0, textAlign: "left" }}>Michel Michel</h4>
+            <p style={{ textAlign: "left" }}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
+              luctus ut est sed faucibus. Duis bibendum ac ex vehicula laoreet.
+              Suspendisse congue vulputate lobortis. Pellentesque at interdum
+              tortor. Quisque arcu quam, malesuada vel mauris et, posuere
+              sagittis ipsum. Aliquam ultricies a ligula nec faucibus. In elit
+              metus, efficitur lobortis nisi quis, molestie porttitor metus.
+              Pellentesque et neque risus. Aliquam vulputate, mauris vitae
+              tincidunt interdum, mauris mi vehicula urna, nec feugiat quam
+              lectus vitae ex.{" "}
+            </p>
+            <p style={{ textAlign: "left", color: "gray" }}>
+              posted 1 minute ago
+            </p>
+          </Grid>
+      </Collapse>         
+     </Card>
+ </>
     );
 }
 

@@ -1,5 +1,5 @@
 import Post from "./post";
-import { IPost, IUser } from "../../redux/stateStructures";
+import { IPost, IUser, IComment } from "../../redux/stateStructures";
 import Masonry from "react-masonry-css";
 import "./masonry.css"
 
@@ -15,6 +15,7 @@ const user: IUser = {
     backgroundPhoto: "string",
 };
 
+
 const post: IPost = {
     postId: 1,
     postWrittenContent: "content",
@@ -23,6 +24,20 @@ const post: IPost = {
     datePosted: new Date(),
     groupId: 0,
 };
+
+const comment: IComment = {
+    commentId: 1,
+    commentedPost: post,
+    commentContent: "Test comment",
+    commentAuthor: user,
+}
+
+const comment2: IComment = {
+    commentId: 2,
+    commentedPost: post,
+    commentContent: "Test comment 2",
+    commentAuthor: user,
+}
 
 const post2: IPost = {
     postId: 2,
@@ -119,6 +134,7 @@ function HomePage(props:IPost[]) {
                         <Post
                             post={post}
                             liked={true}
+                            comment={comment}
                         />
                     </div>
                 ))}
