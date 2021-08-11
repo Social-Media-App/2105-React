@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useHistory } from 'react-router-dom';
+import { sendEmail } from './send-email-helper'
 
 function Copyright() {
   return (
@@ -53,11 +54,12 @@ export default function SignIn() {
     setUsername(eve.target.value);
   };
 
-  const handleLogin = async (eve: SyntheticEvent) => {
+  const handleEmail = async (eve: SyntheticEvent) => {
     eve.preventDefault();
 
     console.log("Username: " + username);
-    // const user = await axiosLogin(username, );
+    const user = await sendEmail(username);
+    console.log(user);
     // (user.userID===-1?setIsValid(-1):setIsValid(1));
   };
 
@@ -88,6 +90,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleEmail}
           >
             Submit
           </Button>

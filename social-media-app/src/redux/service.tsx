@@ -37,3 +37,5 @@ const instance = axios.create({
     }
     return null;
 }
+
+export const url:string = `http://localhost:9082`
