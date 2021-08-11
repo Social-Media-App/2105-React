@@ -14,7 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useState } from "react";
 import { useEffect } from "react";
-import logo from "../../assets/rev-logo-high-res.png";
+import logo from "../../assets/rev-logo.png";
 import { axiosLogin } from './login-helper';
 
 function Copyright() {
@@ -148,7 +148,9 @@ export default function LoginPage(props: IProps) {
                       </Link>
                     </Grid>
                     <Grid item>
-                      <Link to="#">
+                      <Link 
+                      to='/register'
+                      >
                         {"Don't have an account? Sign Up"}
                       </Link>
                     </Grid>
