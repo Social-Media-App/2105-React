@@ -23,13 +23,12 @@ interface IProps {
 }
 const useStyles = makeStyles(() => ({
     root: {
-        minWidth: 300,
-        maxWidth: 300,
+        width: "100%",
         backgroundColor: grey[300],
     },
     media: {
-        height: 0,
         paddingTop: "100%",
+        // height: "200px",
     },
     avatar: {
         backgroundColor: grey[500],
@@ -84,6 +83,7 @@ function InstaPost(props:IProps) {
     };
 
     return (
+        <>
         <Card className={styles.root} variant="outlined">
             <CardHeader
                 avatar={
@@ -110,7 +110,6 @@ function InstaPost(props:IProps) {
                 <CardMedia
                     className={styles.media}
                     image={url}
-                    title="Paella dish"
                 />
             )}
             <CardContent>
@@ -119,6 +118,7 @@ function InstaPost(props:IProps) {
                 </Typography>
             </CardContent>
         </Card>
+        </>
     );
 }
 
