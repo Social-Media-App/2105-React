@@ -17,19 +17,6 @@ import { useEffect } from "react";
 import logo from "../../assets/rev-logo-2.png";
 import { axiosLogin } from './login-helper';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link to="#">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -157,9 +144,6 @@ export default function LoginPage(props: IProps) {
                   </Grid>
                 </form>
               </div>
-              <Box mt={8}>
-                <Copyright />
-              </Box>
             </Container>
           </Grid>
           <Grid item xs={5}>
@@ -241,9 +225,6 @@ export default function LoginPage(props: IProps) {
               </Grid>
             </form>
           </div>
-          <Box mt={8}>
-            <Copyright />
-          </Box>
         </Container>
       )}
     </>

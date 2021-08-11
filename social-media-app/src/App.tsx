@@ -27,10 +27,11 @@ function App () {
       <Router>
         <Switch>
           <Route path='/' exact>
-            <Login />
+            {/* <Login /> */}
+            <HomePage/>
           </Route>
           <Route path='/register'>
-            <SignUpForm />
+            <SignUpPage />
           </Route>
           <Route path='/login'>
             <Login />
