@@ -9,6 +9,7 @@ import ProtectedRoute from './components/common/ProtectedRoute'
 import SignUpForm from './components/SignUp/SignUpForm'
 import { ButtonBase } from '@material-ui/core'
 import CreatePost from './components/Post/createpost'
+import HomePage from './components/HomePage/homepage'
 
 function App () {
   const dispatch = useDispatch()
@@ -28,10 +29,12 @@ function App () {
           <Route exact path='/'>
             <Button variant='contained' color='primary' onClick={handleInputLogin}> Login </Button><br></br>
             <Link to="/home">Go To Protected Page</Link> <br></br>
-            <Link to="/createpost">Create Post</Link> 
+            <Link to="/createpost">Create Post</Link> <br></br>
+            <Link to="/homepage">Go to home</Link> 
           </Route>
           <ProtectedRoute path='/home' isAuth={isLoggedIn} component={SignUpForm} />
           <ProtectedRoute path='/createpost' isAuth={isLoggedIn} component={CreatePost} />
+          <ProtectedRoute path='/homepage' isAuth={isLoggedIn} component={HomePage} />
         </Switch>
       </Router>
     </>
