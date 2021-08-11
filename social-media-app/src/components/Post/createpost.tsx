@@ -126,6 +126,7 @@ const initialFormData = {
         // console.log(file.name);
         // dispatch(createPost(formData.message, file.name));
         handleClose();
+        
     }
 
     const body = (
