@@ -22,7 +22,7 @@ const instance = axios.create({
 
 
   //EXAMPLE OF A SERVICE REQUEST TO THE BACKEND
-  async function login(username: String, password: String):Promise<IUser> {
+  async function login(username: String, password: String):Promise<IUser|null> {
     const response = await instance.post(
         "http://localhost:9002/instafriends/api/user/login" ,
         {
@@ -35,5 +35,7 @@ const instance = axios.create({
     if(axiosData.username != null) {
         return axiosData;
     }
-    throw new Error("Invalid Input"); 
+    return null;
 }
+
+export const url:string = `http://localhost:9082`

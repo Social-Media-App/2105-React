@@ -28,7 +28,7 @@ const postInitialState = {
 
 //Auth Reducer
 export const authReducer = (state = loginInitialState, action: AnyAction):typeof loginInitialState => {
-    console.log("in authReducer" + action.type);
+    console.log("in loginreducer" + action.type);
     switch (action.type) {
         case constants.LOGIN_REQUEST:
             return {
@@ -36,7 +36,7 @@ export const authReducer = (state = loginInitialState, action: AnyAction):typeof
                 loggingIn: true,
             };
         case constants.LOGIN_SUCCESS:
-            console.log("in success reducer" + action.payload);
+            console.log("in sucess reducer" + action.payload);
             return {
                 ...state,
                 user: action.payload,
@@ -57,7 +57,7 @@ export const authReducer = (state = loginInitialState, action: AnyAction):typeof
 
 //Users Reducer
 export const usersReducer = (state = userInitialState, action: AnyAction):typeof userInitialState => {
-    console.log("in usersReducer" + action);
+    console.log("in userreducer" + action);
     switch (action.type) {
         // case constants.USERS_GETALL_REQUEST:
         //     return {
@@ -71,7 +71,7 @@ export const usersReducer = (state = userInitialState, action: AnyAction):typeof
 
 //Post Reducer
 export const postReducer = (state = postInitialState, action: AnyAction):typeof postInitialState => {
-    console.log("in postReducer" + action);
+    console.log("in postreducer" + action);
     switch (action.type) {
     //     case constants.POSTS_GETALL_REQUEST:
     //         return {
