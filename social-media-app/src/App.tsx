@@ -6,7 +6,7 @@ import { userLogin } from './redux/actons'
 import Button from '@material-ui/core/Button'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import ProtectedRoute from './components/common/ProtectedRoute'
-import SignUpForm from './components/SignUp/SignUpForm'
+import SignUpPage from './components/SignUp/SignUpPage'
 import HomePage from './components/HomePage/homepage'
 
 function App () {
@@ -28,7 +28,7 @@ function App () {
             <Button variant='contained' color='primary' onClick={handleInputLogin}> Login </Button>
             <Link to="/home">Go To Protected Page</Link>
           </Route>
-          <ProtectedRoute path='/home' isAuth={isLoggedIn} component={HomePage} /> 
+          <ProtectedRoute path='/home' isAuth={isLoggedIn} component={SignUpPage} /> 
         </Switch>
       </Router>
     </>
