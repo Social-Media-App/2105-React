@@ -97,7 +97,7 @@ export default function CreatePostIcon() {
                 <Grid container justifyContent="flex-end">
                     <Grid item xs={1}>
                         <Button
-                            style={{ backgroundColor: "white" }}
+                            style={{ backgroundColor: "white", minWidth:"10px" }}
                             onClick={handleClose}
                         >
                             <CloseIcon />

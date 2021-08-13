@@ -4,9 +4,10 @@ import CreatePostIcon from "./createpostIcon";
 import { IPost, IUser } from "../../redux/stateStructures";
 import Masonry from "react-masonry-css";
 import PostContainer from "../common/PostContainer";
+import Snackbar from "../common/snackbar";
 
 const user: IUser = {
-    userID: 1,
+    userId: 1,
     username: "string",
     password: "string",
     firstname: "string",
@@ -107,6 +108,7 @@ function HomePage() {
     const postList = [post, post2, post3, post4, post5, post6, post7, post8];
     return (
         <>
+            <Snackbar />
             <Grid container justifyContent="center" alignItems="flex-start">
                 <Grid item xs={11}>
                     <PostContainer {...postList} />

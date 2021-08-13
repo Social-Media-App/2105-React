@@ -27,8 +27,8 @@ function App () {
       <Router>
         <Switch>
           <Route path='/' exact>
-            {/* <Login /> */}
-            <HomePage/>
+            <Login />
+            {/* <HomePage/> */}
           </Route>
           <Route path='/register'>
             <SignUpPage />
@@ -42,7 +42,7 @@ function App () {
           <Route path='/reset-pass'>
             <ResetPass />
           </Route>
-          <ProtectedRoute path='/home' isAuth={isLoggedIn} component={SignUpPage} /> 
+          <ProtectedRoute path='/home' isAuth={isLoggedIn} component={HomePage} /> 
         </Switch>
       </Router>
     </>

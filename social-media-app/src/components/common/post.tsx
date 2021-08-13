@@ -70,14 +70,10 @@ function InstaPost(props: IProps) {
     }, [post.postImage]);
 
     const getPostPicture = async (profileImg: string) => {
-        console.log("getting img" + profileImg);
         Storage.get(profileImg)
             .then((url: any) => {
                 var myRequest = new Request(url);
-                console.log(myRequest);
                 fetch(myRequest).then(function(response) {
-                    console.log(response);
-
                     if (response.status === 200) {
                         setURL(url);
                     }
@@ -89,12 +85,11 @@ function InstaPost(props: IProps) {
     return (
         <>
             <Card className={styles.root} variant="outlined">
-                <CardActionArea>
                     <CardHeader
                         avatar={
                             <Avatar
-                                aria-label="recipe"
-                                className={styles.avatar}
+                            aria-label="recipe"
+                            className={styles.avatar}
                             >
                                 {post.postOwner.firstname.charAt(0)}
                             </Avatar>
@@ -109,22 +104,23 @@ function InstaPost(props: IProps) {
                         action={
                             liked ? (
                                 <IconButton
-                                    onClick={handleLikeClick}
-                                    aria-label="add to favorites"
+                                onClick={handleLikeClick}
+                                aria-label="add to favorites"
                                 >
                                     <FavoriteIcon />
                                 </IconButton>
                             ) : (
                                 <IconButton
-                                    onClick={handleLikeClick}
-                                    aria-label="add to favorites"
+                                onClick={handleLikeClick}
+                                aria-label="add to favorites"
                                 >
                                     <FavoriteBorderIcon />
                                 </IconButton>
                             )
                         }
                         className={styles.top}
-                    />
+                        />
+                        <CardActionArea>
                     {post.postImage && (
                         <CardMedia className={styles.media} image={url} />
                     )}

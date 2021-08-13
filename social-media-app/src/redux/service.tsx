@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IUser } from "./stateStructures";
+import { IUser, ISignUpUser } from "./stateStructures";
 
 //Used for ease of exporting, these are the different functions in the file
 export const service = {
@@ -8,7 +8,7 @@ export const service = {
     // updateProfileImg,
     // likePost,
     // unlikePost,
-    // register,
+    register,
     // getAllPosts,
     // getAllUsers,
     // createPost,
@@ -37,5 +37,28 @@ const instance = axios.create({
     }
     return null;
 }
+
+async function register(User: ISignUpUser) {
+    const response = await instance.post(
+        `http://localhost:9005/login-service/signup` ,
+        {
+            username: User.username,
+            password: User.password,
+            firstName: User.firstName,
+            lastName: User.lastName,
+            email: User.email,
+            profilePicture: User.profilePicture,
+            backgroundPicture: User.backgroundPicture,
+        }
+    );
+    const axiosData = response.data;
+    console.log(axiosData);
+    if(axiosData.username != null) {
+        return axiosData;
+    }
+    throw new Error("Unable to Create Account");
+}
+
+
 
 export const url:string = `http://localhost:9082`

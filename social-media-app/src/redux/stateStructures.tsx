@@ -1,6 +1,6 @@
 // SUPPORTING STATE MODELS
 export interface IUser{
-    userID: number;
+    userId: number;
     username: string;
     password: string;
     firstname: string;
@@ -9,6 +9,16 @@ export interface IUser{
     userEmail:string;
     profilePhoto: string;
     backgroundPhoto: string;
+}
+
+export interface ISignUpUser{
+    username: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    email:string;
+    profilePicture: string;
+    backgroundPicture: string;
 }
 
 export interface IPost{

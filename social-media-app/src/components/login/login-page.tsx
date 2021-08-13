@@ -11,222 +11,166 @@ import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
 import Container from "@material-ui/core/Container";
 import { useState } from "react";
 import { useEffect } from "react";
 import logo from "../../assets/rev-logo-2.png";
-import { axiosLogin } from './login-helper';
+import { axiosLogin } from "./login-helper";
+import Snackbar from "../common/snackbar";
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+    paper: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+    },
+    avatar: {
+        backgroundColor: theme.palette.primary.main,
+    },
+    form: {
+        width: "100%", // Fix IE 11 issue.
+        marginTop: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(2, 0, 1),
+    },
+    paper2: {
+        width: "100%",
+        height: "400px",
+        borderRadius: "5px",
+        alignItems: "center",
+        justifyContent: "center",
+        display: "flex",
+
+        "&:hover": {
+            boxShadow: "0px 10px 36px rgba(131,153,167,0.7)",
+        },
+    },
 }));
 
 interface IProps {
-  // theme : any
+    // theme : any
 }
 
 export default function LoginPage(props: IProps) {
-  const classes = useStyles();
+    const classes = useStyles();
 
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth);
-  const [isValid, setIsValid] = useState(0);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+    const [isDesktop, setIsDesktop] = useState(window.innerWidth);
+    const [isValid, setIsValid] = useState(0);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
-  const handleUsername = (eve: any) => {
-    setUsername(eve.target.value);
-  };
+    const handleUsername = (eve: any) => {
+        setUsername(eve.target.value);
+    };
 
-  const handlePassword = (eve: any) => {
-    setPassword(eve.target.value);
-  };
-  
-  useEffect(() => {
-    function handleResize() {
-      setIsDesktop(window.innerWidth);
-    }
-    window.addEventListener("resize", handleResize);
-  }, [isDesktop]);
+    const handlePassword = (eve: any) => {
+        setPassword(eve.target.value);
+    };
 
-  const handleLogin = async (eve : SyntheticEvent) => {
-    eve.preventDefault();
+    useEffect(() => {
+        function handleResize() {
+            setIsDesktop(window.innerWidth);
+        }
+        window.addEventListener("resize", handleResize);
+    }, [isDesktop]);
 
-    console.log("Username: " + username);
-    console.log("Password: " + password);
-    // const user = await axiosLogin(username, password);
-    // (user.userID===-1?setIsValid(-1):setIsValid(1));
-  }
-  
-  return (
-    <>
-      {isDesktop > 1200 ? (
-        <Grid style={{ width: "100%" }} container justifyContent="center" spacing={3}>
-          <Grid item xs={7}>
-            <Container component="main" maxWidth="xs">
-              <CssBaseline />
-              <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                  <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                  Sign in
-                </Typography>
-                <form className={classes.form} noValidate>
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="username"
-                    label="Username"
-                    name="username"
-                    autoComplete="username"
-                    value={username}
-                    onChange={handleUsername}
-                    autoFocus
-                  />
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    value={password}
-                    onChange={handlePassword}
-                    autoComplete="current-password"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
-                    label="Remember me"
-                  />
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                    onClick={handleLogin}
-                  >
-                    Login
-                  </Button>
-                  <Grid container>
-                    <Grid item xs>
-                      <Link to='/send-email'>
-                        Forgot password?
-                      </Link>
-                    </Grid>
-                    <Grid item>
-                      <Link 
-                      to='/register'
-                      >
-                        {"Don't have an account? Sign Up"}
-                      </Link>
-                    </Grid>
-                  </Grid>
-                </form>
-              </div>
-            </Container>
-          </Grid>
-          <Grid item xs={5}>
-            <img
-              style={{ maxWidth: "500px", marginTop: "150px", alignItems:'center' }}
-              src={logo}
-              alt={""}
-            />
-          </Grid>
-        </Grid>
-      ) : (
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <div className={classes.paper}>
-            <img
-              style={{ maxWidth: "150px", marginTop: "0px" }}
-              src={logo}
-              alt={""}
-            />
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <form className={classes.form} noValidate>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                autoComplete="username"
-                value={username}
-                onChange={handleUsername}
-                autoFocus
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                value={password}
-                onChange={handlePassword}
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={handleLogin}
-              >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link 
-                  to='/send-email' 
-                  >
-                    Forgot password?
-                  </Link>
+    const handleLogin = async (eve: SyntheticEvent) => {
+        eve.preventDefault();
+
+        console.log("Username: " + username);
+        console.log("Password: " + password);
+        // const user = await axiosLogin(username, password);
+        // (user.userID===-1?setIsValid(-1):setIsValid(1));
+    };
+
+    return (
+        <>
+            <Snackbar />
+            <Grid
+                style={{ width: "100%" }}
+                container
+                justifyContent="center"
+                spacing={3}
+            >
+                <Grid item xs={10} sm={8} md={5} lg={4}>
+                    <Paper className={classes.paper2} variant="outlined">
+                        <Container component="main" maxWidth="xs">
+                            <CssBaseline />
+                            <div className={classes.paper}>
+                                <Avatar className={classes.avatar}>
+                                    <LockOutlinedIcon />
+                                </Avatar>
+                                <Typography component="h1" variant="h5">
+                                    Sign in
+                                </Typography>
+                                <form className={classes.form} noValidate>
+                                    <TextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        id="username"
+                                        label="Username"
+                                        name="username"
+                                        autoComplete="username"
+                                        value={username}
+                                        onChange={handleUsername}
+                                        autoFocus
+                                    />
+                                    <TextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        name="password"
+                                        label="Password"
+                                        type="password"
+                                        id="password"
+                                        value={password}
+                                        onChange={handlePassword}
+                                        autoComplete="current-password"
+                                    />
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                value="remember"
+                                                color="primary"
+                                            />
+                                        }
+                                        label="Remember me"
+                                    />
+                                    <Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                        className={classes.submit}
+                                        onClick={handleLogin}
+                                    >
+                                        Login
+                                    </Button>
+                                    <Grid container>
+                                        <Grid item xs>
+                                            <Link to="/send-email">
+                                                Forgot password?
+                                            </Link>
+                                        </Grid>
+                                        <Grid item>
+                                            <Link to="/register">
+                                                {
+                                                    "Don't have an account? Sign Up"
+                                                }
+                                            </Link>
+                                        </Grid>
+                                    </Grid>
+                                </form>
+                            </div>
+                        </Container>
+                    </Paper>
                 </Grid>
-                <Grid item>
-                  <Link 
-                  to='/register' 
-                  >
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
-            </form>
-          </div>
-        </Container>
-      )}
-    </>
-  );
+            </Grid>
+        </>
+    );
 }

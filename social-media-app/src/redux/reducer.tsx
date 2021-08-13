@@ -1,6 +1,5 @@
 import { constants } from "./actionTypes";
-import { AnyAction } from 'redux'
-
+import { AnyAction } from "redux";
 
 //Initial state for each reducer
 const loginInitialState = {
@@ -25,10 +24,11 @@ const postInitialState = {
 
 //All Reducers
 
-
 //Auth Reducer
-export const authReducer = (state = loginInitialState, action: AnyAction):typeof loginInitialState => {
-    console.log("in loginreducer" + action.type);
+export const authReducer = (
+    state = loginInitialState,
+    action: AnyAction
+): typeof loginInitialState => {
     switch (action.type) {
         case constants.LOGIN_REQUEST:
             return {
@@ -49,15 +49,32 @@ export const authReducer = (state = loginInitialState, action: AnyAction):typeof
                 isLoggedIn: false,
                 loggingIn: false,
             };
+        case constants.REGISTER_REQUEST:
+            return {
+                ...state,
+                isRegistering: true,
+            };
+        case constants.REGISTER_SUCCESS:
+            return {
+                ...state,
+                isRegistering: false,
+                registered: true,
+            };
+        case constants.REGISTER_FAILURE:
+            return {
+                ...state,
+                isRegistering: false,
+            };
         default:
             return state;
     }
 };
 
-
 //Users Reducer
-export const usersReducer = (state = userInitialState, action: AnyAction):typeof userInitialState => {
-    console.log("in userreducer" + action);
+export const usersReducer = (
+    state = userInitialState,
+    action: AnyAction
+): typeof userInitialState => {
     switch (action.type) {
         // case constants.USERS_GETALL_REQUEST:
         //     return {
@@ -70,14 +87,16 @@ export const usersReducer = (state = userInitialState, action: AnyAction):typeof
 };
 
 //Post Reducer
-export const postReducer = (state = postInitialState, action: AnyAction):typeof postInitialState => {
-    console.log("in postreducer" + action);
+export const postReducer = (
+    state = postInitialState,
+    action: AnyAction
+): typeof postInitialState => {
     switch (action.type) {
-    //     case constants.POSTS_GETALL_REQUEST:
-    //         return {
-    //             ...state,
-    //             postsLoading: true,
-    //         };
+        //     case constants.POSTS_GETALL_REQUEST:
+        //         return {
+        //             ...state,
+        //             postsLoading: true,
+        //         };
         default:
             return state;
     }

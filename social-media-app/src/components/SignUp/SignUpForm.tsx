@@ -1,25 +1,24 @@
 import React from "react";
 import {
     Paper,
-    Slide,
     Button,
-    InputLabel,
     makeStyles,
     Typography,
-    CircularProgress,
-    Input,
     TextField,
     Grid
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import { useDispatch, useSelector } from "react-redux";
+import { registerAccount } from "../../redux/actons";
+import { ISignUpUser } from "../../redux/stateStructures";
+import {RootState} from '../../redux/store';
 
 
 const useStyles = makeStyles(() => ({
     paper: {
-        // minHeight: "100%",
         width: "100%",
-        // height: "560px",
+        height: "600px",
         borderRadius: "5px",
         alignItems: "center",
         justifyContent: "center",
@@ -44,15 +43,16 @@ const initialFormData = {
     firstname: "",
     lastname: "",
     username: "",
-    email: "",
+    userEmail: "",
     password: "",
     passwordConfirm: "",
 };
 
 const SignUpForm = () => {
     const classes = useStyles();
+    const dispatch = useDispatch();
+    const isLoggedIn = useSelector((state:RootState)=>state.auth.isLoggedIn);
 
-    const [passwordMatchError, setPasswordMatchError] = React.useState(false);
     const [hidePassword, setHidePassword] = React.useState(true);
 
     const [formData, updateFormData] = React.useState(initialFormData);
@@ -64,14 +64,26 @@ const SignUpForm = () => {
     };
     const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log(formData);
+        const user:ISignUpUser = {
+            firstName: formData.firstname,
+            lastName: formData.lastname,
+            username: formData.username,
+            email: formData.userEmail,
+            password: formData.password,
+            profilePicture: "Default.png",
+            backgroundPicture: "DefaultBackground.png",
+        }
+        console.log(user);
+        dispatch(registerAccount(user));
     };
+    if(isLoggedIn){
+        console.log(isLoggedIn);
+        return <Redirect to="/home" />;
+    }
 
     const handleVisibility = () => {
         setHidePassword(!hidePassword);
     }
-
-    const passwordMatch = () => formData.password === formData.passwordConfirm;
 
     return (
         <>
@@ -127,7 +139,7 @@ const SignUpForm = () => {
                         </Grid>
                         <Grid item xs={10} style={{textAlign: "center"}}>
                             <TextField
-                                id="email"
+                                id="userEmail"
                                 label="Email"
                                 placeholder="Email"
                                 margin="dense"
