@@ -6,7 +6,7 @@ import Masonry from "react-masonry-css";
 import PostContainer from "../common/PostContainer";
 
 const user: IUser = {
-    userID: 1,
+    userId: 1,
     username: "string",
     password: "string",
     firstname: "string",

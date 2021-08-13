@@ -82,8 +82,8 @@ export default function LoginPage(props: IProps) {
 
     console.log("Username: " + username);
     console.log("Password: " + password);
-    // const user = await axiosLogin(username, password);
-    // (user.userID===-1?setIsValid(-1):setIsValid(1));
+    const user = await axiosLogin(username, password);
+    (user.userId===-1?setIsValid(-1):setIsValid(1));
   }
   
   return (

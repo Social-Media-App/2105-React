@@ -38,4 +38,7 @@ const instance = axios.create({
     return null;
 }
 
-export const url:string = `http://localhost:9082`
+
+// export const userServiceUrl:string = `http://localhost:9082`
+export const userServiceUrl:string = `http://localhost:9005`
+export const postServiceUrl:string = `http://localhost:9008`
