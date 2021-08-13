@@ -7,11 +7,11 @@ import { ISignUpUser } from "../redux/stateStructures"
 
 export const userLogin = (username: string, password: string) => async (
     dispatch: AppDispatch
-): Promise<any> => {
+) => {
     try {
         //dispatch action types corresponding to what is happening in your application to update the redux store
         dispatch({ type: constants.LOGIN_REQUEST });
-        const res = await service.login(username, password); //Use the service to make requests to the database
+        const res = await service.axiosLogin(username, password); //Use the service to make requests to the database
         dispatch({
             type: constants.LOGIN_SUCCESS,
             payload: res, //param/action.payload to the reducer

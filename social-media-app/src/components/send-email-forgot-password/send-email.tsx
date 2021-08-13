@@ -8,9 +8,10 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Container from "@material-ui/core/Container";
+import SnackbarPaper from "../common/snackbar";
 import { useHistory } from "react-router-dom";
 import { sendEmail } from "./send-email-helper";
-import SnackbarPaper from "../common/snackbar";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -49,6 +50,9 @@ export default function SignIn() {
     const classes = useStyles();
 
     const [username, setUsername] = useState("");
+    const [isValid, setIsValid] = useState(0);
+
+    useEffect(() => {}, [isValid]);
 
     const handleUsername = (eve: any) => {
         setUsername(eve.target.value);
@@ -56,18 +60,16 @@ export default function SignIn() {
 
     const handleEmail = async (eve: SyntheticEvent) => {
         eve.preventDefault();
-
         console.log("Username: " + username);
-        const user = await sendEmail(username);
-        console.log(user);
-        // (user.userID===-1?setIsValid(-1):setIsValid(1));
+        const user: any = await sendEmail(username);
+        user === -1 ? setIsValid(-1) : setIsValid(1);
     };
 
     return (
         <>
             <SnackbarPaper />
             <Grid container justifyContent="center" alignItems="center">
-                <Grid item xs={9} sm={7} md={5} lg={3} >
+                <Grid item xs={9} sm={7} md={5} lg={3}>
                     <Paper className={classes.paper2} variant="outlined">
                         <Container component="main" maxWidth="xs">
                             <CssBaseline />
@@ -75,6 +77,16 @@ export default function SignIn() {
                                 <Typography component="h1" variant="h5">
                                     Forgot password
                                 </Typography>
+                                {isValid === 1 ? (
+                                    <h5 style={{ color: "green" }}>
+                                        Reset email was sent
+                                    </h5>
+                                ) : null}
+                                {isValid === -1 ? (
+                                    <h5 style={{ color: "red" }}>
+                                        Username not found
+                                    </h5>
+                                ) : null}
                                 <form className={classes.form} noValidate>
                                     <TextField
                                         variant="outlined"

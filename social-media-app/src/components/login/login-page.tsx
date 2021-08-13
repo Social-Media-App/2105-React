@@ -5,9 +5,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -15,9 +14,10 @@ import Paper from "@material-ui/core/Paper";
 import Container from "@material-ui/core/Container";
 import { useState } from "react";
 import { useEffect } from "react";
-import logo from "../../assets/rev-logo-2.png";
-import { axiosLogin } from "./login-helper";
 import Snackbar from "../common/snackbar";
+import { userLogin } from "../../redux/actons";
+import { useDispatch, useSelector } from "react-redux";
+import {RootState} from '../../redux/store';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -55,11 +55,13 @@ interface IProps {
 
 export default function LoginPage(props: IProps) {
     const classes = useStyles();
+    const dispatch = useDispatch();
 
     const [isDesktop, setIsDesktop] = useState(window.innerWidth);
-    const [isValid, setIsValid] = useState(0);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [isValid, setIsValid] = useState(true);
+    const isLoggedIn = useSelector((state:RootState)=>state.auth.isLoggedIn);
 
     const handleUsername = (eve: any) => {
         setUsername(eve.target.value);
@@ -78,12 +80,16 @@ export default function LoginPage(props: IProps) {
 
     const handleLogin = async (eve: SyntheticEvent) => {
         eve.preventDefault();
-
         console.log("Username: " + username);
         console.log("Password: " + password);
-        // const user = await axiosLogin(username, password);
-        // (user.userID===-1?setIsValid(-1):setIsValid(1));
+        const user = await dispatch(userLogin(username, password));
+        setIsValid(false);
     };
+
+    if(isLoggedIn){
+        console.log(isLoggedIn);
+        return <Redirect to="/home" />;
+    }
 
     return (
         <>

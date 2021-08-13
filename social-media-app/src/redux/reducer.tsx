@@ -48,6 +48,7 @@ export const authReducer = (
                 ...state,
                 isLoggedIn: false,
                 loggingIn: false,
+                user: {},
             };
         case constants.REGISTER_REQUEST:
             return {

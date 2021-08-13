@@ -6,14 +6,13 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Snackbar from "@material-ui/core/Snackbar";
 import Paper from "@material-ui/core/Paper";
 import MuiAlert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-// import { axiosResetPassword } from "./reset-pass-helper";
+import { axiosResetPassword } from "./reset-pass-helper";
 import SnackbarPaper from "../common/snackbar";
 
 function Alert(props: any) {
@@ -65,6 +64,8 @@ export default function SignIn() {
     const [match, setMatch] = useState(true);
     const [openError, setOpenError] = React.useState(false);
     const [openSuccess, setOpenSuccess] = React.useState(false);
+    const [openWrongToken, setOpenWrongToken] = React.useState(false);
+    const [openSamePassword, setOpenSamePassword] = React.useState(false);
 
     const handleError = () => {
         setOpenError(true);
@@ -86,6 +87,18 @@ export default function SignIn() {
         }
 
         setOpenSuccess(false);
+    };
+    const handleWrongTokenClose = (event: any, reason: string) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setOpenWrongToken(false);
+    };
+    const handleSamePasswordClose = (event: any, reason: string) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setOpenSamePassword(false);
     };
 
     //passwords accepted from the input fields
@@ -110,9 +123,13 @@ export default function SignIn() {
         console.log(username);
         console.log(password);
         setMatch(true);
-        // const resetSuccess : number = await axiosResetPassword(token, username, password);
-        // setSuccess(resetSuccess);
-        let resetSuccess = -1;
+        const resetSuccess: number = await axiosResetPassword(
+            token,
+            username,
+            password
+        );
+        if (resetSuccess === -3) setOpenSamePassword(true);
+        if (resetSuccess === -2) setOpenWrongToken(true);
         if (resetSuccess === -1) handleError();
         if (resetSuccess === 1) handleSuccess();
     };
@@ -120,11 +137,10 @@ export default function SignIn() {
     return (
         <>
             <Grid container justifyContent="center">
-            <Grid item xs={12}>
+                <Grid item xs={12}>
+                    <SnackbarPaper />
+                </Grid>
 
-                <SnackbarPaper />
-            </Grid>
-                
                 <Grid item xs={9} sm={7} md={4} lg={3}>
                     <Paper className={classes.paper2} variant="outlined">
                         <Container component="main" maxWidth="xs">
@@ -201,7 +217,7 @@ export default function SignIn() {
                             </div>
                             <Snackbar
                                 open={openError}
-                                autoHideDuration={4000}
+                                autoHideDuration={3000}
                                 onClose={handleErrorClose}
                             >
                                 <Alert
@@ -212,8 +228,33 @@ export default function SignIn() {
                                 </Alert>
                             </Snackbar>
                             <Snackbar
+                                open={openWrongToken}
+                                autoHideDuration={3000}
+                                onClose={handleWrongTokenClose}
+                            >
+                                <Alert
+                                    onClose={handleWrongTokenClose}
+                                    severity="error"
+                                >
+                                    Token ented is invalid!
+                                </Alert>
+                            </Snackbar>
+                            <Snackbar
+                                open={openSamePassword}
+                                autoHideDuration={3000}
+                                onClose={handleSamePasswordClose}
+                            >
+                                <Alert
+                                    onClose={handleSamePasswordClose}
+                                    severity="error"
+                                >
+                                    Password matches previous password! Please
+                                    select a new password.
+                                </Alert>
+                            </Snackbar>
+                            <Snackbar
                                 open={openSuccess}
-                                autoHideDuration={4000}
+                                autoHideDuration={3000}
                                 onClose={handleSuccessClose}
                             >
                                 <Alert
