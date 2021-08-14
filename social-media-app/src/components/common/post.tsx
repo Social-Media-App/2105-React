@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
+<<<<<<< HEAD
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -8,13 +10,24 @@ import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import TextField from '@material-ui/core/TextField';
+=======
+import {
+    Card,
+    CardHeader,
+    CardMedia,
+    CardContent,
+    Avatar,
+    IconButton,
+    Typography,
+    CardActionArea,
+} from "@material-ui/core";
+>>>>>>> 66e854697d686e461e32e6c3b419677ea28c6b5f
 import { blueGrey, grey, red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import { useState, useEffect } from "react";
-import axios from 'axios';
-//import { likePost, unlikePost } from "../../../redux/actons";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import axios from "axios";
 import { Storage } from "aws-amplify";
+<<<<<<< HEAD
 import { useDispatch, useSelector } from "react-redux";
 import {IPost, IUser, IComment} from "../../redux/stateStructures";
 import CardActions from '@material-ui/core/CardActions';
@@ -29,6 +42,15 @@ interface IProps {
     post: IPost
     liked: boolean
     comment: IComment
+=======
+import { IPost } from "../../redux/stateStructures";
+import { BrowserRouter as Link } from "react-router-dom";
+import { CardActions } from "@material-ui/core";
+
+interface IProps {
+    post: IPost;
+    liked: boolean;
+>>>>>>> 66e854697d686e461e32e6c3b419677ea28c6b5f
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -48,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
         padding: "0px",
     },
     top: {
+<<<<<<< HEAD
         padding: "5px"
     },
     expand: {
@@ -60,10 +83,14 @@ const useStyles = makeStyles((theme) => ({
       expandOpen: {
         transform: 'rotate(180deg)',
       },
+=======
+        padding: "5px",
+    },
+>>>>>>> 66e854697d686e461e32e6c3b419677ea28c6b5f
 }));
 
 //Pass a post in as a prop and a boolean value if the current user liked the post
-function InstaPost(props:IProps) {
+function InstaPost(props: IProps) {
     const dispatch = useDispatch();
     const post = props.post;
     const styles = useStyles();
@@ -71,6 +98,7 @@ function InstaPost(props:IProps) {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
     const [liked, toggleLike] = useState(props.liked);
+<<<<<<< HEAD
     const [commentState, setCommentState] = useState(props.comment);
 
     //Comments
@@ -83,33 +111,40 @@ function InstaPost(props:IProps) {
       };
     
     const handleLikeClick = () => {
+=======
+
+    const [url, setURL] = useState(post.postImage);
+
+    const handleLikeClick = (event: React.MouseEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+>>>>>>> 66e854697d686e461e32e6c3b419677ea28c6b5f
         // if(liked) {
-            //     dispatch(unlikePost(post));
+        //     dispatch(unlikePost(post));
         // } else {
-        //     dispatch(likePost(post));  
+        //     dispatch(likePost(post));
         // }
         toggleLike(!liked);
     };
 
+<<<<<<< HEAD
     const handleCommentSubmit = () => {
         setCommentState(props.comment);
         console.log(commentState);
     }
 
 
+=======
+>>>>>>> 66e854697d686e461e32e6c3b419677ea28c6b5f
     useEffect(() => {
         getPostPicture(post.postImage);
-    },[post.postImage]);
+    }, [post.postImage]);
 
     const getPostPicture = async (profileImg: string) => {
-        console.log("getting img"+profileImg);
         Storage.get(profileImg)
-            .then((url:any) => {
+            .then((url: any) => {
                 var myRequest = new Request(url);
-                console.log(myRequest);
-                fetch(myRequest).then(function (response) {
-                    console.log(response);
-                    
+                fetch(myRequest).then(function(response) {
                     if (response.status === 200) {
                         setURL(url);
                     }
@@ -120,6 +155,7 @@ function InstaPost(props:IProps) {
 
     return (
         <>
+<<<<<<< HEAD
         <Card className={styles.root} variant="outlined">
             <CardHeader
                 avatar={
@@ -200,6 +236,63 @@ function InstaPost(props:IProps) {
       </Collapse>         
      </Card>
  </>
+=======
+            <Card className={styles.root} variant="outlined">
+                    <CardHeader
+                        avatar={
+                            <Avatar
+                            aria-label="recipe"
+                            className={styles.avatar}
+                            >
+                                {post.postOwner.firstname.charAt(0)}
+                            </Avatar>
+                        }
+                        title={
+                            <Typography variant="h6" className={styles.header}>
+                                {post.postOwner.firstname +
+                                    " " +
+                                    post.postOwner.lastname}
+                            </Typography>
+                        }
+                        action={
+                            liked ? (
+                                <IconButton
+                                onClick={handleLikeClick}
+                                aria-label="add to favorites"
+                                >
+                                    <FavoriteIcon />
+                                </IconButton>
+                            ) : (
+                                <IconButton
+                                onClick={handleLikeClick}
+                                aria-label="add to favorites"
+                                >
+                                    <FavoriteBorderIcon />
+                                </IconButton>
+                            )
+                        }
+                        className={styles.top}
+                        />
+                        <CardActionArea>
+                    {post.postImage && (
+                        <CardMedia className={styles.media} image={url} />
+                    )}
+                    <CardContent>
+                        <Typography
+                            variant="body2"
+                            color="textSecondary"
+                            component="p"
+                        >
+                            {post.postWrittenContent}
+                        </Typography>
+                        <CardActions>
+
+                        </CardActions>
+                    </CardContent>
+                </CardActionArea>
+            </Card>
+        </>
+>>>>>>> 66e854697d686e461e32e6c3b419677ea28c6b5f
     );
 }
 

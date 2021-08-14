@@ -4,7 +4,7 @@ import Masonry from "react-masonry-css";
 import "./masonry.css"
 
 const user: IUser = {
-    userID: 1,
+    userId: 1,
     username: "string",
     password: "string",
     firstname: "string",
@@ -103,7 +103,7 @@ const post3: IPost = {
 };
 
 const breakpointColumnsObj5 = {
-    default: 5,
+    default: 4,
     1500: 4,
     1200: 3,
     900: 2,
@@ -139,7 +139,6 @@ function HomePage(props:IPost[]) {
                     </div>
                 ))}
             </Masonry>
-            {/* <CreatePostIcon /> */}
         </>
     );
 }

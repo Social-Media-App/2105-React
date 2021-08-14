@@ -75,6 +75,7 @@ export default function CreatePostIcon() {
             style={{ height: "80vh" }}
         >
             <Paper elevation={10} className={classes.paper}>
+<<<<<<< HEAD
                 <Grid>
                     <Button
                         // variant="contained"
@@ -84,6 +85,17 @@ export default function CreatePostIcon() {
                         <CloseIcon />
                     </Button>
                     <h2>Create A Cat Post!</h2>
+=======
+                <Grid container justifyContent="flex-end">
+                    <Grid item xs={1}>
+                        <Button
+                            style={{ backgroundColor: "white", minWidth:"10px" }}
+                            onClick={handleClose}
+                        >
+                            <CloseIcon />
+                        </Button>
+                    </Grid>
+>>>>>>> 66e854697d686e461e32e6c3b419677ea28c6b5f
                 </Grid>
                 <form onSubmit={handleSubmit}>
                     <TextField
