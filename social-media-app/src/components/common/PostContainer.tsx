@@ -88,7 +88,7 @@ const post3: IPost = {
 };
 
 const breakpointColumnsObj5 = {
-    default: 5,
+    default: 4,
     1500: 4,
     1200: 3,
     900: 2,

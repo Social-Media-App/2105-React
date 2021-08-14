@@ -110,7 +110,7 @@ function HomePage() {
         <>
             <Snackbar />
             <Grid container justifyContent="center" alignItems="flex-start">
-                <Grid item xs={11}>
+                <Grid item xs={8}>
                     <PostContainer {...postList} />
                 </Grid>
             </Grid>
