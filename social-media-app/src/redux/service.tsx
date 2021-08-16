@@ -17,13 +17,16 @@ export const service = {
 
 //Allowing use to send our credentials / cookies
 const instance = axios.create({
-    withCredentials: true
+    // withCredentials: true,
+    headers: {
+        'Access-Control-Allow-Origin': '*',
+      }
   });
 
 
   //EXAMPLE OF A SERVICE REQUEST TO THE BACKEND
   async function axiosLogin(username:string, password:string) {
-    const axiosResponse : any = await axios.post(`${userServiceUrl}/login-service/login`, {
+    const axiosResponse : any = await instance.post(url+'/login-service/login', {
         "username": username,
         "password": password
     })
@@ -34,7 +37,7 @@ const instance = axios.create({
 
 async function register(User: ISignUpUser) {
     const response = await instance.post(
-        `http://localhost:9005/login-service/signup` ,
+        url+'/login-service/signup' ,
         {
             username: User.username,
             password: User.password,
@@ -55,5 +58,5 @@ async function register(User: ISignUpUser) {
 
 
 export const url:string = `http://localhost:9082`;
-export const userServiceUrl:string = `http://localhost:9005`;
+export const userServiceUrl:string = `http://localhost:63147`;
 export const postServiceUrl:string = `http://localhost:9008`;
