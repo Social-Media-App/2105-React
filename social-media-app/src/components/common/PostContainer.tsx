@@ -119,6 +119,7 @@ function HomePage(props:IPost[]) {
                         <Post
                             post={post}
                             liked={true}
+                            bookmarked={true}
                         />
                     </div>
                 ))}

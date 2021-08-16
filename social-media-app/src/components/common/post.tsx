@@ -19,10 +19,13 @@ import { Storage } from "aws-amplify";
 import { IPost } from "../../redux/stateStructures";
 import { BrowserRouter as Link } from "react-router-dom";
 import { CardActions } from "@material-ui/core";
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 
 interface IProps {
     post: IPost;
     liked: boolean;
+    bookmarked: boolean;
 }
 const useStyles = makeStyles(() => ({
     root: {
@@ -51,6 +54,7 @@ function InstaPost(props: IProps) {
     const post = props.post;
     const styles = useStyles();
     const [liked, toggleLike] = useState(props.liked);
+    const [bookmarked, toggleBookmark] = useState(props.bookmarked);
 
     const [url, setURL] = useState(post.postImage);
 
@@ -63,6 +67,17 @@ function InstaPost(props: IProps) {
         //     dispatch(likePost(post));
         // }
         toggleLike(!liked);
+    };
+
+    const handleBookmarkedClick = (event: React.MouseEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+        // if(liked) {
+        //     dispatch(unlikePost(post));
+        // } else {
+        //     dispatch(likePost(post));
+        // }
+        toggleLike(!bookmarked);
     };
 
     useEffect(() => {
@@ -112,6 +127,7 @@ function InstaPost(props: IProps) {
                                     onClick={handleLikeClick}
                                     aria-label="add to favorites"
                                 >
+                                    {/* <BookmarkIcon/> */}
                                     <FavoriteIcon />
                                 </IconButton>
                             ) : (
@@ -119,10 +135,29 @@ function InstaPost(props: IProps) {
                                     onClick={handleLikeClick}
                                     aria-label="add to favorites"
                                 >
+                                    {/* <BookmarkBorderIcon/> */}
                                     <FavoriteBorderIcon />
                                 </IconButton>
-                            )
+                            ) 
                         }
+                        // eslint-disable-next-line react/jsx-no-duplicate-props
+                        // action={
+                        //     bookmarked ? (
+                        //         <IconButton
+                        //             onClick={handleBookmarkedClick}
+                        //             aria-label="add to favorites"
+                        //         >
+                        //             <BookmarkIcon/>
+                        //         </IconButton>
+                        //     ) : (
+                        //         <IconButton
+                        //             onClick={handleBookmarkedClick}
+                        //             aria-label="add to favorites"
+                        //         >
+                        //             <BookmarkBorderIcon/>
+                        //         </IconButton>
+                        //     ) 
+                        // }
                         className={styles.top}
                     />
                     {post.postImage && (
