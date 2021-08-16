@@ -77,7 +77,7 @@ function InstaPost(props: IProps) {
         // } else {
         //     dispatch(likePost(post));
         // }
-        toggleLike(!bookmarked);
+        toggleBookmark(!bookmarked);
     };
 
     useEffect(() => {
@@ -140,24 +140,6 @@ function InstaPost(props: IProps) {
                                 </IconButton>
                             ) 
                         }
-                        // eslint-disable-next-line react/jsx-no-duplicate-props
-                        // action={
-                        //     bookmarked ? (
-                        //         <IconButton
-                        //             onClick={handleBookmarkedClick}
-                        //             aria-label="add to favorites"
-                        //         >
-                        //             <BookmarkIcon/>
-                        //         </IconButton>
-                        //     ) : (
-                        //         <IconButton
-                        //             onClick={handleBookmarkedClick}
-                        //             aria-label="add to favorites"
-                        //         >
-                        //             <BookmarkBorderIcon/>
-                        //         </IconButton>
-                        //     ) 
-                        // }
                         className={styles.top}
                     />
                     {post.postImage && (
@@ -172,7 +154,23 @@ function InstaPost(props: IProps) {
                             {post.postWrittenContent}
                         </Typography>
                         <CardActions>
-
+                        {
+                            bookmarked ? (
+                                <IconButton
+                                    onClick={handleBookmarkedClick}
+                                    aria-label="add to favorites"
+                                >
+                                    <BookmarkIcon/>
+                                </IconButton>
+                            ) : (
+                                <IconButton
+                                    onClick={handleBookmarkedClick}
+                                    aria-label="add to favorites"
+                                >
+                                    <BookmarkBorderIcon/>
+                                </IconButton>
+                            ) 
+                        }
                         </CardActions>
                     </CardContent>
                 </CardActionArea>
