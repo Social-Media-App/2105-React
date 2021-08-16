@@ -1,5 +1,7 @@
 import axios from "axios";
-import { IUser, ISignUpUser } from "./stateStructures";
+import { IUser, ISignUpUser, IPost, IComment } from "./stateStructures";
+import { useState, useEffect } from "react";
+import { propTypes } from "react-bootstrap/esm/Image";
 
 //Used for ease of exporting, these are the different functions in the file
 export const service = {
@@ -13,6 +15,8 @@ export const service = {
     // getAllUsers,
     // createPost,
     // update,
+    displayComments,
+    addComment
 };
 
 //Allowing use to send our credentials / cookies
@@ -51,6 +55,40 @@ async function register(User: ISignUpUser) {
         return axiosData;
     }
     throw new Error("Unable to Create Account");
+}
+
+//DISPLAY COMMENTS (400 ERROR)
+async function displayComments(Post: IPost, postId: number) {
+     const response: any = await instance.get(`${postServiceUrl}/comment/getcomment`); {
+       postId = Post.postId 
+    };
+    const axiosData = response.data;
+
+    console.log("axiosdata: ", axiosData);
+    
+}
+
+//ADD A COMMENT (500 ERROR)
+async function addComment(Comment: IComment, Post: IPost){
+    const axiosResponse : any = await axios.post(`${postServiceUrl}/comment/newcomment`, 
+    {
+        commentId: Comment.commentId,
+        commentContent: Comment.commentContent,
+        commentAuthor: Comment.commentAuthor,
+        commentedPost: {
+            "postId": Post.postId
+            // "userId": 1,
+            // "date": null,
+            // "autoDeleteDate": null,
+            // "content": "dkldks dkdlsks sldkdkslkks slkdkd slskdk",
+            // "picture": null,
+            // "groupId": 0
+        }
+    } 
+);
+    const axiosData = axiosResponse.data;
+    console.log(axiosData);
+
 }
 
 

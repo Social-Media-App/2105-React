@@ -1,7 +1,7 @@
 import { constants } from './actionTypes';
 import { service } from "./service";
 import { AppDispatch } from "./store";
-import { ISignUpUser } from "../redux/stateStructures"
+import { IComment, IPost, ISignUpUser } from "../redux/stateStructures"
 
 //Actions are what you dispatch from your components, this file contains all the actions you can dispatched
 
@@ -43,4 +43,42 @@ export const registerAccount = (User: ISignUpUser) => async (dispatch: AppDispat
         });
     }
 };
+
+//DISPLAY COMMENTS (400 ERROR)
+export const displayComments = (Post: IPost, postId: number) => async (dispatch: AppDispatch) => {
+    try{
+        console.log("display comments action");
+        dispatch({ type: constants.POSTS_GETCOMMENTS_REQUEST});
+        const res = await service.displayComments(Post, postId);
+        dispatch ({ type: constants.POSTS_GETCOMMENTS_SUCCESS});
+        dispatch({
+            type: constants.POSTS_GETCOMMENTS_SUCCESS,
+            payload: res,
+        });
+    } catch (e) {
+        console.log(e);
+        dispatch({
+            type: constants.POSTS_GETALL_FAILURE,
+        });
+    }
+}
+
+//ADD A COMMENT (500 ERROR)
+export const addComment = (Comment: IComment, Post: IPost) => async (dispatch: AppDispatch) => {
+    try{
+        console.log("display comments action");
+        dispatch({ type: constants.POSTS_ADDCOMMENT_REQUEST});
+        const res = await service.addComment(Comment, Post);
+        dispatch ({ type: constants.POSTS_ADDCOMMENT_SUCCESS});
+        dispatch({
+            type: constants.POSTS_ADDCOMMENT_SUCCESS,
+            payload: res,
+        });
+    } catch (e) {
+        console.log(e);
+        dispatch({
+            type: constants.POSTS_ADDCOMMENT_FAILURE,
+        });
+    }
+}
 

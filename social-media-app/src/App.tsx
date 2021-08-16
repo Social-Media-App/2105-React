@@ -5,13 +5,9 @@ import { userLogin } from './redux/actons'
 import Button from '@material-ui/core/Button'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import ProtectedRoute from './components/common/ProtectedRoute'
-<<<<<<< HEAD
-import SignUpForm from './components/SignUp/SignUpForm'
-import { ButtonBase } from '@material-ui/core'
-import CreatePost from './components/Post/createpost'
-=======
 import SignUpPage from './components/SignUp/SignUpPage'
->>>>>>> 66e854697d686e461e32e6c3b419677ea28c6b5f
+import SignUpForm from './components/SignUp/SignUpForm'
+import CreatePost from './components/Post/createpost'
 import HomePage from './components/HomePage/homepage'
 import Login from './components/login/login-page';
 import SendEmail from './components/send-email-forgot-password/send-email'
@@ -32,16 +28,9 @@ function App () {
     <>
       <Router>
         <Switch>
-<<<<<<< HEAD
-          <Route exact path='/'>
-            <Button variant='contained' color='primary' onClick={handleInputLogin}> Login </Button><br></br>
-            <Link to="/home">Go To Protected Page</Link> <br></br>
-            <Link to="/createpost">Create Post</Link> <br></br>
-            <Link to="/homepage">Go to home</Link> 
-=======
           <Route path='/' exact>
-            <Login />
-            {/* <HomePage/> */}
+            {/* <Login /> */}
+            <HomePage/>
           </Route>
           <Route path='/register'>
             <SignUpPage />
@@ -54,9 +43,8 @@ function App () {
           </Route>
           <Route path='/reset-pass'>
             <ResetPass />
->>>>>>> 66e854697d686e461e32e6c3b419677ea28c6b5f
           </Route>
-          <ProtectedRoute path='/home' isAuth={isLoggedIn} component={SignUpForm} />
+          {/* <ProtectedRoute path='/home' isAuth={isLoggedIn} component={SignUpForm} /> */}
           <ProtectedRoute path='/createpost' isAuth={isLoggedIn} component={CreatePost} />
           <ProtectedRoute path='/homepage' isAuth={isLoggedIn} component={HomePage} />
         </Switch>

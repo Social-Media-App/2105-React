@@ -5,11 +5,11 @@ import "./masonry.css"
 
 const user: IUser = {
     userId: 1,
-    username: "string",
+    username: "cfkent",
     password: "string",
-    firstname: "string",
+    firstname: "Conor",
     middlename: "string",
-    lastname: "string",
+    lastname: "Kent",
     userEmail: "string",
     profilePhoto: "string",
     backgroundPhoto: "string",
@@ -32,13 +32,6 @@ const comment: IComment = {
     commentAuthor: user,
 }
 
-const comment2: IComment = {
-    commentId: 2,
-    commentedPost: post,
-    commentContent: "Test comment 2",
-    commentAuthor: user,
-}
-
 const post2: IPost = {
     postId: 2,
     postWrittenContent: "content",
@@ -47,6 +40,13 @@ const post2: IPost = {
     datePosted: new Date(),
     groupId: 0,
 };
+
+const comment2: IComment = {
+    commentId: 2,
+    commentedPost: post2,
+    commentContent: "That's cool!",
+    commentAuthor: user,
+}
 
 const post4: IPost = {
     postId: 4,

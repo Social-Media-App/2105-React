@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-<<<<<<< HEAD
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
-import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import TextField from '@material-ui/core/TextField';
-=======
 import {
     Card,
     CardHeader,
@@ -20,37 +10,29 @@ import {
     IconButton,
     Typography,
     CardActionArea,
+    Collapse,
+    Box,
+    TextField,
+    Button,
+    Grid
 } from "@material-ui/core";
->>>>>>> 66e854697d686e461e32e6c3b419677ea28c6b5f
 import { blueGrey, grey, red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import ExpandMoreIcon  from "@material-ui/icons/ExpandMore";
 import axios from "axios";
 import { Storage } from "aws-amplify";
-<<<<<<< HEAD
-import { useDispatch, useSelector } from "react-redux";
-import {IPost, IUser, IComment} from "../../redux/stateStructures";
-import CardActions from '@material-ui/core/CardActions';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import clsx from 'clsx';
-import Collapse from '@material-ui/core/Collapse';
-import { Button } from "@material-ui/core";
-import { Divider, Grid, Box} from "@material-ui/core";
-
-
-interface IProps {
-    post: IPost
-    liked: boolean
-    comment: IComment
-=======
-import { IPost } from "../../redux/stateStructures";
+import { IComment, IPost } from "../../redux/stateStructures";
 import { BrowserRouter as Link } from "react-router-dom";
 import { CardActions } from "@material-ui/core";
+import clsx from 'clsx';
+import { addComment, displayComments } from "../../redux/actons";
+import PostContainer from "./PostContainer";
 
 interface IProps {
     post: IPost;
     liked: boolean;
->>>>>>> 66e854697d686e461e32e6c3b419677ea28c6b5f
+    comment: IComment;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -70,8 +52,7 @@ const useStyles = makeStyles((theme) => ({
         padding: "0px",
     },
     top: {
-<<<<<<< HEAD
-        padding: "5px"
+        padding: "5px",
     },
     expand: {
         transform: 'rotate(0deg)',
@@ -83,42 +64,39 @@ const useStyles = makeStyles((theme) => ({
       expandOpen: {
         transform: 'rotate(180deg)',
       },
-=======
-        padding: "5px",
-    },
->>>>>>> 66e854697d686e461e32e6c3b419677ea28c6b5f
 }));
 
 //Pass a post in as a prop and a boolean value if the current user liked the post
 function InstaPost(props: IProps) {
+
     const dispatch = useDispatch();
     const post = props.post;
     const styles = useStyles();
+    const comment = props.comment;
     
     const classes = useStyles();
-    const [expanded, setExpanded] = React.useState(false);
+
     const [liked, toggleLike] = useState(props.liked);
-<<<<<<< HEAD
-    const [commentState, setCommentState] = useState(props.comment);
 
-    //Comments
-    // const [commentState, setCommentState] = useState("Test comment");
-    
+    //USE STATE FOR EXPAND BUTTON
+    const [expanded, setExpanded] = React.useState(false);
+
+    //SETTING UP USESTATE FOR COMMENTS
+    const [newCommentContentState, setNewCommentContentState] = useState(props.comment.commentContent);
+    const [commentState, setCommentState] = useState(props.comment.commentContent);
+    const [commentAuthorState, setCommentAuthorState] = useState(props.comment.commentAuthor.username);
+    const [commentPostState, setCommentPostState] = useState(props.comment.commentedPost.postId);
     const [url, setURL] = useState(post.postImage);
 
-    const handleExpandClick = () => {
+    //TRIES TO DISPLAY COMMENTS AFTER EXPANDING
+    const handleExpandClick = (eve: any) => {
         setExpanded(!expanded);
+        dispatch(displayComments(props.post, commentPostState));
       };
-    
-    const handleLikeClick = () => {
-=======
-
-    const [url, setURL] = useState(post.postImage);
 
     const handleLikeClick = (event: React.MouseEvent) => {
         event.preventDefault();
         event.stopPropagation();
->>>>>>> 66e854697d686e461e32e6c3b419677ea28c6b5f
         // if(liked) {
         //     dispatch(unlikePost(post));
         // } else {
@@ -127,15 +105,19 @@ function InstaPost(props: IProps) {
         toggleLike(!liked);
     };
 
-<<<<<<< HEAD
+    //SETS STATE FOR COMMENT AND TRIES TO POST TO ENDPOINT (500 ERROR)
     const handleCommentSubmit = () => {
-        setCommentState(props.comment);
-        console.log(commentState);
+        setNewCommentContentState(comment.commentContent);
+        setCommentAuthorState(comment.commentAuthor.username);
+        setCommentPostState(comment.commentedPost.postId);
+
+        dispatch(addComment(props.comment, props.post));
+        
+        console.log(newCommentContentState);
+        console.log(commentAuthorState);
+        console.log(commentPostState);
     }
 
-
-=======
->>>>>>> 66e854697d686e461e32e6c3b419677ea28c6b5f
     useEffect(() => {
         getPostPicture(post.postImage);
     }, [post.postImage]);
@@ -153,90 +135,30 @@ function InstaPost(props: IProps) {
             .catch((err) => console.log(err));
     };
 
+    //TRYING TO MAP COMMENTS (?)
+
+    // let myList: JSX.Element;
+    // if (props.comment) {
+    //     myList = (
+
+    //         <div>
+    //             {props.comment.map((myPost: any) => {
+    //                 return (
+    //                     <PostContainer name={myPost} 
+    //                     />
+
+    //                 );
+    //             })}
+    //        </div> 
+    // );
+    // }
+    // else {
+    //     myList = (<h1>No Post Available</h1>);
+    // }
+
+
     return (
         <>
-<<<<<<< HEAD
-        <Card className={styles.root} variant="outlined">
-            <CardHeader
-                avatar={
-                    <Avatar aria-label="recipe" className={styles.avatar}>
-                        {post.postOwner.firstname.charAt(0)}
-                    </Avatar>
-                }
-                title={
-                    <Typography variant="h6" className={styles.header}>
-                        {post.postOwner.firstname + " " + post.postOwner.lastname}
-                    </Typography>
-                }
-                action={ liked
-                        ?   <IconButton onClick={handleLikeClick} aria-label="add to favorites">
-                                <FavoriteIcon />
-                            </IconButton>
-                        : <IconButton onClick={handleLikeClick} aria-label="add to favorites">
-                                <FavoriteBorderIcon />
-                            </IconButton>
-                    }
-                className={styles.top}
-            />
-            {post.postImage && (
-                <CardMedia
-                    className={styles.media}
-                    image={url}
-                />
-            )}
-            <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    {post.postWrittenContent}
-                </Typography>
-            </CardContent>
-            <CardActions disableSpacing>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-        <Box textAlign='center'>
-        <TextField
-          fullWidth 
-          id="outlined-multiline-static"
-          label="Post a Comment"
-          multiline
-          rows={4}
-          defaultValue=""
-          variant="outlined"
-          onChange={handleCommentSubmit}
-        />
-        <br></br>
-        
-        <Button variant='contained' color='primary'>Comment</Button>
-        </Box>
-        </CardContent>
-        <Grid container item xs zeroMinWidth>
-            <h4 style={{ margin: 0, textAlign: "left" }}>Conor Kent</h4>
-            <p style={{ textAlign: "left" }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
-              luctus ut est sed faucibus. Duis bibendum ac ex vehicula laoreet.
-              Suspendisse congue vulputate lobortis. Pellentesque at interdum
-              tortor. Quisque arcu quam, malesuada vel mauris et, posuere
-              sagittis ipsum. Aliquam ultricies a ligula nec faucibus. In elit
-              metus, efficitur lobortis nisi quis, molestie porttitor metus.
-              Pellentesque et neque risus. Aliquam vulputate, mauris vitae
-              tincidunt interdum, mauris mi vehicula urna, nec feugiat quam
-              lectus vitae ex.{" "}
-            </p>
-          </Grid>
-      </Collapse>         
-     </Card>
- </>
-=======
             <Card className={styles.root} variant="outlined">
                     <CardHeader
                         avatar={
@@ -285,14 +207,54 @@ function InstaPost(props: IProps) {
                         >
                             {post.postWrittenContent}
                         </Typography>
-                        <CardActions>
-
-                        </CardActions>
                     </CardContent>
+                    <CardActions disableSpacing>
+
+        {/* EXPAND BUTTON */}
+        <IconButton
+          className={clsx(classes.expand, {
+            [classes.expandOpen]: expanded,
+          })}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon />
+        </IconButton>
+      </CardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+        <Box textAlign='center'>
+
+        {/* COMMENT TEXT FIELD / SETS STATE ON SUBMIT */}
+        <TextField
+          fullWidth 
+          id="comment-input"
+          label="Post a Comment"
+          multiline
+          rows={4}
+          defaultValue=""
+          variant="outlined"
+          onChange={(e) => { setNewCommentContentState(e.target.value); }}
+          
+        />
+        <br></br>
+        
+        <Button variant='contained' color='primary' onClick={handleCommentSubmit}>Comment</Button>
+        </Box>
+        </CardContent>
+
+        {/* TRYING TO POPULATE WITH SERVER DATA (not working) */}
+        <Grid container item xs zeroMinWidth>
+            <h4 style={{ margin: 0, textAlign: "left" }}>{commentAuthorState}</h4>
+            <p style={{ textAlign: "left" }}>
+                {commentState}
+            </p>
+          </Grid>
+      </Collapse>     
                 </CardActionArea>
             </Card>
         </>
->>>>>>> 66e854697d686e461e32e6c3b419677ea28c6b5f
     );
 }
 
