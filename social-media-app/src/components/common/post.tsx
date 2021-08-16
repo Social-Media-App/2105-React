@@ -19,10 +19,13 @@ import { Storage } from "aws-amplify";
 import { IPost } from "../../redux/stateStructures";
 import { BrowserRouter as Link } from "react-router-dom";
 import { CardActions } from "@material-ui/core";
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 
 interface IProps {
     post: IPost;
     liked: boolean;
+    bookmarked: boolean;
 }
 const useStyles = makeStyles(() => ({
     root: {
@@ -51,6 +54,7 @@ function InstaPost(props: IProps) {
     const post = props.post;
     const styles = useStyles();
     const [liked, toggleLike] = useState(props.liked);
+    const [bookmarked, toggleBookmark] = useState(props.bookmarked);
 
     const [url, setURL] = useState(post.postImage);
 
@@ -65,15 +69,30 @@ function InstaPost(props: IProps) {
         toggleLike(!liked);
     };
 
+    const handleBookmarkedClick = (event: React.MouseEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+        // if(liked) {
+        //     dispatch(unlikePost(post));
+        // } else {
+        //     dispatch(likePost(post));
+        // }
+        toggleBookmark(!bookmarked);
+    };
+
     useEffect(() => {
         getPostPicture(post.postImage);
     }, [post.postImage]);
 
     const getPostPicture = async (profileImg: string) => {
+        console.log("getting img" + profileImg);
         Storage.get(profileImg)
             .then((url: any) => {
                 var myRequest = new Request(url);
+                console.log(myRequest);
                 fetch(myRequest).then(function(response) {
+                    console.log(response);
+
                     if (response.status === 200) {
                         setURL(url);
                     }
@@ -85,11 +104,12 @@ function InstaPost(props: IProps) {
     return (
         <>
             <Card className={styles.root} variant="outlined">
+                <CardActionArea>
                     <CardHeader
                         avatar={
                             <Avatar
-                            aria-label="recipe"
-                            className={styles.avatar}
+                                aria-label="recipe"
+                                className={styles.avatar}
                             >
                                 {post.postOwner.firstname.charAt(0)}
                             </Avatar>
@@ -101,26 +121,64 @@ function InstaPost(props: IProps) {
                                     post.postOwner.lastname}
                             </Typography>
                         }
+
                         action={
-                            liked ? (
+                            [liked ? (
                                 <IconButton
-                                onClick={handleLikeClick}
-                                aria-label="add to favorites"
+                                    onClick={handleLikeClick}
+                                    aria-label="add to favorites"
                                 >
+                                    {/* <BookmarkIcon/> */}
                                     <FavoriteIcon />
                                 </IconButton>
                             ) : (
                                 <IconButton
-                                onClick={handleLikeClick}
-                                aria-label="add to favorites"
+                                    onClick={handleLikeClick}
+                                    aria-label="add to favorites"
                                 >
+                                    {/* <BookmarkBorderIcon/> */}
                                     <FavoriteBorderIcon />
                                 </IconButton>
-                            )
+                            ),
+                            bookmarked ? (
+                                <IconButton
+                                    onClick={handleBookmarkedClick}
+                                    aria-label="add to favorites"
+                                >
+                                    <BookmarkIcon/>
+                                    {/* <FavoriteIcon /> */}
+                                </IconButton>
+                            ) : (
+                                <IconButton
+                                    onClick={handleBookmarkedClick}
+                                    aria-label="add to favorites"
+                                >
+                                    <BookmarkBorderIcon/>
+                                    {/* <FavoriteBorderIcon /> */}
+                                </IconButton>
+                            )]
                         }
+                        
+                        // eslint-disable-next-line react/jsx-no-duplicate-props
+                        // action={
+                        //     bookmarked ? (
+                        //         <IconButton
+                        //             onClick={handleBookmarkedClick}
+                        //             aria-label="add to favorites"
+                        //         >
+                        //             <BookmarkIcon/>
+                        //         </IconButton>
+                        //     ) : (
+                        //         <IconButton
+                        //             onClick={handleBookmarkedClick}
+                        //             aria-label="add to favorites"
+                        //         >
+                        //             <BookmarkBorderIcon/>
+                        //         </IconButton>
+                        //     ) 
+                        // }
                         className={styles.top}
-                        />
-                        <CardActionArea>
+                    />
                     {post.postImage && (
                         <CardMedia className={styles.media} image={url} />
                     )}
