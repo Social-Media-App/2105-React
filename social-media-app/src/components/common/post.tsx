@@ -52,7 +52,7 @@ function InstaPost(props: IProps) {
     const styles = useStyles();
     const [liked, toggleLike] = useState(props.liked);
 
-    const [url, setURL] = useState(post.postImage);
+    const [url, setURL] = useState(post.picture);
 
     const handleLikeClick = (event: React.MouseEvent) => {
         event.preventDefault();
@@ -66,11 +66,12 @@ function InstaPost(props: IProps) {
     };
 
     useEffect(() => {
-        getPostPicture(post.postImage);
-    }, [post.postImage]);
+        getPostPicture(post.picture);
+    });
 
     const getPostPicture = async (profileImg: string) => {
-        Storage.get(profileImg)
+        if(profileImg){
+            Storage.get(profileImg)
             .then((url: any) => {
                 var myRequest = new Request(url);
                 fetch(myRequest).then(function(response) {
@@ -80,6 +81,7 @@ function InstaPost(props: IProps) {
                 });
             })
             .catch((err) => console.log(err));
+        }
     };
 
     return (
@@ -91,14 +93,14 @@ function InstaPost(props: IProps) {
                             aria-label="recipe"
                             className={styles.avatar}
                             >
-                                {post.postOwner.firstname.charAt(0)}
+                                {post.postOwner.firstName.charAt(0)}
                             </Avatar>
                         }
                         title={
                             <Typography variant="h6" className={styles.header}>
-                                {post.postOwner.firstname +
+                                {post.postOwner.firstName +
                                     " " +
-                                    post.postOwner.lastname}
+                                    post.postOwner.lastName}
                             </Typography>
                         }
                         action={
@@ -121,7 +123,7 @@ function InstaPost(props: IProps) {
                         className={styles.top}
                         />
                         <CardActionArea>
-                    {post.postImage && (
+                    {post.picture && (
                         <CardMedia className={styles.media} image={url} />
                     )}
                     <CardContent>
@@ -130,10 +132,9 @@ function InstaPost(props: IProps) {
                             color="textSecondary"
                             component="p"
                         >
-                            {post.postWrittenContent}
+                            {post.content}
                         </Typography>
                         <CardActions>
-
                         </CardActions>
                     </CardContent>
                 </CardActionArea>

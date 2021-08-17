@@ -3,12 +3,12 @@ export interface IUser{
     userId: number;
     username: string;
     password: string;
-    firstname: string;
-    middlename: string;
-    lastname: string;
-    userEmail:string;
-    profilePhoto: string;
-    backgroundPhoto: string;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    email:string;
+    profilePicture: string;
+    backgroundPicture: string;
 }
 
 export interface ISignUpUser{
@@ -23,11 +23,18 @@ export interface ISignUpUser{
 
 export interface IPost{
     postId: number;
-    postWrittenContent: string;
-    postImage: string;
+    content: string;
+    picture: string;
     postOwner: IUser;
     datePosted: Date;
     groupId: number;
+}
+
+export interface ICreatePost{
+    content: string;
+    postImage: string;
+    userId: number;
+    postOwner: IUser;
 }
 
 export interface IComment{

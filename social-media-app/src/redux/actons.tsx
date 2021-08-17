@@ -1,7 +1,7 @@
 import { constants } from './actionTypes';
 import { service } from "./service";
 import { AppDispatch } from "./store";
-import { ISignUpUser } from "../redux/stateStructures"
+import { ISignUpUser, ICreatePost } from "../redux/stateStructures"
 
 //Actions are what you dispatch from your components, this file contains all the actions you can dispatched
 
@@ -58,6 +58,18 @@ export const getAllPosts = () => async (dispatch: AppDispatch) => {
         dispatch({
             type: constants.POSTS_GETALL_FAILURE,
         });
+    }
+};
+
+export const createPost = (post:ICreatePost) => async (dispatch: AppDispatch) => {
+    try {
+        const res = await service.createPost(post);
+        dispatch({
+            type: constants.POSTS_CREATE_POST,
+            payload: res,
+        });
+    } catch (e) {
+        console.log(e);
     }
 };
 

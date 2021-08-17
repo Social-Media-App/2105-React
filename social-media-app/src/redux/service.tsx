@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IUser, IPost, ISignUpUser } from "./stateStructures";
+import { IUser, IPost, ISignUpUser, ICreatePost } from "./stateStructures";
 
 //Used for ease of exporting, these are the different functions in the file
 export const service = {
@@ -11,7 +11,7 @@ export const service = {
     register,
     getAllPosts,
     // getAllUsers,
-    // createPost,
+    createPost,
     // update,
 };
 
@@ -59,6 +59,24 @@ async function register(User: ISignUpUser) {
 async function getAllPosts() {
     const axiosResponse : any = await instance.get(url+'/post/getallposts')
     const axiosData : IPost[] = axiosResponse.data;
+    console.log(axiosData);
+    return axiosData;
+}
+
+async function createPost(post:ICreatePost) {
+    console.log("creatingpostiwht"+post.content);
+    console.log("creatingpostiwht"+post.postImage);
+    console.log("creatingpostiwht"+post.userId);
+    console.log("creatingpostiwht"+post.postOwner);
+
+    const axiosResponse : any = await instance.post(url+'/post//createpost', {
+        content: post.content,
+        picture: post.postImage,
+        userId: post.userId,
+        postOwner: post.postOwner
+    })
+
+    const axiosData : IPost = axiosResponse.data;
     console.log(axiosData);
     return axiosData;
 }

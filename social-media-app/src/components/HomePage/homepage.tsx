@@ -14,12 +14,12 @@ const user: IUser = {
     userId: 1,
     username: "string",
     password: "string",
-    firstname: "string",
-    middlename: "string",
-    lastname: "string",
-    userEmail: "string",
-    profilePhoto: "string",
-    backgroundPhoto: "string",
+    firstName: "string",
+    middleName: "string",
+    lastName: "string",
+    email: "string",
+    profilePicture: "string",
+    backgroundPicture: "string",
 };
 
 const breakpointColumnsObj5 = {
