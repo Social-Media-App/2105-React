@@ -73,17 +73,14 @@ async function addComment(Comment: IComment, Post: IPost){
     const axiosResponse : any = await axios.post(`${postServiceUrl}/comment/newcomment`, 
     {
         commentId: Comment.commentId,
-        commentContent: Comment.commentContent,
-        commentAuthor: Comment.commentAuthor,
-        commentedPost: {
-            "postId": Post.postId
-            // "userId": 1,
-            // "date": null,
-            // "autoDeleteDate": null,
-            // "content": "dkldks dkdlsks sldkdkslkks slkdkd slskdk",
-            // "picture": null,
-            // "groupId": 0
-        }
+        Post: {
+            postId : Post.postId,
+            userId : Post.postOwner.userId,
+            content : Post.content,
+            picture : Post.picture
+        },
+        userId: Comment.userId.userId,
+        comment: Comment.comment      
     } 
 );
     const axiosData = axiosResponse.data;

@@ -23,8 +23,8 @@ export interface ISignUpUser{
 
 export interface IPost{
     postId: number;
-    postWrittenContent: string;
-    postImage: string;
+    content: string;
+    picture: string;
     postOwner: IUser;
     datePosted: Date;
     groupId: number;
@@ -32,9 +32,9 @@ export interface IPost{
 
 export interface IComment{
     commentId: number;
-    commentedPost: IPost;
-    commentContent: string;
-    commentAuthor: IUser;
+    post: IPost;
+    comment: string;
+    userId: IUser;
 }
 
 export interface IReply{

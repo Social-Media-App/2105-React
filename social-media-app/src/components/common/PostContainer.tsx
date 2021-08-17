@@ -18,8 +18,8 @@ const user: IUser = {
 
 const post: IPost = {
     postId: 1,
-    postWrittenContent: "content",
-    postImage: "angry dog.jpg",
+    content: "content",
+    picture: "angry dog.jpg",
     postOwner: user,
     datePosted: new Date(),
     groupId: 0,
@@ -27,15 +27,15 @@ const post: IPost = {
 
 const comment: IComment = {
     commentId: 1,
-    commentedPost: post,
-    commentContent: "Test comment",
-    commentAuthor: user,
+    post: post,
+    comment: "Test comment",
+    userId: user,
 }
 
 const post2: IPost = {
     postId: 2,
-    postWrittenContent: "content",
-    postImage: "angry dog.jpg",
+    content: "content",
+    picture: "angry dog.jpg",
     postOwner: user,
     datePosted: new Date(),
     groupId: 0,
@@ -43,15 +43,15 @@ const post2: IPost = {
 
 const comment2: IComment = {
     commentId: 2,
-    commentedPost: post2,
-    commentContent: "That's cool!",
-    commentAuthor: user,
+    post: post2,
+    comment: "That's cool!",
+    userId: user,
 }
 
 const post4: IPost = {
     postId: 4,
-    postWrittenContent: "content",
-    postImage: "cat8.jpg",
+    content: "content",
+    picture: "cat8.jpg",
     postOwner: user,
     datePosted: new Date(),
     groupId: 0,
@@ -59,8 +59,8 @@ const post4: IPost = {
 
 const post5: IPost = {
     postId: 5,
-    postWrittenContent: "content",
-    postImage: "",
+    content: "content",
+    picture: "",
     postOwner: user,
     datePosted: new Date(),
     groupId: 0,
@@ -68,8 +68,8 @@ const post5: IPost = {
 
 const post6: IPost = {
     postId: 6,
-    postWrittenContent: "content",
-    postImage: "cat2.jpg",
+    content: "content",
+    picture: "cat2.jpg",
     postOwner: user,
     datePosted: new Date(),
     groupId: 0,
@@ -77,8 +77,8 @@ const post6: IPost = {
 
 const post7: IPost = {
     postId: 7,
-    postWrittenContent: "content",
-    postImage: "",
+    content: "content",
+    picture: "",
     postOwner: user,
     datePosted: new Date(),
     groupId: 0,
@@ -86,8 +86,8 @@ const post7: IPost = {
 
 const post8: IPost = {
     postId: 8,
-    postWrittenContent: "content",
-    postImage: "",
+    content: "content",
+    picture: "",
     postOwner: user,
     datePosted: new Date(),
     groupId: 0,
@@ -95,8 +95,8 @@ const post8: IPost = {
 
 const post3: IPost = {
     postId: 3,
-    postWrittenContent: "content",
-    postImage: "",
+    content: "content",
+    picture: "",
     postOwner: user,
     datePosted: new Date(),
     groupId: 0,

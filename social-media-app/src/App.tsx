@@ -29,7 +29,7 @@ function App () {
       <Router>
         <Switch>
           <Route path='/' exact>
-            {/* <Login /> */}
+            <Login />
             <HomePage/>
           </Route>
           <Route path='/register'>
@@ -44,7 +44,7 @@ function App () {
           <Route path='/reset-pass'>
             <ResetPass />
           </Route>
-          {/* <ProtectedRoute path='/home' isAuth={isLoggedIn} component={SignUpForm} /> */}
+          <ProtectedRoute path='/home' isAuth={isLoggedIn} component={SignUpForm} />
           <ProtectedRoute path='/createpost' isAuth={isLoggedIn} component={CreatePost} />
           <ProtectedRoute path='/homepage' isAuth={isLoggedIn} component={HomePage} />
         </Switch>

@@ -88,7 +88,7 @@ export default function LoginPage(props: IProps) {
 
     if(isLoggedIn){
         console.log(isLoggedIn);
-        return <Redirect to="/home" />;
+        return <Redirect to="/homepage" />;
     }
 
     return (

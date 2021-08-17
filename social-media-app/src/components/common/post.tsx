@@ -82,11 +82,11 @@ function InstaPost(props: IProps) {
     const [expanded, setExpanded] = React.useState(false);
 
     //SETTING UP USESTATE FOR COMMENTS
-    const [newCommentContentState, setNewCommentContentState] = useState(props.comment.commentContent);
-    const [commentState, setCommentState] = useState(props.comment.commentContent);
-    const [commentAuthorState, setCommentAuthorState] = useState(props.comment.commentAuthor.username);
-    const [commentPostState, setCommentPostState] = useState(props.comment.commentedPost.postId);
-    const [url, setURL] = useState(post.postImage);
+    const [newCommentContentState, setNewCommentContentState] = useState(props.comment.comment);
+    const [commentState, setCommentState] = useState(props.comment.comment);
+    const [commentAuthorState, setCommentAuthorState] = useState(props.comment.userId.username);
+    const [commentPostState, setCommentPostState] = useState(props.comment.post.postId);
+    const [url, setURL] = useState(post.picture);
 
     //TRIES TO DISPLAY COMMENTS AFTER EXPANDING
     const handleExpandClick = (eve: any) => {
@@ -107,9 +107,9 @@ function InstaPost(props: IProps) {
 
     //SETS STATE FOR COMMENT AND TRIES TO POST TO ENDPOINT (500 ERROR)
     const handleCommentSubmit = () => {
-        setNewCommentContentState(comment.commentContent);
-        setCommentAuthorState(comment.commentAuthor.username);
-        setCommentPostState(comment.commentedPost.postId);
+        setNewCommentContentState(comment.comment);
+        setCommentAuthorState(comment.userId.username);
+        setCommentPostState(comment.post.postId);
 
         dispatch(addComment(props.comment, props.post));
         
@@ -119,8 +119,8 @@ function InstaPost(props: IProps) {
     }
 
     useEffect(() => {
-        getPostPicture(post.postImage);
-    }, [post.postImage]);
+        getPostPicture(post.picture);
+    }, [post.picture]);
 
     const getPostPicture = async (profileImg: string) => {
         Storage.get(profileImg)
@@ -196,7 +196,7 @@ function InstaPost(props: IProps) {
                         className={styles.top}
                         />
                         <CardActionArea>
-                    {post.postImage && (
+                    {post.picture && (
                         <CardMedia className={styles.media} image={url} />
                     )}
                     <CardContent>
@@ -205,7 +205,7 @@ function InstaPost(props: IProps) {
                             color="textSecondary"
                             component="p"
                         >
-                            {post.postWrittenContent}
+                            {post.content}
                         </Typography>
                     </CardContent>
                     <CardActions disableSpacing>
