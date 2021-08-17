@@ -19,6 +19,9 @@ import { Storage } from "aws-amplify";
 import { IPost } from "../../redux/stateStructures";
 import { BrowserRouter as Link } from "react-router-dom";
 import { CardActions } from "@material-ui/core";
+import { ILike, ILikePost } from '../../redux/stateStructures'
+import { RootState } from '../../redux/store'
+import { likePost } from '../../redux/actons'
 
 interface IProps {
     post: IPost;
@@ -51,17 +54,21 @@ function InstaPost(props: IProps) {
     const post = props.post;
     const styles = useStyles();
     const [liked, toggleLike] = useState(props.liked);
+    const user = useSelector((state: RootState) => state.auth.user);
 
     const [url, setURL] = useState(post.picture);
 
     const handleLikeClick = (event: React.MouseEvent) => {
         event.preventDefault();
         event.stopPropagation();
-        // if(liked) {
-        //     dispatch(unlikePost(post));
-        // } else {
-        //     dispatch(likePost(post));
-        // }
+        const likePosted : ILikePost = {
+            postId: post.postId!
+        }
+        const like: ILike = {
+            userId: user.userId!,
+            post: likePosted
+        }
+        dispatch(likePost(like));
         toggleLike(!liked);
     };
 

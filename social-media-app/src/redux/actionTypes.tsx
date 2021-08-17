@@ -28,4 +28,7 @@ export const constants = {
 
     POSTS_CREATE_POST: "POSTS_CREATE_POST",
 
+    POSTS_LIKE: "POSTS_LIKE",
+    POSTS_UNLIKE: "POSTS_UNLIKE"
+
 };

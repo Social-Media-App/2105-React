@@ -1,12 +1,12 @@
 import axios from "axios";
-import { IUser, IPost, IPostDetails } from "./stateStructures";
+import { IUser, IPost, IPostDetails, ILike } from "./stateStructures";
 
 //Used for ease of exporting, these are the different functions in the file
 export const service = {
     axiosLogin,
     // forgotPassword,
     // updateProfileImg,
-    // likePost,
+    likePost,
     // unlikePost,
     register,
     getAllPosts,
@@ -75,6 +75,19 @@ async function createPost(post:IPost) {
     const axiosData : IPost = axiosResponse.data;
     console.log(axiosData);
     return axiosData;
+}
+
+async function likePost(like:ILike) {
+    const axiosResponse : any = await instance.post(url+'/likes/makeLike', {
+        userId: like.userId,
+        post: like.post
+    })
+    const axiosData : any = axiosResponse.data;
+    console.log(axiosData);
+    if(axiosData){
+        return axiosData;
+    }
+    throw new Error("Unable to like");
 }
 
 export const url:string = `http://localhost:9082`;

@@ -36,8 +36,12 @@ export interface IComment{
 }
 
 export interface ILike{
-    likesId: number;
     userId: number;
+    post: ILikePost
+}
+
+export interface ILikePost{
+    postId: number
 }
 
 export interface IReply{

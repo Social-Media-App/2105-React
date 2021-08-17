@@ -2,6 +2,8 @@ import Post from "./post";
 import { IPost, IPostDetails } from "../../redux/stateStructures";
 import Masonry from "react-masonry-css";
 import "./masonry.css"
+import { useSelector} from 'react-redux'
+import { RootState } from '../../redux/store' 
 
 const breakpointColumnsObj5 = {
     default: 4,
@@ -19,9 +21,11 @@ const breakpointColumnsObj = {
 
 function HomePage(props:{postListDetails:IPostDetails[]}) {
 
-    // function findIfLiked(post: IPost) {
-    //     return post.likes.some(like => like.userId===user.userId);
-    // }
+    const user = useSelector((state: RootState) => state.auth.user);
+
+    function findIfLiked(post: IPostDetails) {
+        return post.likeNumber.some(like => like.userId===user.userId);
+    }
 
     return (
         < >
@@ -38,7 +42,7 @@ function HomePage(props:{postListDetails:IPostDetails[]}) {
                     <div key={postDetail.post.postId}>
                         <Post
                             post={postDetail.post}
-                            liked={true}
+                            liked={findIfLiked(postDetail)}
                         />
                     </div>
                 ))}
