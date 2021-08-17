@@ -22,7 +22,7 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import axios from "axios";
 import { Storage } from "aws-amplify";
-import { IComment, IPost } from "../../redux/stateStructures";
+import { IComment, IPost, IPostDetails } from "../../redux/stateStructures";
 import { BrowserRouter as Link } from "react-router-dom";
 import { CardActions } from "@material-ui/core";
 import clsx from "clsx";
@@ -31,9 +31,9 @@ import PostContainer from "./PostContainer";
 import { RootState } from "../../redux/store";
 
 interface IProps {
-  post: IPost;
+  post: IPostDetails;
   liked: boolean;
-  comment: IComment;
+//   comment: IComment;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -72,9 +72,7 @@ function InstaPost(props: IProps) {
   const dispatch = useDispatch();
   const post = props.post;
   const styles = useStyles();
-  const comment = props.comment;
-
-  const classes = useStyles();
+  const comment = props.post.comments;
 
   const loggedUser = useSelector((state: RootState) => state.auth.user);
 
@@ -85,9 +83,9 @@ function InstaPost(props: IProps) {
 
   //SETTING UP USESTATE FOR COMMENTS
   const [newCommentContentState, setNewCommentContentState] = useState(
-    props.comment.comment
+    props.post.comments
   );
-  const [commentState, setCommentState] = useState(props.comment.comment);
+  const [commentState, setCommentState] = useState(props.post.comments);
   const [commentAuthorState, setCommentAuthorState] = useState(
     props.comment.userId.username
   );
@@ -99,7 +97,7 @@ function InstaPost(props: IProps) {
   //TRIES TO DISPLAY COMMENTS AFTER EXPANDING
   const handleExpandClick = (eve: any) => {
     setExpanded(!expanded);
-    dispatch(displayComments(props.post, commentPostState));
+    dispatch(displayComments(props.post, commentPostState!));
     console.log(props.post, props.comment);
   };
 
@@ -136,7 +134,7 @@ function InstaPost(props: IProps) {
   };
 
   useEffect(() => {
-    getPostPicture(post.picture);
+    getPostPicture(post.picture!);
   }, [post.picture]);
 
   const getPostPicture = async (profileImg: string) => {
@@ -179,12 +177,12 @@ function InstaPost(props: IProps) {
         <CardHeader
           avatar={
             <Avatar aria-label="recipe" className={styles.avatar}>
-              {post.postOwner.firstname.charAt(0)}
+              {post.postOwner.firstName.charAt(0)}
             </Avatar>
           }
           title={
             <Typography variant="h6" className={styles.header}>
-              {post.postOwner.firstname + " " + post.postOwner.lastname}
+              {post.postOwner.firstName + " " + post.postOwner.lastName}
             </Typography>
           }
           action={
@@ -216,8 +214,8 @@ function InstaPost(props: IProps) {
           <CardActions disableSpacing>
             {/* EXPAND BUTTON */}
             <IconButton
-              className={clsx(classes.expand, {
-                [classes.expandOpen]: expanded,
+              className={clsx(styles.expand, {
+                [styles.expandOpen]: expanded,
               })}
               onClick={handleExpandClick}
               aria-expanded={expanded}
@@ -250,7 +248,6 @@ function InstaPost(props: IProps) {
                   }}
                 />
                 <br></br>
-
                 <Button
                   variant="contained"
                   color="primary"

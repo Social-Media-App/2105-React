@@ -50,7 +50,7 @@ function HomePage() {
             <Snackbar />
             <Grid container justifyContent="center" alignItems="flex-start">
                 <Grid item xs={8}>
-                    <PostContainer postList={postList} />
+                    <PostContainer postListDetails={postList} />
                 </Grid>
             </Grid>
             <CreatePostIcon ></CreatePostIcon>

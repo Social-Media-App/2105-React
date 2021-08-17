@@ -1,7 +1,9 @@
 import { constants } from './actionTypes';
 import { service } from "./service";
 import { AppDispatch } from "./store";
-import { IComment, IPost, ISignUpUser } from "../redux/stateStructures"
+import { IComment, IPost, IUser} from "../redux/stateStructures"
+import axios from 'axios';
+
 
 //Actions are what you dispatch from your components, this file contains all the actions you can dispatched
 
@@ -26,7 +28,7 @@ export const userLogin = (username: string, password: string) => async (
 };
 
 
-export const registerAccount = (User: ISignUpUser) => async (dispatch: AppDispatch) => {
+export const registerAccount = (User: IUser) => async (dispatch: AppDispatch) => {
     try {
         console.log("registerAccount action");
         dispatch({ type: constants.REGISTER_REQUEST });
@@ -74,6 +76,38 @@ export const addComment = (Comment: IComment, Post: IPost) => async (dispatch: A
         dispatch ({ type: constants.POSTS_ADDCOMMENT_SUCCESS});
         dispatch({
             type: constants.POSTS_ADDCOMMENT_SUCCESS,
+            payload: res,
+        });
+    } catch (e) {
+        console.log(e);
+        dispatch({
+            type: constants.POSTS_ADDCOMMENT_FAILURE,
+        });
+    }
+}
+            
+export const getAllPosts = () => async (dispatch: AppDispatch) => {
+    try {
+        console.log("registerAccount action");
+        dispatch({ type: constants.POSTS_GETALL_REQUEST });
+        const res = await service.getAllPosts();
+        dispatch({
+            type: constants.POSTS_GETALL_SUCCESS,
+            payload: res,
+        });
+    } catch (e) {
+        console.log(e);
+        dispatch({
+            type: constants.POSTS_GETALL_FAILURE,
+        });
+    }
+}
+
+export const createPost = (post: IPost) => async (dispatch: AppDispatch) => {
+    try {
+        const res = await service.createPost(post);
+        dispatch({
+            type: constants.POSTS_CREATE_POST,
             payload: res,
         });
     } catch (e) {
