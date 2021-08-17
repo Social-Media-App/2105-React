@@ -5,8 +5,10 @@ import { IPost, IUser } from "../../redux/stateStructures";
 import Masonry from "react-masonry-css";
 import PostContainer from "../common/PostContainer";
 import Snackbar from "../common/snackbar";
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import {RootState} from '../../redux/store';
+import { useEffect } from 'react'
+import { getAllPosts } from '../../redux/actons'
 
 const user: IUser = {
     userId: 1,
@@ -35,13 +37,13 @@ const breakpointColumnsObj = {
 };
 
 function HomePage() {
+    const dispatch = useDispatch();
     const postList = useSelector((state:RootState) => state.posts.posts)
     
-    // useEffect(() => {
-    //     dispatch(getAllPosts());
-    // }, [dispatch]);
-
-
+    useEffect(() => {
+        dispatch(getAllPosts());
+    }, [dispatch]);
+    
 
     return (
         <>

@@ -44,3 +44,20 @@ export const registerAccount = (User: ISignUpUser) => async (dispatch: AppDispat
     }
 };
 
+export const getAllPosts = () => async (dispatch: AppDispatch) => {
+    try {
+        console.log("registerAccount action");
+        dispatch({ type: constants.POSTS_GETALL_REQUEST });
+        const res = await service.getAllPosts();
+        dispatch({
+            type: constants.POSTS_GETALL_SUCCESS,
+            payload: res,
+        });
+    } catch (e) {
+        console.log(e);
+        dispatch({
+            type: constants.POSTS_GETALL_FAILURE,
+        });
+    }
+};
+

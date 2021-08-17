@@ -93,11 +93,22 @@ export const postReducer = (
     action: AnyAction
 ): typeof postInitialState => {
     switch (action.type) {
-        //     case constants.POSTS_GETALL_REQUEST:
-        //         return {
-        //             ...state,
-        //             postsLoading: true,
-        //         };
+        case constants.POSTS_GETALL_REQUEST:
+            return {
+                ...state,
+                postsLoading: true,
+            };
+        case constants.POSTS_GETALL_SUCCESS:
+            return {
+                ...state,
+                postsLoading: false,
+                posts: action.payload
+            };
+        case constants.POSTS_GETALL_FAILURE:
+            return {
+                ...state,
+                postsLoading: false,
+            };
         default:
             return state;
     }
