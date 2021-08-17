@@ -18,6 +18,11 @@ const breakpointColumnsObj = {
 };
 
 function HomePage(props:{postList:IPost[]}) {
+
+    // function findIfLiked(post: IPost) {
+    //     return post.likes.some(like => like.userId===user.userId);
+    // }
+
     return (
         < >
             <Masonry

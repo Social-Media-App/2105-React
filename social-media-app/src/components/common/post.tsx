@@ -66,7 +66,7 @@ function InstaPost(props: IProps) {
     };
 
     useEffect(() => {
-        getPostPicture(post.picture);
+            getPostPicture(post.picture!);
     });
 
     const getPostPicture = async (profileImg: string) => {

@@ -14,10 +14,10 @@ import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
 import { Storage } from "aws-amplify";
-import { useDispatch, useSelector } from 'react-redux'
-import { createPost } from '../../redux/actons'
-import { RootState } from '../../redux/store'
-import { ICreatePost, IUser } from '../../redux/stateStructures'
+import { useDispatch, useSelector } from "react-redux";
+import { createPost } from "../../redux/actons";
+import { RootState } from "../../redux/store";
+import { IPost, IUser } from "../../redux/stateStructures";
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -51,7 +51,7 @@ export default function CreatePostIcon() {
     const classes = useStyles();
     const dispatch = useDispatch();
 
-    const user:IUser = useSelector((state:RootState)=>state.auth.user)
+    const user: IUser = useSelector((state: RootState) => state.auth.user);
 
     const [open, setOpen] = React.useState(false);
     const [formData, updateFormData] = React.useState(initialFormData);
@@ -90,14 +90,18 @@ export default function CreatePostIcon() {
         event.preventDefault();
         console.log("formData: ", formData);
         console.log("imgKey: ", imgKey);
-        const post: ICreatePost = {
+        const post: IPost = {
             content: formData.message,
-            postImage: imgKey,
-            userId: user.userId,
-            postOwner: user
+            picture: imgKey,
+            userId: user.userId!,
+            postOwner: user,
+        };
+        if (!formData.message && !imgKey) {
+            handleClose();
+            return;
         }
         console.log(post);
-        dispatch(createPost(post))
+        dispatch(createPost(post));
         handleClose();
     }
 
@@ -113,7 +117,10 @@ export default function CreatePostIcon() {
                 <Grid container justifyContent="flex-end">
                     <Grid item xs={1}>
                         <Button
-                            style={{ backgroundColor: "white", minWidth:"10px" }}
+                            style={{
+                                backgroundColor: "white",
+                                minWidth: "10px",
+                            }}
                             onClick={handleClose}
                         >
                             <CloseIcon />
