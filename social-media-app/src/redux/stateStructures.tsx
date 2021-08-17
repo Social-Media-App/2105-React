@@ -31,7 +31,7 @@ export interface IPost{
 }
 
 export interface IComment{
-    commentId: number;
+    commentId?: number;
     post: IPost;
     comment: string;
     userId: IUser;

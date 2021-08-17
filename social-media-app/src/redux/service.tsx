@@ -70,17 +70,15 @@ async function displayComments(Post: IPost, postId: number) {
 
 //ADD A COMMENT (500 ERROR)
 async function addComment(Comment: IComment, Post: IPost){
+    console.log(Comment)
+    console.log('checkpoint 1')
     const axiosResponse : any = await axios.post(`${postServiceUrl}/comment/newcomment`, 
     {
-        commentId: Comment.commentId,
-        Post: {
-            postId : Post.postId,
-            userId : Post.postOwner.userId,
-            content : Post.content,
-            picture : Post.picture
-        },
+        comment: Comment.comment,
         userId: Comment.userId.userId,
-        comment: Comment.comment      
+        post: {
+            postId : Post.postId,
+        }
     } 
 );
     const axiosData = axiosResponse.data;

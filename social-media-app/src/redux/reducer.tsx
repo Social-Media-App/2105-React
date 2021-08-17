@@ -1,5 +1,6 @@
 import { constants } from "./actionTypes";
 import { AnyAction } from "redux";
+import { IUser, IPost } from './stateStructures'
 
 //Initial state for each reducer
 const loginInitialState = {
@@ -7,19 +8,19 @@ const loginInitialState = {
     registered: false,
     isLoggedIn: false,
     loggingIn: false,
-    user: {},
+    user: {} as IUser,
 };
 
 const userInitialState = {
     usersLoading: false,
     usersLoaded: false,
-    users: [],
+    users: [] as IUser[],
 };
 
 const postInitialState = {
     postsLoading: false,
     postsLoaded: false,
-    posts: [],
+    posts: [] as IPost[],
 };
 
 //All Reducers
@@ -48,7 +49,7 @@ export const authReducer = (
                 ...state,
                 isLoggedIn: false,
                 loggingIn: false,
-                user: {},
+                user: {} as IUser,
             };
         case constants.REGISTER_REQUEST:
             return {

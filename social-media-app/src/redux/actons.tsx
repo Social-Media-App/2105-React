@@ -68,6 +68,8 @@ export const addComment = (Comment: IComment, Post: IPost) => async (dispatch: A
     try{
         console.log("display comments action");
         dispatch({ type: constants.POSTS_ADDCOMMENT_REQUEST});
+        console.log('checkpoint 3')
+        console.log(Post)
         const res = await service.addComment(Comment, Post);
         dispatch ({ type: constants.POSTS_ADDCOMMENT_SUCCESS});
         dispatch({
