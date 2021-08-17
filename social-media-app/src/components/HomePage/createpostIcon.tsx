@@ -14,6 +14,10 @@ import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
 import { Storage } from "aws-amplify";
+import { useDispatch, useSelector } from 'react-redux'
+import { createPost } from '../../redux/actons'
+import { RootState } from '../../redux/store'
+import { ICreatePost, IUser } from '../../redux/stateStructures'
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -45,6 +49,10 @@ const initialFormData = {
 
 export default function CreatePostIcon() {
     const classes = useStyles();
+    const dispatch = useDispatch();
+
+    const user:IUser = useSelector((state:RootState)=>state.auth.user)
+
     const [open, setOpen] = React.useState(false);
     const [formData, updateFormData] = React.useState(initialFormData);
     const [imageURI, setimageURI] = React.useState("");
@@ -82,6 +90,14 @@ export default function CreatePostIcon() {
         event.preventDefault();
         console.log("formData: ", formData);
         console.log("imgKey: ", imgKey);
+        const post: ICreatePost = {
+            content: formData.message,
+            postImage: imgKey,
+            userId: user.userId,
+            postOwner: user
+        }
+        console.log(post);
+        dispatch(createPost(post))
         handleClose();
     }
 

@@ -1,5 +1,6 @@
 import { constants } from "./actionTypes";
 import { AnyAction } from "redux";
+import { IPost, IUser } from './stateStructures'
 
 //Initial state for each reducer
 const loginInitialState = {
@@ -7,19 +8,19 @@ const loginInitialState = {
     registered: false,
     isLoggedIn: false,
     loggingIn: false,
-    user: {},
+    user: {} as IUser,
 };
 
 const userInitialState = {
     usersLoading: false,
     usersLoaded: false,
-    users: [],
+    users: [] as IUser[],
 };
 
 const postInitialState = {
     postsLoading: false,
     postsLoaded: false,
-    posts: [],
+    posts: [] as IPost[],
 };
 
 //All Reducers
@@ -48,7 +49,6 @@ export const authReducer = (
                 ...state,
                 isLoggedIn: false,
                 loggingIn: false,
-                user: {},
             };
         case constants.REGISTER_REQUEST:
             return {
@@ -93,11 +93,27 @@ export const postReducer = (
     action: AnyAction
 ): typeof postInitialState => {
     switch (action.type) {
-        //     case constants.POSTS_GETALL_REQUEST:
-        //         return {
-        //             ...state,
-        //             postsLoading: true,
-        //         };
+        case constants.POSTS_GETALL_REQUEST:
+            return {
+                ...state,
+                postsLoading: true,
+            };
+        case constants.POSTS_GETALL_SUCCESS:
+            return {
+                ...state,
+                postsLoading: false,
+                posts: action.payload
+            };
+        case constants.POSTS_GETALL_FAILURE:
+            return {
+                ...state,
+                postsLoading: false,
+            };        
+            case constants.POSTS_CREATE_POST:
+            return {
+                ...state,
+                posts: [...state.posts, action.payload],
+            };
         default:
             return state;
     }
