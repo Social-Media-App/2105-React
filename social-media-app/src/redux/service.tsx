@@ -1,39 +1,83 @@
 import axios from "axios";
-import { IUser } from "./stateStructures";
+import { IUser, IPost } from "./stateStructures";
 
 //Used for ease of exporting, these are the different functions in the file
 export const service = {
-    login,
+    axiosLogin,
     // forgotPassword,
     // updateProfileImg,
     // likePost,
     // unlikePost,
-    // register,
-    // getAllPosts,
+    register,
+    getAllPosts,
     // getAllUsers,
-    // createPost,
+    createPost,
     // update,
 };
 
 //Allowing use to send our credentials / cookies
 const instance = axios.create({
-    withCredentials: true
+    // withCredentials: true,
+    headers: {
+        'Access-Control-Allow-Origin': '*',
+      }
   });
 
 
   //EXAMPLE OF A SERVICE REQUEST TO THE BACKEND
-  async function login(username: String, password: String):Promise<IUser> {
+  async function axiosLogin(username:string, password:string) {
+    const axiosResponse : any = await instance.post(url+'/login-service/login', {
+        "username": username,
+        "password": password
+    })
+    const axiosData : IUser = axiosResponse.data;
+    console.log(axiosData);
+    return axiosData;
+}
+
+async function register(User: IUser) {
     const response = await instance.post(
-        "http://localhost:9002/instafriends/api/user/login" ,
+        url+'/login-service/signup' ,
         {
-            username: username,
-            password: password
+            username: User.username,
+            password: User.password,
+            firstName: User.firstName,
+            lastName: User.lastName,
+            email: User.email,
+            profilePicture: User.profilePicture,
+            backgroundPicture: User.backgroundPicture,
         }
     );
-    const axiosData:IUser = response.data;
+    const axiosData = response.data;
     console.log(axiosData);
     if(axiosData.username != null) {
         return axiosData;
     }
-    return null;
+    throw new Error("Unable to Create Account");
 }
+
+async function getAllPosts() {
+    const axiosResponse : any = await instance.get(url+'/post/getallposts')
+    const axiosData : IPost[] = axiosResponse.data;
+    console.log(axiosData);
+    return axiosData;
+}
+
+async function createPost(post:IPost) {
+    console.log("post: "+post.picture);
+    const axiosResponse : any = await instance.post(url+'/post//createpost', {
+        content: post.content,
+        picture: post.picture,
+        userId: post.userId,
+        postOwner: post.postOwner,
+    })
+
+    const axiosData : IPost = axiosResponse.data;
+    console.log(axiosData);
+    return axiosData;
+}
+
+
+export const url:string = `http://localhost:9082`;
+export const userServiceUrl:string = `http://localhost:63147`;
+export const postServiceUrl:string = `http://localhost:9008`;
