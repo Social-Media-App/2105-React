@@ -5,8 +5,10 @@ import axios from 'axios'
 /*
 Author: Eric Tran
 Function: dropdown list filter
-
-need to add select with npm i react-select
+Dependencies:
+npm i react
+npm i axios
+npm i react-select
 */
 
 /*
