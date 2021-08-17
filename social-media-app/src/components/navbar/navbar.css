@@ -1,0 +1,30 @@
+.topNavBarLeft {
+    font-size: 40px;
+    flex: 3;
+    display: flex;
+    align-items: center;
+  }
+  
+  .topNavBarLinks {
+    font-size: 15px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: space-around;
+    display: "flex";
+  }
+  
+  .toplink {
+    margin-right: 40px;
+    display: "flex";
+    align-items: "center";
+  }
+  .topLogoImg {
+    width: 40px;
+    height: 40px;
+    background: rgba(77, 77, 77, 0);
+    cursor: pointer;
+    border: 3px solid rgb(243, 243, 239);
+    border-radius: 50%;
+    object-fit: cover;
+    margin: auto;
+  }
