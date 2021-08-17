@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import ProtectedRoute from './components/common/ProtectedRoute'
 import SignUpPage from './components/SignUp/SignUpPage'
 import HomePage from './components/HomePage/homepage'
+import ProfilePage from './components/ProfilePage/profilepage'
 import Login from './components/login/login-page';
 import SendEmail from './components/send-email-forgot-password/send-email'
 import ResetPass from './components/reset-pass/reset-pass'
@@ -42,7 +43,8 @@ function App () {
           <Route path='/reset-pass'>
             <ResetPass />
           </Route>
-          <ProtectedRoute path='/home' isAuth={isLoggedIn} component={HomePage} /> 
+          {/* <ProtectedRoute path='/home' isAuth={isLoggedIn} component={HomePage} /> */} 
+          <ProtectedRoute path='/home' isAuth={isLoggedIn} component={ProfilePage} />
         </Switch>
       </Router>
     </>
