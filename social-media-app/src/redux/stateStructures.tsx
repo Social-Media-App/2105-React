@@ -11,14 +11,10 @@ export interface IUser{
     backgroundPicture?: string;
 }
 
-export interface PostDetails{
-    post: IPost,
-    comments: IComment,
-    likeNumber: ILike
-}
-
 export interface IPostDetails{
-
+    post: IPost,
+    comments: IComment[],
+    likeNumber: ILike[]
 }
 
 export interface IPost{

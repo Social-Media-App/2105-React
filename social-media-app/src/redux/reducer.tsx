@@ -1,6 +1,6 @@
 import { constants } from "./actionTypes";
 import { AnyAction } from "redux";
-import { IPost, IUser } from './stateStructures'
+import { IPost, IUser, IPostDetails } from './stateStructures'
 
 //Initial state for each reducer
 const loginInitialState = {
@@ -20,7 +20,7 @@ const userInitialState = {
 const postInitialState = {
     postsLoading: false,
     postsLoaded: false,
-    posts: [] as IPost[],
+    posts: [] as IPostDetails[],
 };
 
 //All Reducers

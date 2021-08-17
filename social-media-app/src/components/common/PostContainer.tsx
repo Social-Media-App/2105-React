@@ -1,5 +1,5 @@
 import Post from "./post";
-import { IPost, IUser } from "../../redux/stateStructures";
+import { IPost, IPostDetails } from "../../redux/stateStructures";
 import Masonry from "react-masonry-css";
 import "./masonry.css"
 
@@ -17,7 +17,7 @@ const breakpointColumnsObj = {
     600: 1,
 };
 
-function HomePage(props:{postList:IPost[]}) {
+function HomePage(props:{postListDetails:IPostDetails[]}) {
 
     // function findIfLiked(post: IPost) {
     //     return post.likes.some(like => like.userId===user.userId);
@@ -27,17 +27,17 @@ function HomePage(props:{postList:IPost[]}) {
         < >
             <Masonry
                 breakpointCols={
-                    props.postList.length < 5
+                    props.postListDetails.length < 5
                     ? breakpointColumnsObj
                     : breakpointColumnsObj5
                 }
                 className="my-masonry-grid"
                 columnClassName="my-masonry-grid_column"
             >
-                {props.postList.map((post) => (
-                    <div key={post.postId}>
+                {props.postListDetails.map((postDetail) => (
+                    <div key={postDetail.post.postId}>
                         <Post
-                            post={post}
+                            post={postDetail.post}
                             liked={true}
                         />
                     </div>
