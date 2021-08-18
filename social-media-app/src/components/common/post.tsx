@@ -28,6 +28,7 @@ import Comments from "../post/comments";
 import ChatIcon from '@material-ui/icons/Chat';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+import CommentButton from '../post/comment-button'
 
 interface IProps {
     post: IPost;
@@ -75,7 +76,7 @@ function InstaPost(props: IProps) {
     const [bookmarked, toggleBookmark] = useState(true);
 
     const [url, setURL] = useState(post.picture);
-    const [profileUrl, setProfileUrl] = useState(post.picture);
+    const [profileUrl, setProfileUrl] = useState(post.postOwner.profilePicture);
     const [expanded, setExpanded] = React.useState(false);
 
     const handleLikeClick = (event: React.MouseEvent) => {
@@ -96,14 +97,15 @@ function InstaPost(props: IProps) {
         if (post.picture) {
             getPostPicture(post.picture!);
         }
-        if (user.profilePicture) {
-            getUserProfileImg(user.profilePicture!);
+        if (post.postOwner.profilePicture) {
+            getUserProfileImg(post.postOwner.profilePicture);
         }
     }, []);
 
-    const getUserProfileImg = async (ProfileImg: string) => {
-        if (ProfileImg) {
-            Storage.get(ProfileImg)
+    const getUserProfileImg = async (profileImg: string) => {
+        console.log("getting"+profileImg);
+        if (profileImg) {
+            Storage.get(profileImg)
                 .then((url: any) => {
                     var myRequest = new Request(url);
                     fetch(myRequest).then(function(response) {
@@ -117,6 +119,8 @@ function InstaPost(props: IProps) {
     };
 
     const getPostPicture = async (postImg: string) => {
+        console.log("img"+postImg);
+
         if (postImg) {
             Storage.get(postImg)
                 .then((url: any) => {
@@ -157,13 +161,7 @@ function InstaPost(props: IProps) {
                 }
                 action={
                     <div>
-                        <IconButton
-                            // onClick={handleLikeClick}
-                            aria-label="add to favorites"
-                            style={{paddingRight: 0, paddingLeft: 0, paddingBottom:10}}
-                        >
-                            <ChatIcon style={{fill: '#666666'}} />
-                        </IconButton>
+                        <CommentButton post={post} user={user}/>
                         {bookmarked ? (
                             <IconButton
                                 // onClick={handleLikeClick}

@@ -7,7 +7,7 @@ export const service = {
     // forgotPassword,
     // updateProfileImg,
     likePost,
-    // unlikePost,
+    makeComment,
     register,
     getAllPosts,
     getAllUsers,
@@ -149,6 +149,22 @@ async function getComments(post:IPost) {
         return axiosData;
     }
     throw new Error("Unable to get comments");
+}
+
+
+async function makeComment(comment:string,post:IPost,user:IUser) {
+    console.log(comment,post,user);
+    const axiosResponse : any = await instance.post(url+'/likes/makeLike', {
+        comment: comment,
+        userId: user.userId,
+        post: {postId:post.postId}
+    })
+    const axiosData : any = axiosResponse.data;
+    console.log("comment"+axiosData.commentId);
+    if(axiosData){
+        return axiosData;
+    }
+    throw new Error("Unable to get make comment");
 }
 
 export const url:string = `http://localhost:9082`;

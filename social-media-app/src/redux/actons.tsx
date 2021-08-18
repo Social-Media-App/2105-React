@@ -55,6 +55,19 @@ export const registerAccount = (User: IUser) => async (
     }
 };
 
+export const makeComment = (comment:string, post: IPost, user:IUser) => async (
+    dispatch: AppDispatch
+) => {
+    try {
+        const res = await service.makeComment(comment,post,user);
+        // dispatch({
+        //     type: constants.POSTS_MAKE_COMMENT,
+        // });
+    } catch (e) {
+        console.log(e);
+    }
+};
+
 export const getAllPosts = () => async (dispatch: AppDispatch) => {
     try {
         console.log("registerAccount action");
@@ -68,23 +81,6 @@ export const getAllPosts = () => async (dispatch: AppDispatch) => {
         console.log(e);
         dispatch({
             type: constants.POSTS_GETALL_FAILURE,
-        });
-    }
-};
-
-export const getAllUsers = (jwt: string) => async (dispatch: AppDispatch) => {
-    try {
-        console.log("get all users");
-        dispatch({ type: constants.USERS_GETALL_REQUEST });
-        const res = await service.getAllUsers(jwt);
-        dispatch({
-            type: constants.USERS_GETALL_SUCCESS,
-            payload: res,
-        });
-    } catch (e) {
-        console.log(e);
-        dispatch({
-            type: constants.USERS_GETALL_FAILURE,
         });
     }
 };
@@ -157,7 +153,25 @@ export const getComments = (post: IPost) => async (dispatch: AppDispatch) => {
             payload: res,
             post: post
         });
+        return res;
     } catch (e) {
         console.log(e);
+    }
+};
+
+export const getAllUsers = (jwt: string) => async (dispatch: AppDispatch) => {
+    try {
+        console.log("get all users");
+        dispatch({ type: constants.USERS_GETALL_REQUEST });
+        const res = await service.getAllUsers(jwt);
+        dispatch({
+            type: constants.USERS_GETALL_SUCCESS,
+            payload: res,
+        });
+    } catch (e) {
+        console.log(e);
+        dispatch({
+            type: constants.USERS_GETALL_FAILURE,
+        });
     }
 };
