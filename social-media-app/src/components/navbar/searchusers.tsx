@@ -1,6 +1,5 @@
 import React, { useState, ChangeEvent, SyntheticEvent } from "react";
 import { IUser } from "../../redux/stateStructures";
-import Select from "react-select";
 import { useSelector } from "react-redux";
 import * as ReactRedux from "react-redux";
 // import * as Redux from 'redux';
