@@ -147,7 +147,7 @@ export default function CreatePostIcon() {
                             component="span"
                         >
                             <p>Add An Image</p>
-                            <PhotoCamera style={{ padding: "10px" }} />
+                            <PhotoCamera style={{ margin: "10px" }} />
                         </IconButton>
                     </label>
                     <Input

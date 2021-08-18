@@ -1,7 +1,7 @@
-import { constants } from './actionTypes';
+import { constants } from "./actionTypes";
 import { service } from "./service";
 import { AppDispatch } from "./store";
-import { IUser, IPost, IPostDetails, ILike } from "./stateStructures"
+import { IUser, IPost, IPostDetails, ILike } from "./stateStructures";
 
 //Actions are what you dispatch from your components, this file contains all the actions you can dispatched
 
@@ -30,8 +30,9 @@ export const userLogin = (username: string, password: string) => async (
     }
 };
 
-
-export const registerAccount = (User: IUser) => async (dispatch: AppDispatch) => {
+export const registerAccount = (User: IUser) => async (
+    dispatch: AppDispatch
+) => {
     try {
         console.log("registerAccount action");
         dispatch({ type: constants.REGISTER_REQUEST });
@@ -94,8 +95,8 @@ export const createPost = (post: IPost) => async (dispatch: AppDispatch) => {
         const postDetails: IPostDetails = {
             post: res,
             comments: [],
-            likeNumber: []
-        }
+            likeNumber: [],
+        };
         dispatch({
             type: constants.POSTS_CREATE_POST,
             payload: postDetails,
@@ -105,23 +106,32 @@ export const createPost = (post: IPost) => async (dispatch: AppDispatch) => {
     }
 };
 
-export const likePost = (like:ILike) => async (dispatch: AppDispatch) => {
+export const likePost = (like: ILike, post: IPost) => async (
+    dispatch: AppDispatch
+) => {
+    console.log("res");
     try {
         const res = await service.likePost(like);
+
         dispatch({
             type: constants.POSTS_LIKE,
             payload: res,
+            post: post,
         });
+        console.log("res2" + res);
     } catch (e) {
         dispatch({
             type: constants.POSTS_UNLIKE,
+            post: post,
+            userId: like.userId,
         });
         console.log(e);
     }
 };
 
-
-export const updateUser = (user:IUser, jwt:string) => async (dispatch: AppDispatch) => {
+export const updateUser = (user: IUser, jwt: string) => async (
+    dispatch: AppDispatch
+) => {
     try {
         const res = await service.updateUser(user, jwt);
         dispatch({
@@ -131,4 +141,10 @@ export const updateUser = (user:IUser, jwt:string) => async (dispatch: AppDispat
     } catch (e) {
         console.log(e);
     }
+};
+
+export const logout = () => async (dispatch: AppDispatch) => {
+    dispatch({
+        type: constants.LOGOUT,
+    });
 };

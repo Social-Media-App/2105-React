@@ -51,12 +51,13 @@ const useStyles = makeStyles(() => ({
 //Pass a post in as a prop and a boolean value if the current user liked the post
 function InstaPost(props: IProps) {
     const dispatch = useDispatch();
-    const post = props.post;
     const styles = useStyles();
-    const [liked, toggleLike] = useState(props.liked);
     const user = useSelector((state: RootState) => state.auth.user);
-
+    const post = props.post;
+    
+    const [liked, toggleLike] = useState(props.liked);
     const [url, setURL] = useState(post.picture);
+    const [profileUrl, setProfileUrl] = useState(post.picture);
 
     const handleLikeClick = (event: React.MouseEvent) => {
         event.preventDefault();
@@ -68,17 +69,37 @@ function InstaPost(props: IProps) {
             userId: user.userId!,
             post: likePosted
         }
-        dispatch(likePost(like));
+        dispatch(likePost(like,post));
         toggleLike(!liked);
     };
 
     useEffect(() => {
-            getPostPicture(post.picture!);
-    });
+            if(post.picture){
+                getPostPicture(post.picture!);
+            }
+            if(user.profilePicture){
+                getUserProfileImg(user.profilePicture!);
+            }
+    },[]);
 
-    const getPostPicture = async (profileImg: string) => {
-        if(profileImg){
-            Storage.get(profileImg)
+    const getUserProfileImg = async (ProfileImg: string) => {
+        if(ProfileImg){
+            Storage.get(ProfileImg)
+            .then((url: any) => {
+                var myRequest = new Request(url);
+                fetch(myRequest).then(function(response) {
+                    if (response.status === 200) {
+                        setProfileUrl(url);
+                    }
+                });
+            })
+            .catch((err) => console.log(err));
+        }
+    };
+
+    const getPostPicture = async (postImg: string) => {
+        if(postImg){
+            Storage.get(postImg)
             .then((url: any) => {
                 var myRequest = new Request(url);
                 fetch(myRequest).then(function(response) {
@@ -98,9 +119,10 @@ function InstaPost(props: IProps) {
                         avatar={
                             <Avatar
                             aria-label="recipe"
+                            src={profileUrl}
                             className={styles.avatar}
                             >
-                                {post.postOwner.firstName.charAt(0)}
+                                {/* {post.postOwner.firstName.charAt(0)} */}
                             </Avatar>
                         }
                         title={

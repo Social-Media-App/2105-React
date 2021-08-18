@@ -16,6 +16,10 @@ import { useSelector } from "react-redux";
 import {RootState} from '../../redux/store';
 import SearchUsersList from './searchusers';
 import { FullscreenExitTwoTone } from "@material-ui/icons";
+import { useState, useEffect } from 'react' 
+import { Storage } from "aws-amplify";
+import { useDispatch } from 'react-redux'
+import { logout } from '../../redux/actons'
 
 const useStyles = makeStyles((theme) => ({
   bkcolor: {
@@ -89,6 +93,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [profileEl, setProfileEl] = React.useState(null);
   const [logoutEl, setLogoutEl] = React.useState(null);
@@ -98,14 +103,37 @@ export default function PrimarySearchAppBar() {
   const isMenuOpen = Boolean(profileEl);
   const users = useSelector((state:RootState) => state.allUsers.users);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const user = useSelector((state: RootState) => state.auth.user);
 
   const history = useHistory();
 
+  const [profileUrl, setProfileUrl] = useState(user.profilePicture);
+
+  useEffect(() => {
+          getUserProfileImg(profileUrl!);
+  });
+
+  const getUserProfileImg = async (ProfileImg: string) => {
+      if(ProfileImg){
+          Storage.get(ProfileImg)
+          .then((url: any) => {
+              var myRequest = new Request(url);
+              fetch(myRequest).then(function(response) {
+                  if (response.status === 200) {
+                      setProfileUrl(url);
+                  }
+              });
+          })
+          .catch((err) => console.log(err));
+      }
+  };
+
   const handleProfileMenuOpen = (event: any) => {
     setProfileEl(event.currentTarget);
+    // history.push("/profile");
   };
   const handleAboutMenuOpen = (event: any) => {
-    setAboutEl(true);
+    // setAboutEl(true);
   };
   const handleLogoutMenuOpen = (event: any) => {
     setLogoutEl(event.currentTarget);
@@ -122,6 +150,10 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event: any) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const handleLogout = () => {
+    dispatch(logout())
+  }
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -191,10 +223,8 @@ export default function PrimarySearchAppBar() {
             >
               <Button 
               style={{fontSize:'20px', fontWeight:'bold', color:'white'}}
-              onClick={()=>handleLink("/path")}
+              onClick={()=>handleLink("/home")}
               >SNACKBAR</Button>
-              
-              {/* <img src= style={{width:'20px', height:'20px', borderRadius:'10px'}} alt="" /> */}
             </div>
 
             <div className={classes.search} >
@@ -229,7 +259,7 @@ export default function PrimarySearchAppBar() {
               >About</Button>
               <Button 
               style={{color:'white'}}
-              onClick={()=>handleLink("/path")}
+              onClick={handleLogout}
               >Logout</Button>
               </div>
             </div>
@@ -246,9 +276,7 @@ export default function PrimarySearchAppBar() {
               >
                 <img
                   className="topLogoImg"
-                  src={
-                    "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png"
-                  }
+                  src={profileUrl}
                   width="60px"
                   height="60px"
                   alt=""

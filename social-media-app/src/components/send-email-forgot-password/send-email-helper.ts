@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { userServiceUrl } from '../../redux/service'
+import { url } from '../../redux/service'
 
 // const instance = axios.create({
 //     withCredentials:true
@@ -7,7 +7,7 @@ import { userServiceUrl } from '../../redux/service'
 
 export const sendEmail = async (username : string) => {
     
-    const axiosResponse : any =  await axios.post(`${userServiceUrl}/login-service/send-email`,{
+    const axiosResponse : any =  await axios.post(`${url}/login-service/send-email`,{
         'username':`${username}`
     });
 
