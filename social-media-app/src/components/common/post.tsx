@@ -15,7 +15,7 @@ import {
 import { grey } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import axios from "axios";
 import { Storage } from "aws-amplify";
 import { IPost } from "../../redux/stateStructures";
@@ -24,7 +24,10 @@ import { ILike, ILikePost } from "../../redux/stateStructures";
 import { RootState } from "../../redux/store";
 import { likePost } from "../../redux/actons";
 import clsx from "clsx";
-import Comments from '../post/comments'
+import Comments from "../post/comments";
+import ChatIcon from '@material-ui/icons/Chat';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 
 interface IProps {
     post: IPost;
@@ -69,6 +72,8 @@ function InstaPost(props: IProps) {
     const post = props.post;
 
     const [liked, toggleLike] = useState(props.liked);
+    const [bookmarked, toggleBookmark] = useState(true);
+
     const [url, setURL] = useState(post.picture);
     const [profileUrl, setProfileUrl] = useState(post.picture);
     const [expanded, setExpanded] = React.useState(false);
@@ -151,41 +156,69 @@ function InstaPost(props: IProps) {
                     </Typography>
                 }
                 action={
-                    liked ? (
+                    <div>
                         <IconButton
+                            // onClick={handleLikeClick}
+                            aria-label="add to favorites"
+                            style={{paddingRight: 0, paddingLeft: 0, paddingBottom:10}}
+                        >
+                            <ChatIcon style={{fill: '#666666'}} />
+                        </IconButton>
+                        {bookmarked ? (
+                            <IconButton
+                                // onClick={handleLikeClick}
+                                aria-label="add to favorites"
+                                style={{paddingRight: 0, paddingLeft: 0}}
+                            >
+                                <BookmarkIcon />
+                            </IconButton>
+                        ) : (
+                            <IconButton
+                            // onClick={handleLikeClick}
+                            aria-label="add to favorites"
+                            style={{paddingRight: 0, paddingLeft: 0}}
+                            >
+                                <BookmarkBorderIcon />
+                            </IconButton>
+                        )}
+                        {liked ? (
+                            <IconButton
+                                onClick={handleLikeClick}
+                                aria-label="add to favorites"
+                                style={{paddingLeft: 0}}
+                            >
+                                <FavoriteIcon style={{fill: "#dc004e"}}/>
+                            </IconButton>
+                        ) : (
+                            <IconButton
                             onClick={handleLikeClick}
                             aria-label="add to favorites"
-                        >
-                            <FavoriteIcon style={{fill: "#dc004e"}}/>
-                        </IconButton>
-                    ) : (
-                        <IconButton
-                        onClick={handleLikeClick}
-                        aria-label="add to favorites"
-                        >
-                            <FavoriteBorderIcon />
-                        </IconButton>
-                    )
+                            style={{paddingLeft: 0}}
+                            >
+                                <FavoriteBorderIcon />
+                            </IconButton>
+                        )}
+                    </div>
                 }
                 className={styles.top}
-                />
+            />
             <CardActionArea onClick={handleExpandClick}>
                 {post.picture && (
                     <CardMedia className={styles.media} image={url} />
-                    )}
+                )}
                 <CardContent>
                     <Typography
                         variant="body2"
                         color="textSecondary"
                         component="p"
-                        >
+                    >
                         {post.content}
                     </Typography>
                 </CardContent>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <Comments post={post} />
                 </Collapse>
-                </CardActionArea>
+            </CardActionArea>
         </Card>
     );
 }
