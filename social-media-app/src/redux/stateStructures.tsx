@@ -1,23 +1,35 @@
 // SUPPORTING STATE MODELS
 export interface IUser{
-    userID: number;
+    userId?: number;
     username: string;
     password: string;
-    firstname: string;
-    middlename: string;
-    lastname: string;
-    userEmail:string;
-    profilePhoto: string;
-    backgroundPhoto: string;
+    firstName: string;
+    middleName?: string;
+    lastName: string;
+    email:string;
+    profilePicture?: string;
+    backgroundPicture?: string;
+}
+
+export interface PostDetails{
+    post: IPost,
+    comments: IComment,
+    likeNumber: ILike
+}
+
+export interface IPostDetails{
+
 }
 
 export interface IPost{
-    postId: number;
-    postWrittenContent: string;
-    postImage: string;
+    postId?: number;
+    content?: string;
+    picture?: string;
+    date?: string;
+    groupId?: number;
+    autoDeleteDate?: string;
+    userId: number;
     postOwner: IUser;
-    datePosted: Date;
-    groupId: number;
 }
 
 export interface IComment{
@@ -25,6 +37,11 @@ export interface IComment{
     commentedPost: IPost;
     commentContent: string;
     commentAuthor: IUser;
+}
+
+export interface ILike{
+    likesId: number;
+    userId: number;
 }
 
 export interface IReply{

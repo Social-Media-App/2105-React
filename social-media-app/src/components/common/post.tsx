@@ -56,7 +56,7 @@ function InstaPost(props: IProps) {
     const [liked, toggleLike] = useState(props.liked);
     const [bookmarked, toggleBookmark] = useState(props.bookmarked);
 
-    const [url, setURL] = useState(post.postImage);
+    const [url, setURL] = useState(post.picture);
 
     const handleLikeClick = (event: React.MouseEvent) => {
         event.preventDefault();
@@ -81,59 +81,56 @@ function InstaPost(props: IProps) {
     };
 
     useEffect(() => {
-        getPostPicture(post.postImage);
-    }, [post.postImage]);
+            getPostPicture(post.picture!);
+    });
 
     const getPostPicture = async (profileImg: string) => {
-        console.log("getting img" + profileImg);
-        Storage.get(profileImg)
+        if(profileImg){
+            Storage.get(profileImg)
             .then((url: any) => {
                 var myRequest = new Request(url);
-                console.log(myRequest);
                 fetch(myRequest).then(function(response) {
-                    console.log(response);
-
                     if (response.status === 200) {
                         setURL(url);
                     }
                 });
             })
             .catch((err) => console.log(err));
+        }
     };
 
     return (
         <>
             <Card className={styles.root} variant="outlined">
-                <CardActionArea>
                     <CardHeader
                         avatar={
                             <Avatar
-                                aria-label="recipe"
-                                className={styles.avatar}
+                            aria-label="recipe"
+                            className={styles.avatar}
                             >
-                                {post.postOwner.firstname.charAt(0)}
+                                {post.postOwner.firstName.charAt(0)}
                             </Avatar>
                         }
                         title={
                             <Typography variant="h6" className={styles.header}>
-                                {post.postOwner.firstname +
+                                {post.postOwner.firstName +
                                     " " +
-                                    post.postOwner.lastname}
+                                    post.postOwner.lastName}
                             </Typography>
                         }
                         action={
                             liked ? (
                                 <IconButton
-                                    onClick={handleLikeClick}
-                                    aria-label="add to favorites"
+                                onClick={handleLikeClick}
+                                aria-label="add to favorites"
                                 >
                                     {/* <BookmarkIcon/> */}
                                     <FavoriteIcon />
                                 </IconButton>
                             ) : (
                                 <IconButton
-                                    onClick={handleLikeClick}
-                                    aria-label="add to favorites"
+                                onClick={handleLikeClick}
+                                aria-label="add to favorites"
                                 >
                                     {/* <BookmarkBorderIcon/> */}
                                     <FavoriteBorderIcon />
@@ -141,8 +138,9 @@ function InstaPost(props: IProps) {
                             ) 
                         }
                         className={styles.top}
-                    />
-                    {post.postImage && (
+                        />
+                        <CardActionArea>
+                    {post.picture && (
                         <CardMedia className={styles.media} image={url} />
                     )}
                     <CardContent>
@@ -151,7 +149,7 @@ function InstaPost(props: IProps) {
                             color="textSecondary"
                             component="p"
                         >
-                            {post.postWrittenContent}
+                            {post.content}
                         </Typography>
                         <CardActions>
                         {

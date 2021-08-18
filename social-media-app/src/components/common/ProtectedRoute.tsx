@@ -5,9 +5,7 @@ export type ProtectedRouteProps = {
     isAuth: boolean;
 } & RouteProps;
 
-const ProtectedRoute = ({isAuth, ...routeProps}: ProtectedRouteProps) => {
-    console.log("in route");
-    
+const ProtectedRoute = ({isAuth, ...routeProps}: ProtectedRouteProps) => {   
     if(isAuth) {
       return <Route {...routeProps} />;
     } else {
