@@ -1,7 +1,7 @@
 import { Grid } from "@material-ui/core";
 import Post from "../common/post";
 import CreatePostIcon from "../HomePage/createpostIcon";
-import { IPost, IUser } from "../../redux/stateStructures";
+import { IPost, IUser, IPostDetails } from "../../redux/stateStructures";
 import Masonry from "react-masonry-css";
 import PostContainer from "../common/PostContainer";
 import Snackbar from "../common/snackbar";
@@ -89,40 +89,45 @@ function ProfilePage() {
     const [images, setImages] = useState([]);
     const location = useLocation();
     const [postHidden, setPostHidden] = useState(true);
-    const [user, setUser] = useState(location.state);
+    const [user, setUser] = useState(location.state as IUser);
     const classes = useStyles();
     const [img1, setImg1] = useState(myAny);
-
-
+    const [postListLiked, setPostListLiked] = useState(postList);
+    
+    
+    
     useEffect(() => {
         getImages(viewinguser.profilePicture!);
         getImage();
-        console.log("My poor s3 bucket");
-        
-      }, []);
+        console.log(postList);
+    }, []);
 
-      async function getImages(imgToSendd:string) {
-      console.log("inside getImages function ");
-  
+    useEffect(() => {
+        setPostListLiked(postList.filter((post)=> post.likeNumber.some(like => like.userId===viewinguser.userId)))  
+    }, [postList]);
+    
+    async function getImages(imgToSendd:string) {
+        console.log("inside getImages function ");
+        
         const imageKeyss:any = await Storage.list(imgToSendd);
         const imageKeyss2:any = await Promise.all(
-          imageKeyss.map(async (k:any) => {
-            const signedUrl = await Storage.get(k.key);
-            return signedUrl;
-          })
-        );
-        console.log("profile  ",imageKeyss2);
-        setImages(imageKeyss2); 
-       return(imageKeyss2);
-    }  
-
-    async function getImage() {
-       const image = await Storage.get(viewinguser.backgroundPicture!)
-       setImg1(image);
-    }
-
-    return (
-        <>
+            imageKeyss.map(async (k:any) => {
+                const signedUrl = await Storage.get(k.key);
+                return signedUrl;
+            })
+            );
+            console.log("profile  ",imageKeyss2);
+            setImages(imageKeyss2); 
+            return(imageKeyss2);
+        }  
+        
+        async function getImage() {
+            const image = await Storage.get(viewinguser.backgroundPicture!)
+            setImg1(image);
+        }
+        
+        return (
+            <>
             <PrimarySearchAppBar />
             <Snackbar />
 
@@ -134,9 +139,9 @@ function ProfilePage() {
                 <Paper className={classes.paper2} variant="outlined">      
 
                         {
-                        images.map(image =>(
-                        <img  className={classes.profilePicture}  src={image} key={image} alt="" /> ))
-                    }
+                            images.map(image =>(
+                                <img  className={classes.profilePicture}  src={image} key={image} alt="" /> ))
+                            }
                 <Typography
                     align="left"
                     noWrap={true}
@@ -193,7 +198,7 @@ function ProfilePage() {
                             >
                         Posts I Liked
                         </Typography>
-                        <PostContainer postListDetails={postList} />
+                        <PostContainer postListDetails={postListLiked} />
                     </Grid>
                     </Grid>
                     }

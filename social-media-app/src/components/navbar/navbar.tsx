@@ -16,6 +16,8 @@ import { useState, useEffect } from 'react'
 import { useSelector } from "react-redux";
 import { RootState } from '../../redux/store'
 import { Storage } from "aws-amplify";
+import { useDispatch } from 'react-redux'
+import { logout } from '../../redux/actons'
 
 const useStyles = makeStyles((theme) => ({
   bkcolor: {
@@ -88,6 +90,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [profileEl, setProfileEl] = React.useState(null);
   const [logoutEl, setLogoutEl] = React.useState(null);
@@ -142,6 +145,10 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event: any) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const handleLogout = () => {
+    dispatch(logout())
+  }
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -242,7 +249,7 @@ export default function PrimarySearchAppBar() {
               >About</Button>
               <Button 
               style={{color:'white'}}
-              onClick={()=>handleLink("/path")}
+              onClick={handleLogout}
               >Logout</Button>
               </div>
             </div>

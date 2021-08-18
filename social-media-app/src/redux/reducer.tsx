@@ -77,6 +77,10 @@ export const authReducer = (
                 ...state,
                 user: action.payload,
             };
+        case constants.LOGOUT:
+            return {
+                ...loginInitialState,
+            };
         default:
             return state;
     }
@@ -93,6 +97,10 @@ export const usersReducer = (
         //         ...state,
         //         usersLoading: true,
         //     };
+        case constants.LOGOUT:
+            return {
+                ...userInitialState,
+            };
         default:
             return state;
     }
@@ -128,7 +136,32 @@ export const postReducer = (
         case constants.POSTS_LIKE:
             return {
                 ...state,
-                // user: { ...state.user, profileImg: action.payload },
+                posts: state.posts.map((post) =>
+                    post.post.postId === action.post.postId
+                        ? {
+                              ...post,
+                              likeNumber: [...post.likeNumber, action.payload],
+                          }
+                        : post
+                ),
+            };
+        case constants.POSTS_UNLIKE:
+            return {
+                ...state,
+                posts: state.posts.map((post) =>
+                    post.post.postId === action.post.postId
+                        ? {
+                              ...post,
+                              likeNumber: post.likeNumber.filter(
+                                  (like) => like.userId !== action.userId
+                              ),
+                          }
+                        : post
+                ),
+            };
+        case constants.LOGOUT:
+            return {
+                ...postInitialState,
             };
         default:
             return state;

@@ -69,7 +69,7 @@ function InstaPost(props: IProps) {
             userId: user.userId!,
             post: likePosted
         }
-        dispatch(likePost(like));
+        dispatch(likePost(like,post));
         toggleLike(!liked);
     };
 
