@@ -4,6 +4,8 @@ import Masonry from "react-masonry-css";
 import "./masonry.css"
 import { useSelector} from 'react-redux'
 import { RootState } from '../../redux/store' 
+import { TransitionGroup } from 'react-transition-group';
+import Fade from '@material-ui/core/Fade';
 
 const breakpointColumnsObj5 = {
     default: 4,
@@ -38,12 +40,13 @@ function HomePage(props:{postListDetails:IPostDetails[]}) {
                 className="my-masonry-grid"
                 columnClassName="my-masonry-grid_column"
             >
-                {props.postListDetails.map((postDetail) => (
+
+                {props.postListDetails.slice(0).reverse().map((postDetail) => (
                     <div key={postDetail.post.postId}>
                         <Post
                             post={postDetail.post}
                             liked={findIfLiked(postDetail)}
-                        />
+                            />
                     </div>
                 ))}
             </Masonry>

@@ -43,8 +43,8 @@ function App () {
           <Route path='/reset-pass'>
             <ResetPass />
           </Route>
-          {/* <ProtectedRoute path='/home' isAuth={isLoggedIn} component={HomePage} />  */}
-          <ProtectedRoute path='/home' isAuth={isLoggedIn} component={ProfilePage} />
+          <ProtectedRoute path='/home' isAuth={isLoggedIn} component={HomePage} /> 
+          <ProtectedRoute path='/profile' isAuth={isLoggedIn} component={ProfilePage} />
         </Switch>
       </Router>
     </>

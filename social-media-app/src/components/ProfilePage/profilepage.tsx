@@ -16,21 +16,7 @@ import { Storage } from "aws-amplify";
 import Button from "@material-ui/core/Button";
 import { Divider } from '@material-ui/core';
 import UpdateInfo from "./UpdateInfo"
-
-
-const breakpointColumnsObj5 = {
-    default: 5,
-    1500: 4,
-    1200: 3,
-    900: 2,
-    600: 1,
-};
-
-const breakpointColumnsObj = {
-    default: 3,
-    900: 2,
-    600: 1,
-};
+import PrimarySearchAppBar from '../navbar/navbar'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -111,6 +97,8 @@ function ProfilePage() {
     useEffect(() => {
         getImages(viewinguser.profilePicture!);
         getImage();
+        console.log("My poor s3 bucket");
+        
       }, []);
 
       async function getImages(imgToSendd:string) {
@@ -133,17 +121,9 @@ function ProfilePage() {
        setImg1(image);
     }
 
-
-
-    
-    // useEffect(() => {
-    //     dispatch(getAllPosts());
-    // }, [dispatch]);
-
-
-
     return (
         <>
+            <PrimarySearchAppBar />
             <Snackbar />
 
             <Grid container justifyContent="center" alignItems="flex-start">

@@ -12,6 +12,10 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import "./navbar.css";
 import { useHistory } from "react-router-dom";
 import Button from '@material-ui/core/Button';
+import { useState, useEffect } from 'react' 
+import { useSelector } from "react-redux";
+import { RootState } from '../../redux/store'
+import { Storage } from "aws-amplify";
 
 const useStyles = makeStyles((theme) => ({
   bkcolor: {
@@ -91,14 +95,37 @@ export default function PrimarySearchAppBar() {
   const [aboutEl, setAboutEl] = React.useState(false);
   const isMenuOpen = Boolean(profileEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const user = useSelector((state: RootState) => state.auth.user);
 
   const history = useHistory();
 
+  const [profileUrl, setProfileUrl] = useState(user.profilePicture);
+
+  useEffect(() => {
+          getUserProfileImg(profileUrl!);
+  });
+
+  const getUserProfileImg = async (ProfileImg: string) => {
+      if(ProfileImg){
+          Storage.get(ProfileImg)
+          .then((url: any) => {
+              var myRequest = new Request(url);
+              fetch(myRequest).then(function(response) {
+                  if (response.status === 200) {
+                      setProfileUrl(url);
+                  }
+              });
+          })
+          .catch((err) => console.log(err));
+      }
+  };
+
   const handleProfileMenuOpen = (event: any) => {
     setProfileEl(event.currentTarget);
+    // history.push("/profile");
   };
   const handleAboutMenuOpen = (event: any) => {
-    setAboutEl(true);
+    // setAboutEl(true);
   };
   const handleLogoutMenuOpen = (event: any) => {
     setLogoutEl(event.currentTarget);
@@ -181,10 +208,8 @@ export default function PrimarySearchAppBar() {
             >
               <Button 
               style={{fontSize:'20px', fontWeight:'bold', color:'white'}}
-              onClick={()=>handleLink("/path")}
+              onClick={()=>handleLink("/home")}
               >SNACKBAR</Button>
-              
-              {/* <img src= style={{width:'20px', height:'20px', borderRadius:'10px'}} alt="" /> */}
             </div>
 
             <div className={classes.search} >
@@ -209,7 +234,7 @@ export default function PrimarySearchAppBar() {
               >HomePage</Button>
               <Button 
               style={{color:'white'}}
-              onClick={()=>handleLink("/path")}
+              onClick={()=>handleLink("/profile")}
               >Profile</Button>
               <Button 
               style={{color:'white'}}
@@ -234,9 +259,7 @@ export default function PrimarySearchAppBar() {
               >
                 <img
                   className="topLogoImg"
-                  src={
-                    "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png"
-                  }
+                  src={profileUrl}
                   width="60px"
                   height="60px"
                   alt=""

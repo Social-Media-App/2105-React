@@ -1,6 +1,6 @@
 import { constants } from "./actionTypes";
 import { AnyAction } from "redux";
-import { IPost, IUser, IPostDetails } from './stateStructures'
+import { IPost, IUser, IPostDetails } from "./stateStructures";
 
 //Initial state for each reducer
 const loginInitialState = {
@@ -69,13 +69,13 @@ export const authReducer = (
             };
         case constants.JWT_REQUEST:
             return {
-                    ...state,
-                    jwt: action.payload,
+                ...state,
+                jwt: action.payload,
             };
         case constants.UPDATE_PROFILE_REQUEST:
             return {
-                    ...state,
-                    user: action.payload,
+                ...state,
+                user: action.payload,
             };
         default:
             return state;
@@ -113,17 +113,22 @@ export const postReducer = (
             return {
                 ...state,
                 postsLoading: false,
-                posts: action.payload
+                posts: action.payload,
             };
         case constants.POSTS_GETALL_FAILURE:
             return {
                 ...state,
                 postsLoading: false,
-            };        
-            case constants.POSTS_CREATE_POST:
+            };
+        case constants.POSTS_CREATE_POST:
             return {
                 ...state,
                 posts: [...state.posts, action.payload],
+            };
+        case constants.POSTS_LIKE:
+            return {
+                ...state,
+                // user: { ...state.user, profileImg: action.payload },
             };
         default:
             return state;
