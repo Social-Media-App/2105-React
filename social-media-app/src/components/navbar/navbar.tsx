@@ -10,9 +10,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import "./navbar.css";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Button from '@material-ui/core/Button';
-// import { BrowserRouter as Router } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   bkcolor: {

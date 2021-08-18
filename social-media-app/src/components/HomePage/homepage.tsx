@@ -9,32 +9,7 @@ import { useSelector, useDispatch } from "react-redux"
 import {RootState} from '../../redux/store';
 import { useEffect } from 'react'
 import { getAllPosts } from '../../redux/actons'
-
-const user: IUser = {
-    userId: 1,
-    username: "string",
-    password: "string",
-    firstName: "string",
-    middleName: "string",
-    lastName: "string",
-    email: "string",
-    profilePicture: "string",
-    backgroundPicture: "string",
-};
-
-const breakpointColumnsObj5 = {
-    default: 5,
-    1500: 4,
-    1200: 3,
-    900: 2,
-    600: 1,
-};
-
-const breakpointColumnsObj = {
-    default: 3,
-    900: 2,
-    600: 1,
-};
+import PrimarySearchAppBar from '../navbar/navbar'
 
 function HomePage() {
     const dispatch = useDispatch();
@@ -47,6 +22,7 @@ function HomePage() {
 
     return (
         <>
+            <PrimarySearchAppBar />
             <Snackbar />
             <Grid container justifyContent="center" alignItems="flex-start">
                 <Grid item xs={8}>
