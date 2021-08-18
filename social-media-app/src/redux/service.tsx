@@ -12,7 +12,8 @@ export const service = {
     getAllPosts,
     // getAllUsers,
     createPost,
-    // update,
+    updateUser,
+    getJwt
 };
 
 //Allowing use to send our credentials / cookies
@@ -33,6 +34,16 @@ const instance = axios.create({
     const axiosData : IUser = axiosResponse.data;
     console.log(axiosData);
     return axiosData;
+}
+
+async function getJwt(username:string, password:string) {
+    const axiosResponse : any = await instance.post(url+'/login-service/authenticate', {
+        "username": username,
+        "password": password
+    })
+    const axiosData : any = axiosResponse.data;
+    console.log(axiosData.jwtToken);
+    return axiosData.jwtToken;
 }
 
 async function register(User: ISignUpUser) {
@@ -69,12 +80,39 @@ async function createPost(post:ICreatePost) {
     console.log("creatingpostiwht"+post.userId);
     console.log("creatingpostiwht"+post.postOwner);
 
-    const axiosResponse : any = await instance.post(url+'/post//createpost', {
+    const axiosResponse : any = await instance.post(url+'/post/createpost', {
         content: post.content,
         picture: post.postImage,
         userId: post.userId,
         postOwner: post.postOwner
     })
+
+    const axiosData : IPost = axiosResponse.data;
+    console.log(axiosData);
+    return axiosData;
+}
+
+async function updateUser(user:IUser, varToken:string) {
+/*     console.log("creatingpostiwht"+post.content);
+    console.log("creatingpostiwht"+post.postImage);
+    console.log("creatingpostiwht"+post.userId);
+    console.log("creatingpostiwht"+post.postOwner); */
+
+    const axiosResponse : any = await instance.post(url+'/user-service/update', {
+        userId: user.userId,
+        username: user.username,
+        firstName: user.firstName,
+        middleName: user.middleName,
+        lastName: user.lastName,
+        email: user.email,
+        profilePicture: user.profilePicture,
+        backgroundPicture: user.backgroundPicture,
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + varToken
+      }})
 
     const axiosData : IPost = axiosResponse.data;
     console.log(axiosData);

@@ -8,6 +8,7 @@ const loginInitialState = {
     registered: false,
     isLoggedIn: false,
     loggingIn: false,
+    jwt: " " as any,
     user: {} as IUser,
 };
 
@@ -65,6 +66,16 @@ export const authReducer = (
             return {
                 ...state,
                 isRegistering: false,
+            };
+        case constants.JWT_REQUEST:
+            return {
+                    ...state,
+                    jwt: action.payload,
+            };
+        case constants.UPDATE_PROFILE_REQUEST:
+            return {
+                    ...state,
+                    user: action.payload,
             };
         default:
             return state;

@@ -1,7 +1,7 @@
 import { constants } from './actionTypes';
 import { service } from "./service";
 import { AppDispatch } from "./store";
-import { ISignUpUser, ICreatePost } from "../redux/stateStructures"
+import { ISignUpUser, ICreatePost, IUser } from "./stateStructures"
 
 //Actions are what you dispatch from your components, this file contains all the actions you can dispatched
 
@@ -15,6 +15,11 @@ export const userLogin = (username: string, password: string) => async (
         dispatch({
             type: constants.LOGIN_SUCCESS,
             payload: res, //param/action.payload to the reducer
+        });
+        const jres = await service.getJwt(username, password);
+        dispatch({
+            type: constants.JWT_REQUEST,
+            payload: jres,
         });
     } catch (e) {
         console.log(e);
@@ -35,6 +40,11 @@ export const registerAccount = (User: ISignUpUser) => async (dispatch: AppDispat
         dispatch({
             type: constants.LOGIN_SUCCESS,
             payload: res,
+        });
+        const jres = await service.getJwt(User.username, User.password);
+        dispatch({
+            type: constants.JWT_REQUEST,
+            payload: jres,
         });
     } catch (e) {
         console.log(e);
@@ -73,3 +83,15 @@ export const createPost = (post:ICreatePost) => async (dispatch: AppDispatch) =>
     }
 };
 
+
+export const updateUser = (user:IUser, jwt:string) => async (dispatch: AppDispatch) => {
+    try {
+        const res = await service.updateUser(user, jwt);
+        dispatch({
+            type: constants.UPDATE_PROFILE_REQUEST,
+            payload: res,
+        });
+    } catch (e) {
+        console.log(e);
+    }
+};
