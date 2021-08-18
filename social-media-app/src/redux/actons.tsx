@@ -1,7 +1,7 @@
-import { constants } from './actionTypes';
+import { constants } from "./actionTypes";
 import { service } from "./service";
 import { AppDispatch } from "./store";
-import { ISignUpUser } from "../redux/stateStructures"
+import { IUser, IPost, IPostDetails, ILike } from "./stateStructures";
 
 //Actions are what you dispatch from your components, this file contains all the actions you can dispatched
 
@@ -16,6 +16,11 @@ export const userLogin = (username: string, password: string) => async (
             type: constants.LOGIN_SUCCESS,
             payload: res, //param/action.payload to the reducer
         });
+        const jres = await service.getJwt(username, password);
+        dispatch({
+            type: constants.JWT_REQUEST,
+            payload: jres,
+        });
     } catch (e) {
         console.log(e);
         dispatch({
@@ -25,8 +30,9 @@ export const userLogin = (username: string, password: string) => async (
     }
 };
 
-
-export const registerAccount = (User: ISignUpUser) => async (dispatch: AppDispatch) => {
+export const registerAccount = (User: IUser) => async (
+    dispatch: AppDispatch
+) => {
     try {
         console.log("registerAccount action");
         dispatch({ type: constants.REGISTER_REQUEST });
@@ -36,6 +42,11 @@ export const registerAccount = (User: ISignUpUser) => async (dispatch: AppDispat
             type: constants.LOGIN_SUCCESS,
             payload: res,
         });
+        const jres = await service.getJwt(User.username, User.password);
+        dispatch({
+            type: constants.JWT_REQUEST,
+            payload: jres,
+        });
     } catch (e) {
         console.log(e);
         dispatch({
@@ -44,3 +55,109 @@ export const registerAccount = (User: ISignUpUser) => async (dispatch: AppDispat
     }
 };
 
+export const getAllPosts = () => async (dispatch: AppDispatch) => {
+    try {
+        console.log("registerAccount action");
+        dispatch({ type: constants.POSTS_GETALL_REQUEST });
+        const res = await service.getAllPosts();
+        dispatch({
+            type: constants.POSTS_GETALL_SUCCESS,
+            payload: res,
+        });
+    } catch (e) {
+        console.log(e);
+        dispatch({
+            type: constants.POSTS_GETALL_FAILURE,
+        });
+    }
+};
+
+export const getAllUsers = (jwt: string) => async (dispatch: AppDispatch) => {
+    try {
+        console.log("get all users");
+        dispatch({ type: constants.USERS_GETALL_REQUEST });
+        const res = await service.getAllUsers(jwt);
+        dispatch({
+            type: constants.USERS_GETALL_SUCCESS,
+            payload: res,
+        });
+    } catch (e) {
+        console.log(e);
+        dispatch({
+            type: constants.USERS_GETALL_FAILURE,
+        });
+    }
+};
+
+export const createPost = (post: IPost) => async (dispatch: AppDispatch) => {
+    try {
+        const res = await service.createPost(post);
+        const postDetails: IPostDetails = {
+            post: res,
+            comments: [],
+            likeNumber: [],
+        };
+        dispatch({
+            type: constants.POSTS_CREATE_POST,
+            payload: postDetails,
+        });
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+export const likePost = (like: ILike, post: IPost) => async (
+    dispatch: AppDispatch
+) => {
+    console.log("res");
+    try {
+        const res = await service.likePost(like);
+
+        dispatch({
+            type: constants.POSTS_LIKE,
+            payload: res,
+            post: post,
+        });
+        console.log("res2" + res);
+    } catch (e) {
+        dispatch({
+            type: constants.POSTS_UNLIKE,
+            post: post,
+            userId: like.userId,
+        });
+        console.log(e);
+    }
+};
+
+export const updateUser = (user: IUser, jwt: string) => async (
+    dispatch: AppDispatch
+) => {
+    try {
+        const res = await service.updateUser(user, jwt);
+        dispatch({
+            type: constants.UPDATE_PROFILE_REQUEST,
+            payload: res,
+        });
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+export const logout = () => async (dispatch: AppDispatch) => {
+    dispatch({
+        type: constants.LOGOUT,
+    });
+};
+
+export const getComments = (post: IPost) => async (dispatch: AppDispatch) => {
+    try {
+        const res = await service.getComments(post);
+        dispatch({
+            type: constants.POST_GET_COMMENTS,
+            payload: res,
+            post: post
+        });
+    } catch (e) {
+        console.log(e);
+    }
+};

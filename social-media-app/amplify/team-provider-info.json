@@ -16,5 +16,23 @@
         "socialmediaapp56ff9dd9": {}
       }
     }
+  },
+  "pthree": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-socialmediaapp-pthree-93316-authRole",
+      "UnauthRoleArn": "arn:aws:iam::722119535303:role/amplify-socialmediaapp-pthree-93316-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::722119535303:role/amplify-socialmediaapp-pthree-93316-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-socialmediaapp-pthree-93316-deployment",
+      "UnauthRoleName": "amplify-socialmediaapp-pthree-93316-unauthRole",
+      "StackName": "amplify-socialmediaapp-pthree-93316",
+      "StackId": "arn:aws:cloudformation:us-east-1:722119535303:stack/amplify-socialmediaapp-pthree-93316/10c48b90-ff68-11eb-a5ac-0e6c28966f7b",
+      "AmplifyAppId": "d3gnxkq9af9p1d"
+    },
+    "categories": {
+      "auth": {
+        "socialmediaapp56ff9dd9": {}
+      }
+    }
   }
 }

@@ -5,7 +5,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import { Link, Redirect } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
@@ -56,6 +56,7 @@ interface IProps {
 export default function LoginPage(props: IProps) {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const [isDesktop, setIsDesktop] = useState(window.innerWidth);
     const [username, setUsername] = useState("");
@@ -72,11 +73,18 @@ export default function LoginPage(props: IProps) {
     };
 
     useEffect(() => {
+        if(isLoggedIn){
+            console.log(isLoggedIn);
+            history.push("/home");
+        }
         function handleResize() {
             setIsDesktop(window.innerWidth);
         }
         window.addEventListener("resize", handleResize);
-    }, [isDesktop]);
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        };
+    }, [isDesktop,isLoggedIn]);
 
     const handleLogin = async (eve: SyntheticEvent) => {
         eve.preventDefault();
@@ -86,10 +94,6 @@ export default function LoginPage(props: IProps) {
         setIsValid(false);
     };
 
-    if(isLoggedIn){
-        console.log(isLoggedIn);
-        return <Redirect to="/home" />;
-    }
 
     return (
         <>

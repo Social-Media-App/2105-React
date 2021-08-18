@@ -14,6 +14,10 @@ import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
 import { Storage } from "aws-amplify";
+import { useDispatch, useSelector } from "react-redux";
+import { createPost } from "../../redux/actons";
+import { RootState } from "../../redux/store";
+import { IPost, IUser } from "../../redux/stateStructures";
 
 const useStyles = makeStyles((theme) => ({
     fab: {
@@ -45,6 +49,10 @@ const initialFormData = {
 
 export default function CreatePostIcon() {
     const classes = useStyles();
+    const dispatch = useDispatch();
+
+    const user: IUser = useSelector((state: RootState) => state.auth.user);
+
     const [open, setOpen] = React.useState(false);
     const [formData, updateFormData] = React.useState(initialFormData);
     const [imageURI, setimageURI] = React.useState("");
@@ -72,9 +80,10 @@ export default function CreatePostIcon() {
     async function onPicChange(event: React.ChangeEvent<HTMLInputElement>) {
         if (event.target.files) {
             file = event.target.files[0];
-            const result = await Storage.put(file.name, file);
+            const fileName = Date.now()+""+file.name
+            setImgKey(fileName);
+            const result = await Storage.put(fileName, file);
             setimageURI(URL.createObjectURL(file));
-            setImgKey(file.name);
         }
     }
 
@@ -82,6 +91,18 @@ export default function CreatePostIcon() {
         event.preventDefault();
         console.log("formData: ", formData);
         console.log("imgKey: ", imgKey);
+        const post: IPost = {
+            content: formData.message,
+            picture: imgKey,
+            userId: user.userId!,
+            postOwner: user,
+        };
+        if (!formData.message && !imgKey) {
+            handleClose();
+            return;
+        }
+        console.log(post);
+        dispatch(createPost(post));
         handleClose();
     }
 
@@ -97,7 +118,10 @@ export default function CreatePostIcon() {
                 <Grid container justifyContent="flex-end">
                     <Grid item xs={1}>
                         <Button
-                            style={{ backgroundColor: "white", minWidth:"10px" }}
+                            style={{
+                                backgroundColor: "white",
+                                minWidth: "10px",
+                            }}
                             onClick={handleClose}
                         >
                             <CloseIcon />
@@ -124,7 +148,7 @@ export default function CreatePostIcon() {
                             component="span"
                         >
                             <p>Add An Image</p>
-                            <PhotoCamera style={{ padding: "10px" }} />
+                            <PhotoCamera style={{ margin: "10px" }} />
                         </IconButton>
                     </label>
                     <Input
