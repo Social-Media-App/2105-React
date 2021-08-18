@@ -61,9 +61,9 @@ export default function UpdateInfo() {
     const viewinguser = useSelector((state:RootState) => state.auth.user);
     const dispatch = useDispatch();
     const jwt = useSelector((state:RootState) => state.auth.jwt);
-    const user = useSelector((state:RootState) => state.auth.user)
-    
-    
+    const user = useSelector((state:RootState) => state.auth.user);
+    const users = useSelector((state:RootState) => state.allUsers.users);
+
     const initialFormData = {
         username: user.username,
         firstname: user.firstName,
@@ -124,10 +124,14 @@ export default function UpdateInfo() {
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+        console.log("users: ", users);
+        const updater = users.filter(u=>!(u.userId === user.userId));
+
+        console.log("updater: ",updater);
         console.log("formData: ", formData);
         console.log("imgKey: ", imgKey);
         console.log("backimgKey: ", backImg);
-        const user:IUser = {
+        const updaterUser:IUser = {
             userId: viewinguser.userId,
             firstName: formData.firstname,
             middleName: formData.middlename,
@@ -139,7 +143,7 @@ export default function UpdateInfo() {
             backgroundPicture: backImg,
         }
         console.log(user);
-        dispatch(updateUser(user, jwt));
+        dispatch(updateUser(updaterUser, updater, jwt));
         handleClose();
     }
 

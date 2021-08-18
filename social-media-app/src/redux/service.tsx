@@ -133,7 +133,7 @@ async function updateUser(user:IUser, varToken:string) {
         Authorization: 'Bearer ' + varToken
       }})
 
-    const axiosData : IPost = axiosResponse.data;
+    const axiosData : IUser = axiosResponse.data;
     console.log(axiosData);
     return axiosData;
 }

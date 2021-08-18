@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, SyntheticEvent } from "react";
+import React, { useState, ChangeEvent, SyntheticEvent, useReducer } from "react";
 import { IUser } from "../../redux/stateStructures";
 import Select from "react-select";
 import { useSelector } from "react-redux";
@@ -56,9 +56,7 @@ const useStyles = makeStyles(() => ({
 const SearchUsersList: React.FunctionComponent<IProps> = (props: IProps) => {
     const classes = useStyles();
   const history = useHistory();
-  const searchArr: SearchUser[] = props.listUsers.map((user) => {
-    return { value: user, label: user.firstName + " " + user.lastName };
-  });
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
   const [searchingUser, setSearchingUser] = useState<any>({});
 
   const handleChange = (event:ChangeEvent<{}>, value:IUser | null) => {
@@ -73,6 +71,7 @@ const SearchUsersList: React.FunctionComponent<IProps> = (props: IProps) => {
 const handleSubmit = (e:SyntheticEvent) => {
     e.preventDefault();
     console.log("in handle submit")
+    forceUpdate();
     findUserProfile();
 };
 

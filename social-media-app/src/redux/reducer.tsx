@@ -115,6 +115,11 @@ export const usersReducer = (
             return {
                 ...userInitialState,
             };
+        case constants.UPDATE_PROFILE_REQUEST_USERS:
+            return {
+                ...state,
+                users: action.payload,
+            };
         default:
             return state;
     }
