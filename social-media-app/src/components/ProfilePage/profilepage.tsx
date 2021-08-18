@@ -7,7 +7,7 @@ import PostContainer from "../common/PostContainer";
 import Snackbar from "../common/snackbar";
 import { useSelector } from "react-redux"
 import {RootState} from '../../redux/store';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useParams} from 'react-router-dom';
 import { useState, useEffect } from "react";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
@@ -97,10 +97,13 @@ function ProfilePage() {
     const [images, setImages] = useState();
     const location = useLocation();
     //let myAny1 :any = location.state;
-    const [postHidden, setPostHidden] = useState(true);
+    const [postHidden, setPostHidden] = useState(false);
     const classes = useStyles();
     const [img1, setImg1] = useState(myAny);
     const [img2, setImg2] = useState(myAny);
+    const users = useSelector((state:RootState) => state.allUsers.users);
+    let id:any;
+    id = useParams();
 
     const [user, setUser] = useState(location.state as IUser);
     const [postListLiked, setPostListLiked] = useState(postList);
@@ -109,20 +112,30 @@ function ProfilePage() {
     
 
     useEffect(() => {
+        users.map(userme=> {if(userme.username === id.userId) {setUser(userme);} })
+    }, [id, users]);
+    
+    useEffect(() => {
         getImage();
-        console.log(postList);
-    }, []);
+        setPostListLiked(postList.filter((post)=> post.likeNumber.some(like => like.userId===user.userId)))  
+        setPostListMade(postList.filter((post)=> post.post.userId === user.userId))  
+        setPostListRead(postListMade);
+        
+    }
+    , [user])
 
     useEffect(() => {
-        setPostListLiked(postList.filter((post)=> post.likeNumber.some(like => like.userId===viewinguser.userId)))  
+        setPostListLiked(postList.filter((post)=> post.likeNumber.some(like => like.userId===user.userId)))  
     }, [postList]);
 
     useEffect(() => {
-        setPostListMade(postList.filter((post)=> post.post.userId === viewinguser.userId))  
+        setPostListMade(postList.filter((post)=> post.post.userId === user.userId))  
+        setPostListRead(postListMade);
     }, [postList]);
     
 
     async function getImage() {
+        console.log(user)
        const image = await Storage.get(user.profilePicture!);
        const imageb = await Storage.get(user.backgroundPicture!);
        setImg1(image);
@@ -192,8 +205,7 @@ function ProfilePage() {
                 <UpdateInfo/>
                 : ""}
                  </Paper>
-                    {
-                    postHidden ? <div className={classes.holdbuttons}>
+                    <div className={classes.holdbuttons}>
     
                         <Button type="submit" variant="contained" color="primary" className={classes.revealButton} onClick={getMadePosts}>
                             Made Posts
@@ -205,11 +217,6 @@ function ProfilePage() {
                             Bookmarked Posts
                         </Button>  
                     </div>
-                    :
-                        <Button type="submit" variant="contained" color="primary" className={classes.postbutton} onClick={()=>{setPostHidden(true)}}>
-                                    Hide Posts
-                        </Button>
-                    }
                         
                     
                 {
@@ -228,6 +235,14 @@ function ProfilePage() {
                     </Grid>
                     </Grid>
                     }
+
+                {
+                postHidden ? ""
+                    : 
+                    <Button type="submit" variant="contained" color="primary" className={classes.postbutton} onClick={()=>{setPostHidden(true)}}>
+                        Hide Posts
+                    </Button>
+                }
             </Grid>
         </>
     );

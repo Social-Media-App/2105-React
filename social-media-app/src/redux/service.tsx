@@ -135,7 +135,7 @@ async function updateUser(user:IUser, varToken:string) {
         Authorization: 'Bearer ' + varToken
       }})
 
-    const axiosData : IPost = axiosResponse.data;
+    const axiosData : IUser = axiosResponse.data;
     console.log(axiosData);
     return axiosData;
 }
@@ -153,14 +153,14 @@ async function getComments(post:IPost) {
 
 
 async function makeComment(comment:string,post:IPost,user:IUser) {
-    console.log(comment,post,user);
-    const axiosResponse : any = await instance.post(url+'/likes/makeLike', {
+    console.log("premakecomment"+comment+","+post+","+user);
+    const axiosResponse : any = await instance.post(url+'/comment/newcomment', {
         comment: comment,
         userId: user.userId,
-        post: {postId:post.postId}
+        post: {postId: post.postId}
     })
     const axiosData : any = axiosResponse.data;
-    console.log("comment"+axiosData.commentId);
+    console.log("comment"+axiosData);
     if(axiosData){
         return axiosData;
     }

@@ -18,7 +18,7 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import axios from "axios";
 import { Storage } from "aws-amplify";
-import { IPost } from "../../redux/stateStructures";
+import { IPostDetails } from "../../redux/stateStructures";
 import { CardActions } from "@material-ui/core";
 import { ILike, ILikePost } from "../../redux/stateStructures";
 import { RootState } from "../../redux/store";
@@ -31,7 +31,7 @@ import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import CommentButton from '../post/comment-button'
 
 interface IProps {
-    post: IPost;
+    post: IPostDetails;
     liked: boolean;
 }
 const useStyles = makeStyles((theme) => ({
@@ -70,7 +70,7 @@ function InstaPost(props: IProps) {
     const dispatch = useDispatch();
     const styles = useStyles();
     const user = useSelector((state: RootState) => state.auth.user);
-    const post = props.post;
+    const post = props.post.post;
 
     const [liked, toggleLike] = useState(props.liked);
     const [bookmarked, toggleBookmark] = useState(true);
@@ -214,7 +214,7 @@ function InstaPost(props: IProps) {
                     </Typography>
                 </CardContent>
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <Comments post={post} />
+                    <Comments post={props.post} />
                 </Collapse>
             </CardActionArea>
         </Card>

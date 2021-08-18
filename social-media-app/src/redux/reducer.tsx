@@ -115,6 +115,11 @@ export const usersReducer = (
             return {
                 ...userInitialState,
             };
+            case constants.UPDATE_PROFILE_REQUEST_USERS:
+                return {
+                    ...state,
+                    users: action.payload,
+                };
         default:
             return state;
     }
@@ -171,6 +176,15 @@ export const postReducer = (
                               ),
                           }
                         : post
+                ),
+            };
+        case constants.POSTS_MAKE_COMMENT:
+            return{
+                ...state,
+                posts: state.posts.map((post) => 
+                    post.post.postId === action.post.postId 
+                    ? { ...post,} 
+                    : post
                 ),
             };
         case constants.LOGOUT:
