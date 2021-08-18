@@ -16,6 +16,7 @@ import { Storage } from "aws-amplify";
 import Button from "@material-ui/core/Button";
 import { Divider } from '@material-ui/core';
 import UpdateInfo from "./UpdateInfo"
+import PrimarySearchAppBar from '../navbar/navbar'
 
 
 const breakpointColumnsObj5 = {
@@ -98,18 +99,20 @@ const useStyles = makeStyles((theme) => ({
 function ProfilePage() {
     const postList = useSelector((state:RootState) => state.posts.posts);
     let myAny :any;
+    
     //const viewinguser = useSelector((state:RootState) => state.user)
     const viewinguser = useSelector((state:RootState) => state.auth.user);
-    const [images, setImages] = useState([]);
+    const [images, setImages] = useState();
     const location = useLocation();
+    //let myAny1 :any = location.state;
     const [postHidden, setPostHidden] = useState(true);
-    const [user, setUser] = useState(location.state);
+    const [user, setUser]  = useState(location.state as IUser);
     const classes = useStyles();
     const [img1, setImg1] = useState(myAny);
+    const [img2, setImg2] = useState(myAny);
 
 
     useEffect(() => {
-        getImages(viewinguser.profilePicture!);
         getImage();
       }, []);
 
@@ -129,8 +132,10 @@ function ProfilePage() {
     }  
 
     async function getImage() {
-       const image = await Storage.get(viewinguser.backgroundPicture!)
+       const image = await Storage.get(user.profilePicture!);
+       const imageb = await Storage.get(user.backgroundPicture!);
        setImg1(image);
+       setImg2(imageb);
     }
 
 
@@ -144,26 +149,24 @@ function ProfilePage() {
 
     return (
         <>
+            <PrimarySearchAppBar />
             <Snackbar />
 
             <Grid container justifyContent="center" alignItems="flex-start">
             
 
-            <Paper className={classes.paper} variant="outlined" style = {{backgroundImage:`url(${img1})`, backgroundSize: "100%" }}>
+            <Paper className={classes.paper} variant="outlined" style = {{backgroundImage:`url(${img2})`, backgroundSize: "100%" }}>
   
                 <Paper className={classes.paper2} variant="outlined">      
 
-                        {
-                        images.map(image =>(
-                        <img  className={classes.profilePicture}  src={image} key={image} alt="" /> ))
-                    }
+                        <img  className={classes.profilePicture}  src={img1} alt="" />
                 <Typography
                     align="left"
                     noWrap={true}
                     variant="h5"
                     className={classes.info}
                     >
-                    Username:{viewinguser.username}
+                    Username:{user.username}
                 </Typography>
                 <Typography
                     align="left"
@@ -171,7 +174,7 @@ function ProfilePage() {
                     variant="h5"
                     className={classes.info}
                     >
-                    Name:{viewinguser.middleName ? viewinguser.firstName + " " + viewinguser.middleName : viewinguser.firstName} {viewinguser.lastName}
+                    Name:{user.middleName ? user.firstName + " " + user.middleName : user.firstName} {user.lastName}
                 </Typography>
                 <Typography
                     align="left"
@@ -179,11 +182,11 @@ function ProfilePage() {
                     variant="h5"
                     className={classes.info}
                     >
-                    Email:{viewinguser.email}
+                    Email:{user.email}
                 </Typography>
                 </Paper>
                 {
-                viewinguser ? 
+                user.userId ==  viewinguser.userId ? 
                 <UpdateInfo/>
                 : ""}
                  </Paper>

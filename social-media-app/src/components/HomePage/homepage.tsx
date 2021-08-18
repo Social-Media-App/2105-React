@@ -8,16 +8,18 @@ import Snackbar from "../common/snackbar";
 import { useSelector, useDispatch } from "react-redux"
 import {RootState} from '../../redux/store';
 import { useEffect } from 'react'
-import { getAllPosts } from '../../redux/actons'
+import { getAllPosts, getAllUsers } from '../../redux/actons'
 import PrimarySearchAppBar from '../navbar/navbar'
 
 function HomePage() {
     const dispatch = useDispatch();
     const postList = useSelector((state:RootState) => state.posts.posts)
+    const jwt = useSelector((state:RootState) => state.auth.jwt)
     
     useEffect(() => {
         dispatch(getAllPosts());
-    }, [dispatch]);
+        dispatch(getAllUsers(jwt));
+    }, [dispatch, jwt]);
     
 
     return (

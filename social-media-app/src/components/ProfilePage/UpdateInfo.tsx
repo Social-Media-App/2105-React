@@ -74,6 +74,8 @@ export default function UpdateInfo() {
     const [formData, updateFormData] = React.useState(initialFormData);
     
     const handleOpen = () => {
+        setImgKey(user.profilePicture!);
+        setBackImg(user.backgroundPicture!);
         setOpen(true);
     };
 

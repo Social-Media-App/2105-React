@@ -12,6 +12,10 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import "./navbar.css";
 import { useHistory } from "react-router-dom";
 import Button from '@material-ui/core/Button';
+import { useSelector } from "react-redux";
+import {RootState} from '../../redux/store';
+import SearchUsersList from './searchusers';
+import { FullscreenExitTwoTone } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   bkcolor: {
@@ -34,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
   search: {
     position: "relative",
+    display: "flex",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
     "&:hover": {
@@ -89,7 +94,9 @@ export default function PrimarySearchAppBar() {
   const [logoutEl, setLogoutEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [aboutEl, setAboutEl] = React.useState(false);
+  const viewinguser = useSelector((state:RootState) => state.auth.user);
   const isMenuOpen = Boolean(profileEl);
+  const users = useSelector((state:RootState) => state.allUsers.users);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const history = useHistory();
@@ -162,7 +169,10 @@ export default function PrimarySearchAppBar() {
   );
 
   function handleLink (uri:string){
-    history.push(uri)
+    if(uri === "/profile")
+      history.push({pathname: uri + '/' + viewinguser.userId, state: viewinguser});
+    else
+      history.push(uri);
   }
 
   return (
@@ -188,28 +198,30 @@ export default function PrimarySearchAppBar() {
             </div>
 
             <div className={classes.search} >
-              <div className={classes.searchIcon}>
+              {/* <div className={classes.searchIcon}>
                 <SearchIcon />
-              </div>
+              </div> */}
 
-              <InputBase
+
+              <SearchUsersList listUsers = {users}/>
+              {/* <InputBase
                 placeholder="Search…"
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
                 inputProps={{ "aria-label": "search" }}
-              />
+              /> */}
             </div>
             <div className="topNavBarContainer">
               <div className="topNavBarLinks">
               <Button 
               style={{color:'white'}}
-              onClick={()=>handleLink("/path")}
+              onClick={()=>handleLink("/home")}
               >HomePage</Button>
               <Button 
               style={{color:'white'}}
-              onClick={()=>handleLink("/path")}
+              onClick={()=>handleLink("/profile")}
               >Profile</Button>
               <Button 
               style={{color:'white'}}

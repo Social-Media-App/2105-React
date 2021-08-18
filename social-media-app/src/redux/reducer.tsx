@@ -88,11 +88,27 @@ export const usersReducer = (
     action: AnyAction
 ): typeof userInitialState => {
     switch (action.type) {
-        // case constants.USERS_GETALL_REQUEST:
-        //     return {
-        //         ...state,
-        //         usersLoading: true,
-        //     };
+        case constants.USERS_GETALL_REQUEST:
+            return {
+                ...state,
+                usersLoading: true,
+            };
+        case constants.USERS_GETALL_SUCCESS:
+            return {
+                ...state,
+                usersLoaded: true,
+                usersLoading: false,
+                users: action.payload,
+                
+            };
+        case constants.USERS_GETALL_FAILURE:
+            return {
+                ...state,
+                usersLoaded: false,
+                usersLoading: false,
+            };
+        
+        
         default:
             return state;
     }

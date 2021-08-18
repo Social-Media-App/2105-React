@@ -1,11 +1,9 @@
 import { constants } from './actionTypes';
 import { service } from "./service";
 import { AppDispatch } from "./store";
-<<<<<<< HEAD
 import { IUser, IPost, IPostDetails, ILike } from "./stateStructures"
-=======
 import { ISignUpUser, ICreatePost, IUser } from "./stateStructures"
->>>>>>> 6efea1d09ebb0594c5ad2e4fc6291536967dd3f5
+
 
 //Actions are what you dispatch from your components, this file contains all the actions you can dispatched
 
