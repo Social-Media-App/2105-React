@@ -72,6 +72,23 @@ export const getAllPosts = () => async (dispatch: AppDispatch) => {
     }
 };
 
+export const getAllUsers = (jwt: string) => async (dispatch: AppDispatch) => {
+    try {
+        console.log("get all users");
+        dispatch({ type: constants.USERS_GETALL_REQUEST });
+        const res = await service.getAllUsers(jwt);
+        dispatch({
+            type: constants.USERS_GETALL_SUCCESS,
+            payload: res,
+        });
+    } catch (e) {
+        console.log(e);
+        dispatch({
+            type: constants.USERS_GETALL_FAILURE,
+        });
+    }
+};
+
 export const createPost = (post: IPost) => async (dispatch: AppDispatch) => {
     try {
         const res = await service.createPost(post);

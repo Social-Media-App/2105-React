@@ -68,6 +68,13 @@ const useStyles = makeStyles((theme) => ({
     postbutton: {
         width: "80%",
     },
+    holdbuttons: {
+        width: "80%",
+        display:"flex"
+    },
+    revealButton: {
+        width: "100%",
+    },
     paper2: {
         marginTop: "20px",
         width: "30%",
@@ -84,20 +91,24 @@ const useStyles = makeStyles((theme) => ({
 function ProfilePage() {
     const postList = useSelector((state:RootState) => state.posts.posts);
     let myAny :any;
+    
     //const viewinguser = useSelector((state:RootState) => state.user)
     const viewinguser = useSelector((state:RootState) => state.auth.user);
-    const [images, setImages] = useState([]);
+    const [images, setImages] = useState();
     const location = useLocation();
+    //let myAny1 :any = location.state;
     const [postHidden, setPostHidden] = useState(true);
-    const [user, setUser] = useState(location.state as IUser);
     const classes = useStyles();
     const [img1, setImg1] = useState(myAny);
+    const [img2, setImg2] = useState(myAny);
+
+    const [user, setUser] = useState(location.state as IUser);
     const [postListLiked, setPostListLiked] = useState(postList);
+    const [postListMade, setPostListMade] = useState(postList);
+    const [postListRead, setPostListRead] = useState(postList);
     
-    
-    
+
     useEffect(() => {
-        getImages(viewinguser.profilePicture!);
         getImage();
         console.log(postList);
     }, []);
@@ -105,50 +116,59 @@ function ProfilePage() {
     useEffect(() => {
         setPostListLiked(postList.filter((post)=> post.likeNumber.some(like => like.userId===viewinguser.userId)))  
     }, [postList]);
+
+    useEffect(() => {
+        setPostListMade(postList.filter((post)=> post.post.userId === viewinguser.userId))  
+    }, [postList]);
     
-    async function getImages(imgToSendd:string) {
-        console.log("inside getImages function ");
-        
-        const imageKeyss:any = await Storage.list(imgToSendd);
-        const imageKeyss2:any = await Promise.all(
-            imageKeyss.map(async (k:any) => {
-                const signedUrl = await Storage.get(k.key);
-                return signedUrl;
-            })
-            );
-            console.log("profile  ",imageKeyss2);
-            setImages(imageKeyss2); 
-            return(imageKeyss2);
-        }  
-        
-        async function getImage() {
-            const image = await Storage.get(viewinguser.backgroundPicture!)
-            setImg1(image);
-        }
-        
-        return (
-            <>
+
+    async function getImage() {
+       const image = await Storage.get(user.profilePicture!);
+       const imageb = await Storage.get(user.backgroundPicture!);
+       setImg1(image);
+       setImg2(imageb);
+    }
+    const getMadePosts = () => {
+        setPostListRead(postListMade);
+        setPostHidden(false)
+    }
+    const getLikedPosts = () => {
+        setPostListRead(postListLiked);
+        setPostHidden(false);
+    }
+    const getBookmarkedPosts = () => {
+        console.log("Not Implemented");
+        setPostHidden(false);
+    }
+
+
+    
+    // useEffect(() => {
+    //     dispatch(getAllPosts());
+    // }, [dispatch]);
+
+
+
+    return (
+        <>
             <PrimarySearchAppBar />
             <Snackbar />
 
             <Grid container justifyContent="center" alignItems="flex-start">
             
 
-            <Paper className={classes.paper} variant="outlined" style = {{backgroundImage:`url(${img1})`, backgroundSize: "100%" }}>
+            <Paper className={classes.paper} variant="outlined" style = {{backgroundImage:`url(${img2})`, backgroundSize: "100%" }}>
   
                 <Paper className={classes.paper2} variant="outlined">      
 
-                        {
-                            images.map(image =>(
-                                <img  className={classes.profilePicture}  src={image} key={image} alt="" /> ))
-                            }
+                        <img  className={classes.profilePicture}  src={img1} alt="" />
                 <Typography
                     align="left"
                     noWrap={true}
                     variant="h5"
                     className={classes.info}
                     >
-                    Username:{viewinguser.username}
+                    Username:{user.username}
                 </Typography>
                 <Typography
                     align="left"
@@ -156,7 +176,7 @@ function ProfilePage() {
                     variant="h5"
                     className={classes.info}
                     >
-                    Name:{viewinguser.middleName ? viewinguser.firstName + " " + viewinguser.middleName : viewinguser.firstName} {viewinguser.lastName}
+                    Name:{user.middleName ? user.firstName + " " + user.middleName : user.firstName} {user.lastName}
                 </Typography>
                 <Typography
                     align="left"
@@ -164,52 +184,50 @@ function ProfilePage() {
                     variant="h5"
                     className={classes.info}
                     >
-                    Email:{viewinguser.email}
+                    Email:{user.email}
                 </Typography>
                 </Paper>
                 {
-                viewinguser ? 
+                user.userId ==  viewinguser.userId ? 
                 <UpdateInfo/>
                 : ""}
                  </Paper>
+                    {
+                    postHidden ? <div className={classes.holdbuttons}>
+    
+                        <Button type="submit" variant="contained" color="primary" className={classes.revealButton} onClick={getMadePosts}>
+                            Made Posts
+                        </Button>
+                        <Button type="submit" variant="contained" color="primary" className={classes.revealButton} onClick={getLikedPosts}>
+                            Liked Posts
+                        </Button> 
+                        <Button type="submit" variant="contained" color="primary" className={classes.revealButton} onClick={getBookmarkedPosts}>
+                            Bookmarked Posts
+                        </Button>  
+                    </div>
+                    :
+                        <Button type="submit" variant="contained" color="primary" className={classes.postbutton} onClick={()=>{setPostHidden(true)}}>
+                                    Hide Posts
+                        </Button>
+                    }
+                        
                     
                 {
                 postHidden ? ""
                     : 
                 <Grid container justifyContent="center" alignItems="flex-start">
-                    <Grid item xs={10} sm={4}>
-                    <Typography
+                    <Grid item xs={8} sm={8}>
+                    {/* <Typography
                         align="center"
                         noWrap={true}
                         variant="h5"
                         className={classes.header}
                         >
-                    Posts I Made
-                    </Typography>
-                        <PostContainer postListDetails={postList} />
-                    </Grid>
-                    <Divider orientation="vertical" flexItem />
-                    <Grid item xs={10} sm={4}>
-                        <Typography
-                            align="center"
-                            noWrap={true}
-                            variant="h5"
-                            className={classes.header}
-                            >
-                        Posts I Liked
-                        </Typography>
-                        <PostContainer postListDetails={postListLiked} />
+                    </Typography> */}
+                        <PostContainer postListDetails={postListRead} />
                     </Grid>
                     </Grid>
                     }
-                {
-                postHidden ? 
-                <Button type="submit" variant="contained" color="primary" className={classes.postbutton} onClick={()=>{setPostHidden(false)}}>
-                                Reveal Posts
-                </Button> : <Button type="submit" variant="contained" color="primary" className={classes.postbutton} onClick={()=>{setPostHidden(true)}}>
-                                Hide Posts
-                </Button>}
-                    
             </Grid>
         </>
     );

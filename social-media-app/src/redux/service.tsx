@@ -10,7 +10,7 @@ export const service = {
     // unlikePost,
     register,
     getAllPosts,
-    // getAllUsers,
+    getAllUsers,
     createPost,
     updateUser,
     getJwt,
@@ -71,6 +71,17 @@ async function register(User: IUser) {
 async function getAllPosts() {
     const axiosResponse : any = await instance.get(url+'/post/getpostsdetails')
     const axiosData : IPostDetails[] = axiosResponse.data;
+    console.log(axiosData);
+    return axiosData;
+}
+
+async function getAllUsers(varToken:string) {
+    const axiosResponse : any = await instance.get(url+'/user-service/getallusers', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + varToken
+        }})
+    const axiosData : IUser[] = axiosResponse.data;
     console.log(axiosData);
     return axiosData;
 }
