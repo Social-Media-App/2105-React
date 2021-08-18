@@ -131,3 +131,16 @@ export const logout = () => async (dispatch: AppDispatch) => {
         type: constants.LOGOUT,
     });
 };
+
+export const getComments = (post: IPost) => async (dispatch: AppDispatch) => {
+    try {
+        const res = await service.getComments(post);
+        dispatch({
+            type: constants.POST_GET_COMMENTS,
+            payload: res,
+            post: post
+        });
+    } catch (e) {
+        console.log(e);
+    }
+};

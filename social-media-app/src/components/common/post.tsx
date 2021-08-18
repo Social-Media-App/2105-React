@@ -10,24 +10,27 @@ import {
     IconButton,
     Typography,
     CardActionArea,
+    Collapse,
 } from "@material-ui/core";
-import { blueGrey, grey, red } from "@material-ui/core/colors";
+import { grey } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import axios from "axios";
 import { Storage } from "aws-amplify";
 import { IPost } from "../../redux/stateStructures";
-import { BrowserRouter as Link } from "react-router-dom";
 import { CardActions } from "@material-ui/core";
-import { ILike, ILikePost } from '../../redux/stateStructures'
-import { RootState } from '../../redux/store'
-import { likePost } from '../../redux/actons'
+import { ILike, ILikePost } from "../../redux/stateStructures";
+import { RootState } from "../../redux/store";
+import { likePost } from "../../redux/actons";
+import clsx from "clsx";
+import Comments from '../post/comments'
 
 interface IProps {
     post: IPost;
     liked: boolean;
 }
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         width: "100%",
         backgroundColor: grey[300],
@@ -46,6 +49,16 @@ const useStyles = makeStyles(() => ({
     top: {
         padding: "5px",
     },
+    expandOpen: {
+        transform: "rotate(180deg)",
+    },
+    expand: {
+        transform: "rotate(0deg)",
+        marginLeft: "auto",
+        transition: theme.transitions.create("transform", {
+            duration: theme.transitions.duration.shortest,
+        }),
+    },
 }));
 
 //Pass a post in as a prop and a boolean value if the current user liked the post
@@ -54,121 +67,126 @@ function InstaPost(props: IProps) {
     const styles = useStyles();
     const user = useSelector((state: RootState) => state.auth.user);
     const post = props.post;
-    
+
     const [liked, toggleLike] = useState(props.liked);
     const [url, setURL] = useState(post.picture);
     const [profileUrl, setProfileUrl] = useState(post.picture);
+    const [expanded, setExpanded] = React.useState(false);
 
     const handleLikeClick = (event: React.MouseEvent) => {
         event.preventDefault();
         event.stopPropagation();
-        const likePosted : ILikePost = {
-            postId: post.postId!
-        }
+        const likePosted: ILikePost = {
+            postId: post.postId!,
+        };
         const like: ILike = {
             userId: user.userId!,
-            post: likePosted
-        }
-        dispatch(likePost(like,post));
+            post: likePosted,
+        };
+        dispatch(likePost(like, post));
         toggleLike(!liked);
     };
 
     useEffect(() => {
-            if(post.picture){
-                getPostPicture(post.picture!);
-            }
-            if(user.profilePicture){
-                getUserProfileImg(user.profilePicture!);
-            }
-    },[]);
+        if (post.picture) {
+            getPostPicture(post.picture!);
+        }
+        if (user.profilePicture) {
+            getUserProfileImg(user.profilePicture!);
+        }
+    }, []);
 
     const getUserProfileImg = async (ProfileImg: string) => {
-        if(ProfileImg){
+        if (ProfileImg) {
             Storage.get(ProfileImg)
-            .then((url: any) => {
-                var myRequest = new Request(url);
-                fetch(myRequest).then(function(response) {
-                    if (response.status === 200) {
-                        setProfileUrl(url);
-                    }
-                });
-            })
-            .catch((err) => console.log(err));
+                .then((url: any) => {
+                    var myRequest = new Request(url);
+                    fetch(myRequest).then(function(response) {
+                        if (response.status === 200) {
+                            setProfileUrl(url);
+                        }
+                    });
+                })
+                .catch((err) => console.log(err));
         }
     };
 
     const getPostPicture = async (postImg: string) => {
-        if(postImg){
+        if (postImg) {
             Storage.get(postImg)
-            .then((url: any) => {
-                var myRequest = new Request(url);
-                fetch(myRequest).then(function(response) {
-                    if (response.status === 200) {
-                        setURL(url);
-                    }
-                });
-            })
-            .catch((err) => console.log(err));
+                .then((url: any) => {
+                    var myRequest = new Request(url);
+                    fetch(myRequest).then(function(response) {
+                        if (response.status === 200) {
+                            setURL(url);
+                        }
+                    });
+                })
+                .catch((err) => console.log(err));
         }
     };
 
+    const handleExpandClick = (eve: any) => {
+        setExpanded(!expanded);
+        // dispatch(displayComments(props.post, commentPostState!));
+    };
+
     return (
-        <>
-            <Card className={styles.root} variant="outlined">
-                    <CardHeader
-                        avatar={
-                            <Avatar
-                            aria-label="recipe"
-                            src={profileUrl}
-                            className={styles.avatar}
-                            >
-                                {/* {post.postOwner.firstName.charAt(0)} */}
-                            </Avatar>
-                        }
-                        title={
-                            <Typography variant="h6" className={styles.header}>
-                                {post.postOwner.firstName +
-                                    " " +
-                                    post.postOwner.lastName}
-                            </Typography>
-                        }
-                        action={
-                            liked ? (
-                                <IconButton
-                                onClick={handleLikeClick}
-                                aria-label="add to favorites"
-                                >
-                                    <FavoriteIcon />
-                                </IconButton>
-                            ) : (
-                                <IconButton
-                                onClick={handleLikeClick}
-                                aria-label="add to favorites"
-                                >
-                                    <FavoriteBorderIcon />
-                                </IconButton>
-                            )
-                        }
-                        className={styles.top}
-                        />
-                        <CardActionArea>
-                    {post.picture && (
-                        <CardMedia className={styles.media} image={url} />
-                    )}
-                    <CardContent>
-                        <Typography
-                            variant="body2"
-                            color="textSecondary"
-                            component="p"
+        <Card className={styles.root} variant="outlined">
+            <CardHeader
+                avatar={
+                    <Avatar
+                        aria-label="recipe"
+                        src={profileUrl}
+                        className={styles.avatar}
+                    >
+                        {/* {post.postOwner.firstName.charAt(0)} */}
+                    </Avatar>
+                }
+                title={
+                    <Typography variant="h6" className={styles.header}>
+                        {post.postOwner.firstName +
+                            " " +
+                            post.postOwner.lastName}
+                    </Typography>
+                }
+                action={
+                    liked ? (
+                        <IconButton
+                            onClick={handleLikeClick}
+                            aria-label="add to favorites"
                         >
-                            {post.content}
-                        </Typography>
-                        <CardActions>
-                        </CardActions>
-                    </CardContent>
+                            <FavoriteIcon style={{fill: "#dc004e"}}/>
+                        </IconButton>
+                    ) : (
+                        <IconButton
+                        onClick={handleLikeClick}
+                        aria-label="add to favorites"
+                        >
+                            <FavoriteBorderIcon />
+                        </IconButton>
+                    )
+                }
+                className={styles.top}
+                />
+            <CardActionArea onClick={handleExpandClick}>
+                {post.picture && (
+                    <CardMedia className={styles.media} image={url} />
+                    )}
+                <CardContent>
+                    <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        component="p"
+                        >
+                        {post.content}
+                    </Typography>
+                </CardContent>
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <Comments post={post} />
+                </Collapse>
                 </CardActionArea>
-            </Card>
-        </>
+        </Card>
     );
 }
 

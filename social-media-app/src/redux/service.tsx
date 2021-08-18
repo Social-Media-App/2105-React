@@ -13,7 +13,8 @@ export const service = {
     // getAllUsers,
     createPost,
     updateUser,
-    getJwt
+    getJwt,
+    getComments
 };
 
 //Allowing use to send our credentials / cookies
@@ -100,6 +101,7 @@ async function likePost(like:ILike) {
     }
     throw new Error("Unable to like");
 }
+
 async function updateUser(user:IUser, varToken:string) {
 /*     console.log("creatingpostiwht"+post.content);
     console.log("creatingpostiwht"+post.postImage);
@@ -127,6 +129,16 @@ async function updateUser(user:IUser, varToken:string) {
     return axiosData;
 }
 
+async function getComments(post:IPost) {
+    const postJSON = JSON.stringify(post)
+    const axiosResponse : any = await instance.get(url+`/comment/getcomment/${post.postId}`)
+    const axiosData : any = axiosResponse.data;
+    console.log(axiosData);
+    if(axiosData){
+        return axiosData;
+    }
+    throw new Error("Unable to get comments");
+}
 
 export const url:string = `http://localhost:9082`;
 export const userServiceUrl:string = `http://localhost:63147`;
