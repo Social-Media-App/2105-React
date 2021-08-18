@@ -36,6 +36,9 @@ const instance = axios.create({
     return axiosData;
 }
 
+<<<<<<< HEAD
+async function register(User: IUser) {
+=======
 async function getJwt(username:string, password:string) {
     const axiosResponse : any = await instance.post(url+'/login-service/authenticate', {
         "username": username,
@@ -46,7 +49,8 @@ async function getJwt(username:string, password:string) {
     return axiosData.jwtToken;
 }
 
-async function register(User: IUser) {
+async function register(User: ISignUpUser) {
+>>>>>>> 6efea1d09ebb0594c5ad2e4fc6291536967dd3f5
     const response = await instance.post(
         url+'/login-service/signup' ,
         {
@@ -74,8 +78,17 @@ async function getAllPosts() {
     return axiosData;
 }
 
+<<<<<<< HEAD
 async function createPost(post:IPost) {
     console.log("post: "+post.picture);
+=======
+async function createPost(post:ICreatePost) {
+    console.log("creatingpostiwht"+post.content);
+    console.log("creatingpostiwht"+post.postImage);
+    console.log("creatingpostiwht"+post.userId);
+    console.log("creatingpostiwht"+post.postOwner);
+
+>>>>>>> 6efea1d09ebb0594c5ad2e4fc6291536967dd3f5
     const axiosResponse : any = await instance.post(url+'/post/createpost', {
         content: post.content,
         picture: post.picture,
@@ -88,6 +101,7 @@ async function createPost(post:IPost) {
     return axiosData;
 }
 
+<<<<<<< HEAD
 async function likePost(like:ILike) {
     const axiosResponse : any = await instance.post(url+'/likes/makeLike', {
         userId: like.userId,
@@ -100,6 +114,7 @@ async function likePost(like:ILike) {
     }
     throw new Error("Unable to like");
 }
+=======
 async function updateUser(user:IUser, varToken:string) {
 /*     console.log("creatingpostiwht"+post.content);
     console.log("creatingpostiwht"+post.postImage);
@@ -127,6 +142,7 @@ async function updateUser(user:IUser, varToken:string) {
     return axiosData;
 }
 
+>>>>>>> 6efea1d09ebb0594c5ad2e4fc6291536967dd3f5
 
 export const url:string = `http://localhost:9082`;
 export const userServiceUrl:string = `http://localhost:63147`;
