@@ -139,6 +139,9 @@ export default function CreatePostIcon() {
                         multiline
                         rows={4}
                         variant="outlined"
+                        inputProps={{
+                            maxLength: 255,
+                          }}
                         onChange={handleChange}
                     />
                     <label htmlFor="icon-button-file">

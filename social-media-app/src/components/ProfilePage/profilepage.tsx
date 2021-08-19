@@ -8,7 +8,7 @@ import Snackbar from "../common/snackbar";
 import { useSelector } from "react-redux"
 import {RootState} from '../../redux/store';
 import {useLocation, useParams} from 'react-router-dom';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -132,6 +132,13 @@ function ProfilePage() {
         setPostListMade(postList.filter((post)=> post.post.userId === user.userId))  
         setPostListRead(postListMade);
     }, [postList]);
+
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
+
+    useEffect(() => {
+        forceUpdate();
+
+    }, []);
     
 
     async function getImage() {
@@ -231,7 +238,7 @@ function ProfilePage() {
                         className={classes.header}
                         >
                     </Typography> */}
-                        <PostContainer postListDetails={postListRead} />
+                        <PostContainer postListDetails={postListRead} sort={0}/>
                     </Grid>
                     </Grid>
                     }
