@@ -267,7 +267,7 @@ export default function PrimarySearchAppBar() {
               >Profile</Button>
               <Button 
               style={{color:'white'}}
-              onClick={()=>handleLink("/path")}
+              onClick={()=>handleLink("/about")}
               >About</Button>
               <Button 
               style={{color:'white'}}
