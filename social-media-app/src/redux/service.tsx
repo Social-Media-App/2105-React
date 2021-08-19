@@ -1,18 +1,20 @@
 import axios from "axios";
-import { IUser, IPost } from "./stateStructures";
+import { IUser, IPost, IPostDetails, ILike } from "./stateStructures";
 
 //Used for ease of exporting, these are the different functions in the file
 export const service = {
     axiosLogin,
     // forgotPassword,
     // updateProfileImg,
-    // likePost,
-    // unlikePost,
+    likePost,
+    makeComment,
     register,
     getAllPosts,
-    // getAllUsers,
+    getAllUsers,
     createPost,
-    // update,
+    updateUser,
+    getJwt,
+    getComments
 };
 
 //Allowing use to send our credentials / cookies
@@ -33,6 +35,16 @@ const instance = axios.create({
     const axiosData : IUser = axiosResponse.data;
     console.log(axiosData);
     return axiosData;
+}
+
+async function getJwt(username:string, password:string) {
+    const axiosResponse : any = await instance.post(url+'/login-service/authenticate', {
+        "username": username,
+        "password": password
+    })
+    const axiosData : any = axiosResponse.data;
+    console.log(axiosData.jwtToken);
+    return axiosData.jwtToken;
 }
 
 async function register(User: IUser) {
@@ -57,15 +69,26 @@ async function register(User: IUser) {
 }
 
 async function getAllPosts() {
-    const axiosResponse : any = await instance.get(url+'/post/getallposts')
-    const axiosData : IPost[] = axiosResponse.data;
+    const axiosResponse : any = await instance.get(url+'/post/getpostsdetails')
+    const axiosData : IPostDetails[] = axiosResponse.data;
+    console.log(axiosData);
+    return axiosData;
+}
+
+async function getAllUsers(varToken:string) {
+    const axiosResponse : any = await instance.get(url+'/user-service/getallusers', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + varToken
+        }})
+    const axiosData : IUser[] = axiosResponse.data;
     console.log(axiosData);
     return axiosData;
 }
 
 async function createPost(post:IPost) {
     console.log("post: "+post.picture);
-    const axiosResponse : any = await instance.post(url+'/post//createpost', {
+    const axiosResponse : any = await instance.post(url+'/post/createpost', {
         content: post.content,
         picture: post.picture,
         userId: post.userId,
@@ -77,6 +100,72 @@ async function createPost(post:IPost) {
     return axiosData;
 }
 
+async function likePost(like:ILike) {
+    const axiosResponse : any = await instance.post(url+'/likes/makeLike', {
+        userId: like.userId,
+        post: like.post
+    })
+    const axiosData : any = axiosResponse.data;
+    console.log(axiosData);
+    if(axiosData){
+        return axiosData;
+    }
+    throw new Error("Unable to like");
+}
+
+async function updateUser(user:IUser, varToken:string) {
+/*     console.log("creatingpostiwht"+post.content);
+    console.log("creatingpostiwht"+post.postImage);
+    console.log("creatingpostiwht"+post.userId);
+    console.log("creatingpostiwht"+post.postOwner); */
+
+    const axiosResponse : any = await instance.post(url+'/user-service/update', {
+        userId: user.userId,
+        username: user.username,
+        firstName: user.firstName,
+        middleName: user.middleName,
+        lastName: user.lastName,
+        email: user.email,
+        profilePicture: user.profilePicture,
+        backgroundPicture: user.backgroundPicture,
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + varToken
+      }})
+
+    const axiosData : IPost = axiosResponse.data;
+    console.log(axiosData);
+    return axiosData;
+}
+
+async function getComments(post:IPost) {
+    const postJSON = JSON.stringify(post)
+    const axiosResponse : any = await instance.get(url+`/comment/getcomment/${post.postId}`)
+    const axiosData : any = axiosResponse.data;
+    console.log(axiosData);
+    if(axiosData){
+        return axiosData;
+    }
+    throw new Error("Unable to get comments");
+}
+
+
+async function makeComment(comment:string,post:IPost,user:IUser) {
+    console.log(comment,post,user);
+    const axiosResponse : any = await instance.post(url+'/likes/makeLike', {
+        comment: comment,
+        userId: user.userId,
+        post: {postId:post.postId}
+    })
+    const axiosData : any = axiosResponse.data;
+    console.log("comment"+axiosData.commentId);
+    if(axiosData){
+        return axiosData;
+    }
+    throw new Error("Unable to get make comment");
+}
 
 export const url:string = `http://localhost:9082`;
 export const userServiceUrl:string = `http://localhost:63147`;

@@ -80,9 +80,10 @@ export default function CreatePostIcon() {
     async function onPicChange(event: React.ChangeEvent<HTMLInputElement>) {
         if (event.target.files) {
             file = event.target.files[0];
-            const result = await Storage.put(file.name, file);
+            const fileName = Date.now()+""+file.name
+            setImgKey(fileName);
+            const result = await Storage.put(fileName, file);
             setimageURI(URL.createObjectURL(file));
-            setImgKey(file.name);
         }
     }
 
@@ -147,7 +148,7 @@ export default function CreatePostIcon() {
                             component="span"
                         >
                             <p>Add An Image</p>
-                            <PhotoCamera style={{ padding: "10px" }} />
+                            <PhotoCamera style={{ margin: "10px" }} />
                         </IconButton>
                     </label>
                     <Input

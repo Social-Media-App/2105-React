@@ -1,7 +1,11 @@
 import Post from "./post";
-import { IPost, IUser } from "../../redux/stateStructures";
+import { IPost, IPostDetails } from "../../redux/stateStructures";
 import Masonry from "react-masonry-css";
 import "./masonry.css"
+import { useSelector} from 'react-redux'
+import { RootState } from '../../redux/store' 
+import { TransitionGroup } from 'react-transition-group';
+import Fade from '@material-ui/core/Fade';
 
 const breakpointColumnsObj5 = {
     default: 4,
@@ -17,29 +21,32 @@ const breakpointColumnsObj = {
     600: 1,
 };
 
-function HomePage(props:{postList:IPost[]}) {
+function HomePage(props:{postListDetails:IPostDetails[]}) {
 
-    // function findIfLiked(post: IPost) {
-    //     return post.likes.some(like => like.userId===user.userId);
-    // }
+    const user = useSelector((state: RootState) => state.auth.user);
+
+    function findIfLiked(post: IPostDetails) {
+        return post.likeNumber.some(like => like.userId===user.userId);
+    }
 
     return (
         < >
             <Masonry
                 breakpointCols={
-                    props.postList.length < 5
+                    props.postListDetails.length < 5
                     ? breakpointColumnsObj
                     : breakpointColumnsObj5
                 }
                 className="my-masonry-grid"
                 columnClassName="my-masonry-grid_column"
             >
-                {props.postList.map((post) => (
-                    <div key={post.postId}>
+
+                {props.postListDetails.slice(0).reverse().map((postDetail) => (
+                    <div key={postDetail.post.postId}>
                         <Post
-                            post={post}
-                            liked={true}
-                        />
+                            post={postDetail.post}
+                            liked={findIfLiked(postDetail)}
+                            />
                     </div>
                 ))}
             </Masonry>

@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { userServiceUrl } from '../../redux/service';
+import { url } from '../../redux/service';
 
 
 export const axiosResetPassword = async (token : string, username:string, password:string) => {
-    const axiosResponse : any = await axios.put(`${userServiceUrl}/login-service/reset-pass`, {
+    const axiosResponse : any = await axios.post(`${url}/login-service/resetpw`, {
         "resetToken": token,
         "username": username,
         "password": password

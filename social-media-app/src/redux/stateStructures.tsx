@@ -11,14 +11,10 @@ export interface IUser{
     backgroundPicture?: string;
 }
 
-export interface PostDetails{
-    post: IPost,
-    comments: IComment,
-    likeNumber: ILike
-}
-
 export interface IPostDetails{
-
+    post: IPost,
+    comments: IComment[],
+    likeNumber: ILike[]
 }
 
 export interface IPost{
@@ -34,14 +30,19 @@ export interface IPost{
 
 export interface IComment{
     commentId: number;
-    commentedPost: IPost;
-    commentContent: string;
-    commentAuthor: IUser;
+    post: IPost;
+    comment: string;
+    userId: number;
+    commentedBy: IUser;
 }
 
 export interface ILike{
-    likesId: number;
     userId: number;
+    post: ILikePost
+}
+
+export interface ILikePost{
+    postId: number
 }
 
 export interface IReply{

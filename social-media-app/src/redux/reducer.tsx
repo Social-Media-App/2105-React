@@ -1,6 +1,6 @@
 import { constants } from "./actionTypes";
 import { AnyAction } from "redux";
-import { IPost, IUser } from './stateStructures'
+import { IPost, IUser, IPostDetails } from "./stateStructures";
 
 //Initial state for each reducer
 const loginInitialState = {
@@ -8,6 +8,7 @@ const loginInitialState = {
     registered: false,
     isLoggedIn: false,
     loggingIn: false,
+    jwt: " " as any,
     user: {} as IUser,
 };
 
@@ -20,7 +21,7 @@ const userInitialState = {
 const postInitialState = {
     postsLoading: false,
     postsLoaded: false,
-    posts: [] as IPost[],
+    posts: [] as IPostDetails[],
 };
 
 //All Reducers
@@ -66,6 +67,20 @@ export const authReducer = (
                 ...state,
                 isRegistering: false,
             };
+        case constants.JWT_REQUEST:
+            return {
+                ...state,
+                jwt: action.payload,
+            };
+        case constants.UPDATE_PROFILE_REQUEST:
+            return {
+                ...state,
+                user: action.payload,
+            };
+        case constants.LOGOUT:
+            return {
+                ...loginInitialState,
+            };
         default:
             return state;
     }
@@ -77,11 +92,29 @@ export const usersReducer = (
     action: AnyAction
 ): typeof userInitialState => {
     switch (action.type) {
-        // case constants.USERS_GETALL_REQUEST:
-        //     return {
-        //         ...state,
-        //         usersLoading: true,
-        //     };
+        case constants.USERS_GETALL_REQUEST:
+            return {
+                ...state,
+                usersLoading: true,
+            };
+        case constants.USERS_GETALL_SUCCESS:
+            return {
+                ...state,
+                usersLoaded: true,
+                usersLoading: false,
+                users: action.payload,
+                
+            };
+        case constants.USERS_GETALL_FAILURE:
+            return {
+                ...state,
+                usersLoaded: false,
+                usersLoading: false,
+            };
+        case constants.LOGOUT:
+            return {
+                ...userInitialState,
+            };
         default:
             return state;
     }
@@ -102,17 +135,47 @@ export const postReducer = (
             return {
                 ...state,
                 postsLoading: false,
-                posts: action.payload
+                posts: action.payload,
             };
         case constants.POSTS_GETALL_FAILURE:
             return {
                 ...state,
                 postsLoading: false,
-            };        
-            case constants.POSTS_CREATE_POST:
+            };
+        case constants.POSTS_CREATE_POST:
             return {
                 ...state,
                 posts: [...state.posts, action.payload],
+            };
+        case constants.POSTS_LIKE:
+            return {
+                ...state,
+                posts: state.posts.map((post) =>
+                    post.post.postId === action.post.postId
+                        ? {
+                              ...post,
+                              likeNumber: [...post.likeNumber, action.payload],
+                          }
+                        : post
+                ),
+            };
+        case constants.POSTS_UNLIKE:
+            return {
+                ...state,
+                posts: state.posts.map((post) =>
+                    post.post.postId === action.post.postId
+                        ? {
+                              ...post,
+                              likeNumber: post.likeNumber.filter(
+                                  (like) => like.userId !== action.userId
+                              ),
+                          }
+                        : post
+                ),
+            };
+        case constants.LOGOUT:
+            return {
+                ...postInitialState,
             };
         default:
             return state;
