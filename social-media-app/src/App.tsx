@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import ProtectedRoute from './components/common/ProtectedRoute'
 import SignUpPage from './components/SignUp/SignUpPage'
 import HomePage from './components/HomePage/homepage'
+import About from './components/About/about'
 import ProfilePage from './components/ProfilePage/profilepage'
 import Login from './components/login/login-page';
 import SendEmail from './components/send-email-forgot-password/send-email'
@@ -45,6 +46,7 @@ function App () {
           </Route>
           <ProtectedRoute path='/home' isAuth={isLoggedIn} component={HomePage} />
           <ProtectedRoute path= '/profile/:userId' isAuth={isLoggedIn} component={ProfilePage} />
+          <ProtectedRoute path= '/about' isAuth={isLoggedIn} component={About} />
         </Switch>
       </Router>
     </>
