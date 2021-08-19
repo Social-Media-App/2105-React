@@ -47,7 +47,8 @@ export default function CommentButton(props:{post:IPost, user:IUser}) {
 
     const [open, setOpen] = React.useState(false);
 
-    const handleSubmit = (event: any) => {   
+    const handleSubmit = (event: any) => { 
+        console.log("handling submit"+props.user);
         dispatch(makeComment(comment,props.post,props.user))
         handleClose();
     }

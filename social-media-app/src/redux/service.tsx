@@ -160,7 +160,7 @@ async function makeComment(comment:string,post:IPost,user:IUser) {
         post: {postId: post.postId}
     })
     const axiosData : any = axiosResponse.data;
-    console.log("comment"+axiosData);
+    console.log("comment"+axiosData.commentedBy);
     if(axiosData){
         return axiosData;
     }

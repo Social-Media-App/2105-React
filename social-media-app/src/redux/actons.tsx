@@ -60,10 +60,11 @@ export const makeComment = (comment:string, post: IPost, user:IUser) => async (
 ) => {
     try {
         const res = await service.makeComment(comment,post,user);
+        res.commentedBy = user;
         dispatch({
             type: constants.POSTS_MAKE_COMMENT,
+            payload: res,
             post: post,
-            user: user
         });
     } catch (e) {
         console.log(e);

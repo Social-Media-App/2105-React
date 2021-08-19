@@ -103,7 +103,6 @@ export const usersReducer = (
                 usersLoaded: true,
                 usersLoading: false,
                 users: action.payload,
-                
             };
         case constants.USERS_GETALL_FAILURE:
             return {
@@ -115,11 +114,11 @@ export const usersReducer = (
             return {
                 ...userInitialState,
             };
-            case constants.UPDATE_PROFILE_REQUEST_USERS:
-                return {
-                    ...state,
-                    users: action.payload,
-                };
+        case constants.UPDATE_PROFILE_REQUEST_USERS:
+            return {
+                ...state,
+                users: action.payload,
+            };
         default:
             return state;
     }
@@ -179,12 +178,12 @@ export const postReducer = (
                 ),
             };
         case constants.POSTS_MAKE_COMMENT:
-            return{
+            return {
                 ...state,
-                posts: state.posts.map((post) => 
-                    post.post.postId === action.post.postId 
-                    ? { ...post,} 
-                    : post
+                posts: state.posts.map((post) =>
+                    post.post.postId === action.post.postId
+                        ? { ...post, comments: [...post.comments, action.payload] }
+                        : post
                 ),
             };
         case constants.LOGOUT:
