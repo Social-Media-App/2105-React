@@ -130,12 +130,22 @@ export default function PrimarySearchAppBar() {
 
   const handleProfileMenuOpen = (event: any) => {
     setProfileEl(event.currentTarget);
+    if(profileEl)
+      handleLink("/profile");
+    // history.push("/profile");
+  };
+  const handleHomeMenuOpen = (event: any) => {
+    setProfileEl(event.currentTarget);
+    handleLink("/home");
     // history.push("/profile");
   };
   const handleAboutMenuOpen = (event: any) => {
+    setLogoutEl(event.currentTarget);
+    handleLink("/about");
     // setAboutEl(true);
   };
   const handleLogoutMenuOpen = (event: any) => {
+    handleLogout();
     setLogoutEl(event.currentTarget);
   };
   const handleMobileMenuClose = () => {
@@ -148,7 +158,8 @@ export default function PrimarySearchAppBar() {
   };
 
   const handleMobileMenuOpen = (event: any) => {
-    setMobileMoreAnchorEl(event.currentTarget);
+    event.preventDefault()
+    //setMobileMoreAnchorEl(event.currentTarget);
   };
 
   const handleLogout = () => {
@@ -167,6 +178,7 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleProfileMenuOpen}>Profile</MenuItem>
+      <MenuItem onClick={handleHomeMenuOpen}>Home</MenuItem>
       <MenuItem onClick={handleAboutMenuOpen}>About</MenuItem>
       <MenuItem onClick={handleLogoutMenuOpen}>Logout</MenuItem>
     </Menu>
@@ -187,7 +199,7 @@ export default function PrimarySearchAppBar() {
         <IconButton aria-label="show 4 new mails" color="inherit"></IconButton>s{" "}
       </MenuItem>
 
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem onClick={handleMobileMenuOpen}>
         <IconButton
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
