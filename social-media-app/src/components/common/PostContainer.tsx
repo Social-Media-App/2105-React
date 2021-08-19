@@ -21,12 +21,57 @@ const breakpointColumnsObj = {
     600: 1,
 };
 
-function HomePage(props:{postListDetails:IPostDetails[]}) {
+interface IProps{
+    sort:number;
+    postListDetails:IPostDetails[]
+}
+
+function HomePage(props:IProps) {
 
     const user = useSelector((state: RootState) => state.auth.user);
 
     function findIfLiked(post: IPostDetails) {
         return post.likeNumber.some(like => like.userId===user.userId);
+    }
+
+    function handleSortNewestFirst(){
+        return(
+            props.postListDetails.slice(0).reverse().map((postDetail) => (
+                <div key={postDetail.post.postId}>
+                    <Post
+                        post={postDetail}
+                        liked={findIfLiked(postDetail)}
+                        />
+                </div>
+            ))
+        );
+    }
+
+    function handleSortOldestFirst(){
+        return(
+            props.postListDetails.slice(0).map((postDetail) => (
+                <div key={postDetail.post.postId}>
+                    <Post
+                        post={postDetail}
+                        liked={findIfLiked(postDetail)}
+                        />
+                </div>
+            ))
+        );
+    }
+
+    function handleSortLiked(){
+        return(
+            props.postListDetails.slice(0).map((postDetail) => (
+                findIfLiked(postDetail) && (
+                <div key={postDetail.post.postId}>
+                    <Post
+                        post={postDetail}
+                        liked={findIfLiked(postDetail)}
+                        />
+                </div>)
+            ))
+        );
     }
 
     return (
@@ -41,6 +86,18 @@ function HomePage(props:{postListDetails:IPostDetails[]}) {
                 columnClassName="my-masonry-grid_column"
             >
 
+                {props.sort===0?handleSortNewestFirst():null}
+                {props.sort===1?handleSortOldestFirst():null}
+                {props.sort===2?handleSortLiked():null}
+
+                {/* {props.postListDetails.slice(0).reverse().map((postDetail) => (
+                    <div key={postDetail.post.postId}>
+                        <Post
+                            post={postDetail}
+                            liked={findIfLiked(postDetail)}
+                            />
+                    </div>
+                ))}
                 {props.postListDetails.slice(0).reverse().map((postDetail) => (
                     <div key={postDetail.post.postId}>
                         <Post
@@ -49,6 +106,14 @@ function HomePage(props:{postListDetails:IPostDetails[]}) {
                             />
                     </div>
                 ))}
+                {props.postListDetails.slice(0).reverse().map((postDetail) => (
+                    <div key={postDetail.post.postId}>
+                        <Post
+                            post={postDetail}
+                            liked={findIfLiked(postDetail)}
+                            />
+                    </div>
+                ))} */}
             </Masonry>
         </>
     );
