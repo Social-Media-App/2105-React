@@ -74,7 +74,7 @@ export default function LoginPage(props: IProps) {
 
     useEffect(() => {
         if(isLoggedIn){
-            console.log(isLoggedIn);
+            // console.log(isLoggedIn);
             history.push("/home");
         }
         function handleResize() {
@@ -88,8 +88,8 @@ export default function LoginPage(props: IProps) {
 
     const handleLogin = async (eve: SyntheticEvent) => {
         eve.preventDefault();
-        console.log("Username: " + username);
-        console.log("Password: " + password);
+        // console.log("Username: " + username);
+        // console.log("Password: " + password);
         const user = await dispatch(userLogin(username, password));
         setIsValid(false);
     };

@@ -33,7 +33,7 @@ const instance = axios.create({
         "password": password
     })
     const axiosData : IUser = axiosResponse.data;
-    console.log(axiosData);
+    // console.log(axiosData);
     return axiosData;
 }
 
@@ -43,7 +43,7 @@ async function getJwt(username:string, password:string) {
         "password": password
     })
     const axiosData : any = axiosResponse.data;
-    console.log(axiosData.jwtToken);
+    // console.log(axiosData.jwtToken);
     return axiosData.jwtToken;
 }
 
@@ -61,7 +61,7 @@ async function register(User: IUser) {
         }
     );
     const axiosData = response.data;
-    console.log(axiosData);
+    // console.log(axiosData);
     if(axiosData.username != null) {
         return axiosData;
     }
@@ -71,7 +71,7 @@ async function register(User: IUser) {
 async function getAllPosts() {
     const axiosResponse : any = await instance.get(url+'/post/getpostsdetails')
     const axiosData : IPostDetails[] = axiosResponse.data;
-    console.log(axiosData);
+    // console.log(axiosData);
     return axiosData;
 }
 
@@ -82,12 +82,12 @@ async function getAllUsers(varToken:string) {
           Authorization: 'Bearer ' + varToken
         }})
     const axiosData : IUser[] = axiosResponse.data;
-    console.log(axiosData);
+    // console.log(axiosData);
     return axiosData;
 }
 
 async function createPost(post:IPost) {
-    console.log("post: "+post.picture);
+    // console.log("post: "+post.picture);
     const axiosResponse : any = await instance.post(url+'/post/createpost', {
         content: post.content,
         picture: post.picture,
@@ -96,7 +96,7 @@ async function createPost(post:IPost) {
     })
 
     const axiosData : IPost = axiosResponse.data;
-    console.log(axiosData);
+    // console.log(axiosData);
     return axiosData;
 }
 
@@ -106,7 +106,7 @@ async function likePost(like:ILike) {
         post: like.post
     })
     const axiosData : any = axiosResponse.data;
-    console.log(axiosData);
+    // console.log(axiosData);
     if(axiosData){
         return axiosData;
     }
@@ -136,7 +136,7 @@ async function updateUser(user:IUser, varToken:string) {
       }})
 
     const axiosData : IUser = axiosResponse.data;
-    console.log(axiosData);
+    // console.log(axiosData);
     return axiosData;
 }
 
@@ -144,7 +144,7 @@ async function getComments(post:IPost) {
     const postJSON = JSON.stringify(post)
     const axiosResponse : any = await instance.get(url+`/comment/getcomment/${post.postId}`)
     const axiosData : any = axiosResponse.data;
-    console.log(axiosData);
+    // console.log(axiosData);
     if(axiosData){
         return axiosData;
     }
@@ -153,14 +153,14 @@ async function getComments(post:IPost) {
 
 
 async function makeComment(comment:string,post:IPost,user:IUser) {
-    console.log("premakecomment"+comment+","+post+","+user);
+    // console.log("premakecomment"+comment+","+post+","+user);
     const axiosResponse : any = await instance.post(url+'/comment/newcomment', {
         comment: comment,
         userId: user.userId,
         post: {postId: post.postId}
     })
     const axiosData : any = axiosResponse.data;
-    console.log("comment"+axiosData.commentedBy);
+    // console.log("comment"+axiosData.commentedBy);
     if(axiosData){
         return axiosData;
     }

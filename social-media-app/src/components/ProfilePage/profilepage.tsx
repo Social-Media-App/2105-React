@@ -142,7 +142,7 @@ function ProfilePage() {
     
 
     async function getImage() {
-        console.log(user)
+        // console.log(user)
        const image = await Storage.get(user.profilePicture!);
        const imageb = await Storage.get(user.backgroundPicture!);
        setImg1(image);
@@ -157,7 +157,7 @@ function ProfilePage() {
         setPostHidden(false);
     }
     const getBookmarkedPosts = () => {
-        console.log("Not Implemented");
+        // console.log("Not Implemented");
         setPostHidden(false);
     }
 
@@ -214,15 +214,15 @@ function ProfilePage() {
                  </Paper>
                     <div className={classes.holdbuttons}>
     
-                        <Button type="submit" variant="contained" color="primary" className={classes.revealButton} onClick={getMadePosts}>
+                        <Button type="submit" variant="contained" color="primary" style={{ borderRadius: 0 }} className={classes.revealButton} onClick={getMadePosts}>
                             Made Posts
                         </Button>
-                        <Button type="submit" variant="contained" color="primary" className={classes.revealButton} onClick={getLikedPosts}>
+                        <Button type="submit" variant="contained" color="primary" style={{ borderRadius: 0 }} className={classes.revealButton} onClick={getLikedPosts}>
                             Liked Posts
                         </Button> 
-                        <Button type="submit" variant="contained" color="primary" className={classes.revealButton} onClick={getBookmarkedPosts}>
+                        {/* <Button type="submit" variant="contained" color="primary" className={classes.revealButton} onClick={getBookmarkedPosts}>
                             Bookmarked Posts
-                        </Button>  
+                        </Button>   */}
                     </div>
                         
                     

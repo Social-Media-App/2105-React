@@ -89,8 +89,8 @@ export default function CreatePostIcon() {
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        console.log("formData: ", formData);
-        console.log("imgKey: ", imgKey);
+        // console.log("formData: ", formData);
+        // console.log("imgKey: ", imgKey);
         const post: IPost = {
             content: formData.message,
             picture: imgKey,
@@ -101,7 +101,7 @@ export default function CreatePostIcon() {
             handleClose();
             return;
         }
-        console.log(post);
+        // console.log(post);
         dispatch(createPost(post));
         handleClose();
     }
@@ -168,7 +168,7 @@ export default function CreatePostIcon() {
                         variant="contained"
                         fullWidth
                     >
-                        Create Post
+                        Comment!
                     </Button>
                 </form>
             </Paper>

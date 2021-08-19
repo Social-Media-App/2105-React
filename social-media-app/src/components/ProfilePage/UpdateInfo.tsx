@@ -104,7 +104,7 @@ export default function UpdateInfo() {
             setimageURI(URL.createObjectURL(file));
             setImgKey(file.name);
 
-            console.log('proflie image connected!!! file-name: ', file.name)
+            // console.log('proflie image connected!!! file-name: ', file.name)
         }
     }
 
@@ -235,7 +235,7 @@ export default function UpdateInfo() {
                             component="span"
                         >
                             <p>Profile Image</p>
-                            <PhotoCamera style={{ padding: "10px"}} />
+                            <PhotoCamera style={{ margin: "10px"}} />
                         </IconButton>
                     </label>
                     <Input
@@ -259,7 +259,7 @@ export default function UpdateInfo() {
                             component="span"
                         >
                             <p>Background Image</p>
-                            <PhotoCamera style={{ padding: "10px" }} />
+                            <PhotoCamera style={{ margin: "10px" }} />
                         </IconButton>
                     </label>                 
                     <Input

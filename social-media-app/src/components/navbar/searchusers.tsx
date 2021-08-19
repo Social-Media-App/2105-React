@@ -60,24 +60,24 @@ const SearchUsersList: React.FunctionComponent<IProps> = (props: IProps) => {
 
   const handleChange = (event:ChangeEvent<{}>, value:IUser | null) => {
     //event.preventDefault();
-    console.log(event);
-    console.log(value);
-    console.log("in handle chnage")
+    // console.log(event);
+    // console.log(value);
+    // console.log("in handle chnage")
     setSearchingUser(value);
     
 };
 
 const handleSubmit = (e:SyntheticEvent) => {
     e.preventDefault();
-    console.log("in handle submit")
+    // console.log("in handle submit")
     forceUpdate();
     findUserProfile();
 };
 
   const findUserProfile = () => {
-    console.log(searchingUser)
+    // console.log(searchingUser)
     history.push({ pathname: `/profile/${searchingUser.username}`, state: searchingUser });
-    console.log("in Find user")
+    // console.log("in Find user")
   };
 
   return (
@@ -97,7 +97,7 @@ const handleSubmit = (e:SyntheticEvent) => {
           onKeyPress={(e) => {
             if (e.key === "Enter") {
                 //e.preventDefault();
-                console.log("Something Please")
+                // console.log("Something Please")
                 handleSubmit(e);
             }}}
           onChange={handleChange}

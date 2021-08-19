@@ -103,7 +103,7 @@ function InstaPost(props: IProps) {
     }, []);
 
     const getUserProfileImg = async (profileImg: string) => {
-        console.log("getting"+profileImg);
+        console.log("getting profile imgS"+profileImg);
         if (profileImg) {
             Storage.get(profileImg)
                 .then((url: any) => {
@@ -162,7 +162,7 @@ function InstaPost(props: IProps) {
                 action={
                     <div>
                         <CommentButton post={post} user={user}/>
-                        {bookmarked ? (
+                        {/* {bookmarked ? (
                             <IconButton
                                 // onClick={handleLikeClick}
                                 aria-label="add to favorites"
@@ -178,7 +178,7 @@ function InstaPost(props: IProps) {
                             >
                                 <BookmarkBorderIcon />
                             </IconButton>
-                        )}
+                        )} */}
                         {liked ? (
                             <IconButton
                                 onClick={handleLikeClick}
