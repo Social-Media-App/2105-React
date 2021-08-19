@@ -44,7 +44,7 @@ function HomePage(props:{postListDetails:IPostDetails[]}) {
                 {props.postListDetails.slice(0).reverse().map((postDetail) => (
                     <div key={postDetail.post.postId}>
                         <Post
-                            post={postDetail.post}
+                            post={postDetail}
                             liked={findIfLiked(postDetail)}
                             />
                     </div>

@@ -60,9 +60,12 @@ export const makeComment = (comment:string, post: IPost, user:IUser) => async (
 ) => {
     try {
         const res = await service.makeComment(comment,post,user);
-        // dispatch({
-        //     type: constants.POSTS_MAKE_COMMENT,
-        // });
+        res.commentedBy = user;
+        dispatch({
+            type: constants.POSTS_MAKE_COMMENT,
+            payload: res,
+            post: post,
+        });
     } catch (e) {
         console.log(e);
     }
@@ -125,15 +128,21 @@ export const likePost = (like: ILike, post: IPost) => async (
     }
 };
 
-export const updateUser = (user: IUser, jwt: string) => async (
+export const updateUser = (user: IUser, users:IUser[], jwt: string) => async (
     dispatch: AppDispatch
 ) => {
     try {
         const res = await service.updateUser(user, jwt);
+        users.push(res);
         dispatch({
             type: constants.UPDATE_PROFILE_REQUEST,
             payload: res,
         });
+        dispatch({
+            type: constants.UPDATE_PROFILE_REQUEST_USERS,
+            payload: users,
+        });
+    
     } catch (e) {
         console.log(e);
     }

@@ -202,7 +202,7 @@ export default function PrimarySearchAppBar() {
 
   function handleLink (uri:string){
     if(uri === "/profile")
-      history.push({pathname: uri + '/' + viewinguser.userId, state: viewinguser});
+      history.push({pathname: uri + '/' + viewinguser.username, state: viewinguser});
     else
       history.push(uri);
   }
