@@ -97,7 +97,7 @@ function ProfilePage() {
     const [images, setImages] = useState();
     const location = useLocation();
     //let myAny1 :any = location.state;
-    const [postHidden, setPostHidden] = useState(false);
+    const [postHidden, setPostHidden] = useState(true);
     const classes = useStyles();
     const [img1, setImg1] = useState(myAny);
     const [img2, setImg2] = useState(myAny);
@@ -217,9 +217,10 @@ function ProfilePage() {
                         <Button type="submit" variant="contained" color="primary" style={{ borderRadius: 0 }} className={classes.revealButton} onClick={getMadePosts}>
                             Made Posts
                         </Button>
+                        {(viewinguser.userId===user.userId)&&(
                         <Button type="submit" variant="contained" color="primary" style={{ borderRadius: 0 }} className={classes.revealButton} onClick={getLikedPosts}>
                             Liked Posts
-                        </Button> 
+                        </Button> )}
                         {/* <Button type="submit" variant="contained" color="primary" className={classes.revealButton} onClick={getBookmarkedPosts}>
                             Bookmarked Posts
                         </Button>   */}

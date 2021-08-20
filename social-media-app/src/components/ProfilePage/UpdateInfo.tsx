@@ -110,27 +110,27 @@ export default function UpdateInfo() {
 
     let backImgfile = { name: "" };
     async function onBackPicChange(event: React.ChangeEvent<HTMLInputElement>) {
-        console.log('should here!!')
+        // console.log('should here!!')
         if (event.target.files) {
             backImgfile = event.target.files[0];
             const backResult = await Storage.put(backImgfile.name, backImgfile);
             setBackImageURI(URL.createObjectURL(backImgfile));
             setBackImg(backImgfile.name);
 
-            console.log('background connected !!!backFile-name: ', backImgfile.name)
+            // console.log('background connected !!!backFile-name: ', backImgfile.name)
 
         }
     }
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        console.log("users: ", users);
+        // console.log("users: ", users);
         const updater = users.filter(u=>!(u.userId === user.userId));
 
-        console.log("updater: ",updater);
-        console.log("formData: ", formData);
-        console.log("imgKey: ", imgKey);
-        console.log("backimgKey: ", backImg);
+        // console.log("updater: ",updater);
+        // console.log("formData: ", formData);
+        // console.log("imgKey: ", imgKey);
+        // console.log("backimgKey: ", backImg);
         const updaterUser:IUser = {
             userId: viewinguser.userId,
             firstName: formData.firstname,
@@ -142,7 +142,7 @@ export default function UpdateInfo() {
             profilePicture: imgKey,
             backgroundPicture: backImg,
         }
-        console.log(user);
+        // console.log(user);
         dispatch(updateUser(updaterUser, updater, jwt));
         handleClose();
     }
